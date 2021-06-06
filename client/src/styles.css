@@ -1,5 +1,19 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap");
 
+:root {
+	--header-height: 3rem;
+	--nav-width: 60px;
+	--first-color: #24d68d;
+	--second-color: #00c5ff;
+	--third-color: #31f564;
+	--fourth-color: #2288fa;
+	--white-color: linear-gradient(
+		to right bottom,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.3)
+	);
+}
+
 * {
 	margin: 0;
 	padding: 0;
