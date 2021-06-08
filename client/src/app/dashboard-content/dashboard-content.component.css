@@ -1,0 +1,135 @@
+.glass {
+	background: white;
+	min-height: 90vh;
+	width: 100%;
+	background: linear-gradient(
+		to right bottom,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.3)
+	);
+	border-radius: 2rem;
+	z-index: 3;
+	backdrop-filter: blur(2rem);
+	display: flex;
+	position: relative;
+}
+.user > img {
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+}
+.dashboard-content {
+	margin-left: var(--nav-width);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+	text-align: center;
+	height: 100%;
+}
+
+.cards {
+	align-self: stretch;
+	padding: 0 0.5rem;
+	display: flex;
+	justify-content: flex-start;
+	flex-direction: column;
+	min-height: 60%;
+	overflow-y: hidden;
+}
+.card {
+	display: flex;
+	background: linear-gradient(
+		to left top,
+		rgba(255, 255, 255, 0.8),
+		rgba(255, 255, 255, 0.5)
+	);
+	border-radius: 1rem;
+	margin: 0.1rem 0;
+	padding: 1rem 2rem;
+	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.2);
+	justify-content: flex-start;
+}
+.pro {
+	background: linear-gradient(to right top, #31f564, #2288fa);
+	border-radius: 2rem;
+	color: white;
+	padding: 1rem;
+	margin-left: 1rem;
+	margin-right: 1rem;
+}
+
+.pro h4 {
+	color: white;
+	font-weight: 600;
+	font-size: 1.2rem;
+}
+
+.dashboard-wrapper {
+	background: linear-gradient(
+		to right bottom,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.3)
+	);
+	border-radius: 2rem;
+	height: 100%;
+	position: relative;
+}
+
+.status {
+	margin-bottom: 3rem;
+}
+
+.status input {
+	background: linear-gradient(
+		to right bottom,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.3)
+	);
+	border: none;
+	width: 50%;
+	padding: 0.5rem;
+	border-radius: 2rem;
+}
+
+.games {
+	margin: 5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	flex: 2;
+}
+
+/* .progress {
+	background: linear-gradient(to right top, #31f564, #2288fa);
+	width: 100%;
+	height: 25%;
+	border-radius: 1rem;
+	position: relative;
+	overflow: hidden;
+}
+
+.progress::after {
+	content: "";
+	width: 100%;
+	height: 100%;
+	background: rgb(236, 236, 236);
+	position: absolute;
+	left: 60%;
+} */
+
+.card-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.percentage {
+	font-weight: bold;
+	background: linear-gradient(to right top, #31f564, #2288fa);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
