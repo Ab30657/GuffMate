@@ -1,0 +1,122 @@
+.login-dashboard {
+	width: 100%;
+	padding: 2.5rem 3rem;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	flex-direction: column;
+	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
+	border-radius: 2rem;
+}
+hr {
+	border: 0;
+	width: 60%;
+	border-top: 2px solid var(--fourth-color);
+}
+input {
+	min-width: 0;
+}
+.app-logo {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	flex: 1;
+}
+
+.login-form {
+	margin: 0 auto;
+	flex: 3;
+	padding: 2rem 1rem 0rem 1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.login-control-group {
+	margin-bottom: 1rem;
+}
+
+.app-logo > i {
+	font-weight: bold;
+	background: linear-gradient(to right top, #31f564, #2288fa);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-text-stroke-width: 2px;
+	-webkit-text-stroke-color: white;
+}
+
+.app-logo > h2 {
+	color: white;
+	font-weight: 900;
+	letter-spacing: 0.6rem;
+}
+
+.button-group > button {
+	border-radius: 2rem;
+	border: none;
+	color: white;
+	padding: 1rem;
+	width: 100%;
+	transition: 0.3s;
+	cursor: pointer;
+	margin-bottom: 0.2rem;
+}
+
+#login-btn {
+	background: linear-gradient(to right top, #2288fa, #31f564);
+	border-radius: 2rem;
+	color: white;
+	padding: 1rem;
+	border: none;
+	width: 100%;
+	transition: 0.3s;
+	background-size: 200%;
+	cursor: pointer;
+	background-position: right;
+}
+.button-group > button > h4 {
+	color: white;
+}
+.button-group > button > h5 {
+	color: white;
+	text-transform: capitalize;
+}
+
+.login-control-group > a {
+	float: right;
+}
+
+.button-group {
+	padding: 2rem 0 0 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+#login-btn:hover {
+	background-position: top;
+}
+
+.login-control-group > h5 {
+	color: var(--fourth-color);
+	letter-spacing: 0.1rem;
+}
+
+#fb-login {
+	background-color: #4267b2;
+	color: white;
+}
+
+#fb-login:hover {
+	background-color: #4267ff;
+}
+
+#google-login {
+	background-color: #db4437;
+	color: white;
+}
+#google-login:hover {
+	background-color: #ff4437;
+}

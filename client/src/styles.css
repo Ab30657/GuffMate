@@ -18,8 +18,8 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	-moz-box-sizing: border-box;
 }
-
 a {
 	text-decoration: none;
 }
@@ -51,7 +51,39 @@ h5 {
 	opacity: 0.8;
 	margin-bottom: 0 !important;
 }
+@media only screen and (max-width: 600px) {
+	.example {
+		background: red;
+	}
+}
+.glass {
+	background: white;
+	min-height: 90vh;
+	width: 100%;
+	background: linear-gradient(
+		to right bottom,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.3)
+	);
+	border-radius: 2rem;
+	z-index: 3;
+	backdrop-filter: blur(2rem);
+	display: flex;
+	position: relative;
+}
 
-.dboard {
-	width: 90%;
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
 }
