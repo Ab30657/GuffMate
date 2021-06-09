@@ -6,9 +6,11 @@ import { AppComponent } from './app.component';
 import { DashboardContentComponent } from './dashboard-content/dashboard-content.component';
 import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
+import { DiscoverComponent } from './dashboard-content/discover/discover.component';
+import { UserCardsComponent } from './dashboard-content/discover/user-cards/user-cards.component';
 
 @NgModule({
-	declarations: [AppComponent, DashboardContentComponent, NavComponent, LoginComponent],
+	declarations: [AppComponent, DashboardContentComponent, NavComponent, LoginComponent, DiscoverComponent, UserCardsComponent],
 	imports: [BrowserModule, AppRoutingModule, BrowserAnimationsModule],
 	providers: [],
 	bootstrap: [AppComponent],

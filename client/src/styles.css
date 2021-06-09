@@ -17,8 +17,9 @@
 * {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
 	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 a {
 	text-decoration: none;
@@ -86,4 +87,8 @@ h5 {
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
 @media only screen and (min-width: 1200px) {
+}
+
+.dboard {
+	width: 90%;
 }

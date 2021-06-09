@@ -43,6 +43,13 @@
 	padding: 1rem;
 	margin-left: 1rem;
 	margin-right: 1rem;
+	cursor: pointer;
+	transition: 0.3s ease-out;
+	background-size: 500%;
+}
+
+.pro:hover {
+	background-position: right;
 }
 
 .pro h4 {
@@ -78,11 +85,7 @@
 	border-radius: 2rem;
 }
 
-.games {
-	margin: 5rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
+.content {
 	flex: 2;
 }
 

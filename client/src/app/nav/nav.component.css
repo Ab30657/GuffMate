@@ -39,7 +39,7 @@ a {
 	position: relative;
 	color: var(--second-color);
 	margin-bottom: 1.5rem;
-	transition: 0.3s;
+	transition: 0.3s ease-in-out;
 	column-gap: 1.5rem;
 }
 .nav-logo {

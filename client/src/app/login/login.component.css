@@ -13,9 +13,6 @@ hr {
 	width: 60%;
 	border-top: 2px solid var(--fourth-color);
 }
-input {
-	min-width: 0;
-}
 .app-logo {
 	display: flex;
 	justify-content: center;
@@ -30,12 +27,25 @@ input {
 	padding: 2rem 1rem 0rem 1rem;
 	display: flex;
 	flex-direction: column;
+	min-width: 0rem;
 }
 
 .login-control-group {
 	margin-bottom: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	min-width: 0rem;
 }
 
+.login-control-group > h5 {
+	align-self: flex-start;
+}
+
+.login-control-group > input {
+	min-width: 300px;
+}
 .app-logo > i {
 	font-weight: bold;
 	background: linear-gradient(to right top, #31f564, #2288fa);
@@ -49,7 +59,7 @@ input {
 .app-logo > h2 {
 	color: white;
 	font-weight: 900;
-	letter-spacing: 0.6rem;
+	/* letter-spacing: 0.6rem; */
 }
 
 .button-group > button {
@@ -84,7 +94,7 @@ input {
 }
 
 .login-control-group > a {
-	float: right;
+	align-self: flex-end;
 }
 
 .button-group {
@@ -95,13 +105,18 @@ input {
 	justify-content: flex-end;
 }
 
+.button-group > #fb-login,
+#google-login {
+	padding: 1rem;
+}
+
 #login-btn:hover {
 	background-position: top;
 }
 
 .login-control-group > h5 {
 	color: var(--fourth-color);
-	letter-spacing: 0.1rem;
+	/* letter-spacing: 0.1rem; */
 }
 
 #fb-login {
