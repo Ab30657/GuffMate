@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { DiscoverComponent } from './dashboard-content/discover/discover.component';
 import { UserCardsComponent } from './dashboard-content/discover/user-cards/user-cards.component';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -23,6 +24,7 @@ import { HttpClientModule } from '@angular/common/http';
 		AppRoutingModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
+		FormsModule,
 	],
 	providers: [],
 	bootstrap: [AppComponent],

@@ -18,6 +18,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using API.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace API
 {
@@ -51,6 +53,11 @@ namespace API
 					ValidateAudience = false,
 				};
 			});
+
+			services.AddIdentityCore<AppUser>(opt =>
+			{
+
+			}).AddRoles<AppRole>().AddRoleManager<RoleManager<AppRole>>().AddSignInManager<SignInManager<AppUser>>().AddRoleValidator<RoleValidator<AppRole>>().AddEntityFrameworkStores<DataContext>();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,7 +72,7 @@ namespace API
 
 			app.UseRouting();
 
-			app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200"));
+			app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
 
 			app.UseAuthentication();
 
