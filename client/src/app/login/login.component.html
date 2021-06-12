@@ -19,15 +19,21 @@
 					class="form-control"
 				/>
 			</div>
-			<div class="login-control-group">
+			<div class="login-control-group password-div">
 				<h5>Password</h5>
 				<input
 					name="password"
 					[(ngModel)]="model.password"
-					type="password"
+					#password="ngModel"
+					[type]="passType"
 					class="form-control"
 				/>
-
+				<i
+					class="fa fa-lg password-icon"
+					[hidden]="!password.dirty"
+					[ngClass]="iconStatus"
+					(click)="toggle()"
+				></i>
 				<a href="">Forgot Password?</a>
 			</div>
 			<div class="button-group">

@@ -13,6 +13,8 @@ import { AccountService } from '../_services/account.service';
 export class LoginComponent implements OnInit {
 	model: any = {};
 	loggedIn: boolean;
+	iconStatus: string = 'fa-eye';
+	passType: string = 'password';
 	constructor(
 		private accountService: AccountService,
 		private router: Router
@@ -43,5 +45,14 @@ export class LoginComponent implements OnInit {
 				console.log(error);
 			}
 		);
+	}
+	toggle() {
+		if (this.passType == 'password') {
+			this.iconStatus = 'fa-eye-slash';
+			this.passType = 'text';
+			return;
+		}
+		this.iconStatus = 'fa-eye';
+		this.passType = 'password';
 	}
 }

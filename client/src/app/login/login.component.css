@@ -81,7 +81,7 @@ hr {
 	border: none;
 	width: 100%;
 	transition: 0.3s;
-	background-size: 200%;
+	background-size: 400%;
 	cursor: pointer;
 	background-position: right;
 }
@@ -134,4 +134,19 @@ hr {
 }
 #google-login:hover {
 	background-color: #ff4437;
+}
+
+.password-div {
+	position: relative;
+}
+
+.password-icon {
+	position: absolute;
+	align-self: flex-end;
+	padding: 0.7rem;
+	color: #2288fa;
+}
+
+.password-div > input {
+	padding-right: 2.2rem !important;
 }
