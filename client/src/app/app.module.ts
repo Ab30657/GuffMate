@@ -10,6 +10,9 @@ import { DiscoverComponent } from './dashboard-content/discover/discover.compone
 import { UserCardsComponent } from './dashboard-content/discover/user-cards/user-cards.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { FriendRequestsComponent } from './dashboard-content/discover-left/friend-requests/friend-requests.component';
+import { MessagesComponent } from './dashboard-content/messages/messages.component';
+import { MessagesLeftComponent } from './dashboard-content/messages/messages-left/messages-left.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -18,6 +21,9 @@ import { FormsModule } from '@angular/forms';
 		LoginComponent,
 		DiscoverComponent,
 		UserCardsComponent,
+		FriendRequestsComponent,
+		MessagesComponent,
+		MessagesLeftComponent,
 	],
 	imports: [
 		BrowserModule,

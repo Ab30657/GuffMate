@@ -8,33 +8,16 @@
 	margin-left: var(--nav-width);
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: space-evenly;
+	justify-content: flex-start;
 	text-align: center;
 	height: 100%;
+	padding: 1rem 0;
 }
-
-.cards {
-	align-self: stretch;
-	padding: 0 0.5rem;
-	display: flex;
-	justify-content: flex-start;
-	flex-direction: column;
-	min-height: 60%;
-	overflow-y: hidden;
+.dashboard {
+	flex: 2 0 0;
 }
-.card {
-	display: flex;
-	background: linear-gradient(
-		to left top,
-		rgba(255, 255, 255, 0.8),
-		rgba(255, 255, 255, 0.5)
-	);
-	border-radius: 1rem;
-	margin: 0.1rem 0;
-	padding: 1rem 2rem;
-	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.2);
-	justify-content: flex-start;
+.card-wrapper {
+	flex: 1;
 }
 .pro {
 	background: linear-gradient(to right top, #31f564, #2288fa);
@@ -86,7 +69,7 @@
 }
 
 .content {
-	flex: 2;
+	flex: 5 0 0;
 }
 
 /* .progress {
@@ -106,13 +89,6 @@
 	position: absolute;
 	left: 60%;
 } */
-
-.card-info {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: flex-start;
-}
 
 .percentage {
 	font-weight: bold;

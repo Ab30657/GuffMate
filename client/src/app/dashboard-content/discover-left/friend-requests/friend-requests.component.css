@@ -1,0 +1,108 @@
+h6 {
+	margin: 0 !important;
+}
+.heading {
+	font-size: 1.25rem;
+	text-transform: uppercase;
+	padding: 1rem;
+	text-align: left;
+	width: 100%;
+}
+.wrapper {
+	padding: 0.5rem 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-width: 0;
+	width: 100%;
+}
+
+.request {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	min-width: 0;
+	border-style: solid;
+	border-width: 1px 0 1px 0;
+	border-color: gray;
+}
+
+.req-dp > img {
+	height: 50px;
+	transition: 0.3s ease-out;
+}
+
+.req-dp {
+	flex: 1;
+	border: 3px solid lime;
+	border-radius: 50%;
+	cursor: pointer;
+	transition: 0.3s ease-out;
+}
+
+.req-dp:hover > img {
+	transform: scale(1.1);
+}
+
+.req-icons {
+	flex: 1;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.req-accept,
+.req-deny {
+	padding: 0 0.6rem;
+	border: 3px solid lightgray;
+	border-radius: 50%;
+	width: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 40px;
+	background: white;
+	transition: 0.3s ease-in;
+	cursor: pointer;
+}
+.req-info {
+	flex: 3;
+	flex-wrap: nowrap;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	align-items: flex-start;
+	padding: 1rem;
+}
+.req-info > span {
+	white-space: nowrap;
+}
+
+.req-status-info {
+	color: gray;
+	line-height: 1.2em;
+	font-size: 0.8rem;
+}
+
+.req-accept {
+	color: rgb(0, 220, 0);
+}
+.req-deny {
+	color: red;
+}
+
+.icon-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.2rem;
+}
+
+.req-deny:hover {
+	color: white;
+	background: red;
+}
+
+.req-accept:hover {
+	color: white;
+	background: rgb(0, 220, 0);
+}

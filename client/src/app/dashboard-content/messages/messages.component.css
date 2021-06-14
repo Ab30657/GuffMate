@@ -1,0 +1,84 @@
+.content {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.msg-user-dp > img {
+	width: 4.5rem;
+	height: 4.5rem;
+	border-radius: 50%;
+}
+
+.chat-title {
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	padding-left: 5rem;
+	min-height: 5.5rem;
+	background: white;
+	border-top-right-radius: 2rem;
+}
+.msg-user-dp {
+	position: absolute;
+	left: 0;
+	padding: 0.5rem;
+}
+.heading {
+	padding: 0.5rem;
+	padding-bottom: 0;
+}
+.seen-status {
+	padding-left: 0.5rem;
+}
+.messages {
+	flex: 1;
+}
+.content .messages .message {
+	box-sizing: border-box;
+	padding: 0.5rem 1rem;
+	margin: 1rem;
+	background: #fff;
+	border-radius: 1.125rem 1.125rem 1.125rem 0;
+	min-height: 2.25rem;
+	width: -webkit-fit-content;
+	width: -moz-fit-content;
+	width: fit-content;
+	max-width: 66%;
+	box-shadow: 0 0 2rem rgba(0, 0, 0, 0.075),
+		0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.1);
+}
+
+.content .messages .message.parker {
+	margin: 1rem 1rem 1rem auto;
+	border-radius: 1.125rem 1.125rem 0 1.125rem;
+	background: #333;
+	color: white;
+}
+.input {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+}
+.input i {
+	font-size: 1.5rem;
+	margin-right: 1rem;
+	color: black;
+	cursor: pointer;
+	transition: color 200ms;
+}
+
+.input input {
+	border: none;
+	background-image: none;
+	background-color: white;
+	padding: 0.5rem 1rem;
+	margin-right: 1rem;
+	border-radius: 1.125rem;
+	flex-grow: 2;
+	box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1),
+		0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
+	font-weight: 400;
+	letter-spacing: 0.025em;
+}
