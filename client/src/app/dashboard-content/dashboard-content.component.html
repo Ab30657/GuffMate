@@ -10,18 +10,18 @@
 					<p>Pro Member</p>
 				</div> -->
 				<div class="card-wrapper">
-					<app-messages-left></app-messages-left>
+					<!-- <app-messages-left></app-messages-left> -->
+					<router-outlet name="left"></router-outlet>
 				</div>
-				<div class="pro">
+				<!-- <div class="pro">
 					<h4>Download Desktop Client</h4>
-				</div>
-				<!-- <app-friend-requests></app-friend-requests> -->
+				</div> -->
 			</div>
 		</div>
 	</div>
 
 	<div class="content">
-		<!-- <app-discover></app-discover> -->
-		<app-messages></app-messages>
+		<router-outlet name="right"></router-outlet>
+		<!-- <app-messages></app-messages> -->
 	</div>
 </div>

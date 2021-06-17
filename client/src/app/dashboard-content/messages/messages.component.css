@@ -16,8 +16,9 @@
 	position: relative;
 	padding-left: 5rem;
 	min-height: 5.5rem;
-	background: white;
+	background: transparent;
 	border-top-right-radius: 2rem;
+	align-self: center;
 }
 .msg-user-dp {
 	position: absolute;
