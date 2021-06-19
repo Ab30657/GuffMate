@@ -12,22 +12,43 @@ import { combineAll } from 'rxjs/operators';
 const routes: Routes = [
 	{ path: 'login', component: LoginComponent },
 	{
-		path: 'discover',
+		path: '',
 		component: DashboardContentComponent,
 		canActivate: [AuthGuard],
-		pathMatch: 'full',
 		children: [
 			{
-				path: '',
-				component: FriendRequestsComponent,
-				canActivate: [AuthGuard],
-				outlet: 'left',
+				path: 'discover',
+				children: [
+					{
+						path: '',
+						component: FriendRequestsComponent,
+						canActivate: [AuthGuard],
+						outlet: 'left',
+					},
+					{
+						path: '',
+						component: DiscoverComponent,
+						canActivate: [AuthGuard],
+						outlet: 'right',
+					},
+				],
 			},
 			{
-				path: '',
-				component: DiscoverComponent,
-				canActivate: [AuthGuard],
-				outlet: 'right',
+				path: 'messages',
+				children: [
+					{
+						path: '',
+						component: MessagesLeftComponent,
+						canActivate: [AuthGuard],
+						outlet: 'left',
+					},
+					{
+						path: '',
+						component: MessagesComponent,
+						canActivate: [AuthGuard],
+						outlet: 'right',
+					},
+				],
 			},
 		],
 	},

@@ -1,0 +1,16 @@
+[
+	{
+		"UserName": "riya",
+		"DateOfBirth": "2001-07-07",
+		"KnownAs": "Riya",
+		"Gender": "Female",
+		"Status": "Be wild, moonchild"
+	},
+	{
+		"UserName": "amar",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Moonchild",
+		"Gender": "Male",
+		"Status": "..."
+	}
+]

@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
 	login() {
 		this.accountService.login(this.model).subscribe(
 			(response) => {
-				this.router.navigateByUrl('/home');
+				this.router.navigateByUrl('/discover');
 			},
 			(error) => {
 				console.log(error);
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
 		this.accountService.currentUser$.subscribe(
 			(user) => {
 				this.loggedIn = !!user;
-				this.router.navigateByUrl('/home');
+				this.router.navigateByUrl('/discover');
 			},
 			(error) => {
 				console.log(error);
