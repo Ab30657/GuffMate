@@ -1,4 +1,6 @@
+import { ThrowStmt } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
+import { MembersService } from '../../_services/members.service';
 
 @Component({
 	selector: 'app-discover',
@@ -6,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./discover.component.css'],
 })
 export class DiscoverComponent implements OnInit {
-	constructor() {}
-
-	ngOnInit(): void {}
+	constructor(private memberService: MembersService) {}
+	users;
+	ngOnInit(): void {
+		this.memberService.GetUsers().subscribe((x) => {
+			this.users = x;
+		});
+	}
 }

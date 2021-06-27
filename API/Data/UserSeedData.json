@@ -4,7 +4,13 @@
 		"DateOfBirth": "2001-07-07",
 		"KnownAs": "Riya",
 		"Gender": "Female",
-		"Status": "Be wild, moonchild"
+		"Status": "Be wild, moonchild",
+		"Photos": [
+			{
+				"Url": "",
+				"IsMain": true
+			}
+		]
 	},
 	{
 		"UserName": "amar",

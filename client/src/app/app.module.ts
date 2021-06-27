@@ -8,11 +8,14 @@ import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
 import { DiscoverComponent } from './dashboard-content/discover/discover.component';
 import { UserCardsComponent } from './dashboard-content/discover/user-cards/user-cards.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { FriendRequestsComponent } from './dashboard-content/discover-left/friend-requests/friend-requests.component';
 import { MessagesComponent } from './dashboard-content/messages/messages.component';
 import { MessagesLeftComponent } from './dashboard-content/messages/messages-left/messages-left.component';
+import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -31,8 +34,20 @@ import { MessagesLeftComponent } from './dashboard-content/messages/messages-lef
 		BrowserAnimationsModule,
 		HttpClientModule,
 		FormsModule,
+		NgxSpinnerModule,
 	],
-	providers: [],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: JwtInterceptor,
+			multi: true,
+		},
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: LoadingInterceptor,
+			multi: true,
+		},
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}

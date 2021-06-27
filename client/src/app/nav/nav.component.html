@@ -10,18 +10,22 @@
 				<i class="fa fa-th-large nav-icon"></i>
 				<span class="nav-name">Dashboard</span>
 			</a>
-			<a class="nav-link">
+			<a class="nav-link" routerLink="/discover">
 				<i class="fa fa-users nav-icon"></i>
-				<span class="nav-name" routerLink="/discover">Discover</span>
+				<span class="nav-name">Discover</span>
 			</a>
-			<a class="nav-link">
+			<a class="nav-link" routerLink="/messages">
 				<i class="fa fa-envelope nav-icon"></i>
-				<span class="nav-name" routerLink="/messages">Messages</span>
+				<span class="nav-name">Messages</span>
 			</a>
 
 			<a class="nav-link">
 				<i class="fa fa-cog nav-icon"></i>
 				<span class="nav-name">Settings</span>
+			</a>
+			<a class="nav-link" (click)="logout()">
+				<i class="fa fa-power-off nav-icon"></i>
+				<span class="nav-name">Log out</span>
 			</a>
 		</div>
 	</div>

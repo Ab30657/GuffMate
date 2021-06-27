@@ -15,8 +15,7 @@ namespace API.Entities
 
 		public string Status { get; set; }
 
-		public Photo DisplayPhoto { get; set; }
-
+		public ICollection<Photo> Photos { get; set; }
 		public ICollection<AppUserRole> UserRoles { get; set; }
 	}
 }
