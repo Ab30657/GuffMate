@@ -6,6 +6,7 @@
 	min-height: 60%;
 	overflow-y: hidden;
 	flex: 1;
+	padding: 0.5rem;
 }
 .msg-card {
 	display: flex;
@@ -60,4 +61,11 @@
 
 .card-msg-user {
 	padding: 0.2rem 0 0 0;
+}
+.heading {
+	font-size: 1.25rem;
+	text-transform: uppercase;
+	padding: 0.5rem;
+	text-align: left;
+	width: 100%;
 }

@@ -1,0 +1,49 @@
+.heading {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.5rem;
+}
+
+.heading > div {
+	border-radius: 2rem;
+	font-weight: 700;
+	padding: 0.2rem 1.5rem;
+	font-size: 1.2rem;
+	background: white;
+}
+.content {
+	padding: 1rem 8rem;
+}
+
+.card {
+	padding: 1rem;
+	background-color: rgb(47, 48, 48);
+	border-radius: 0.5rem;
+	height: 300px;
+}
+.profile-img {
+	border-radius: 50%;
+	width: 90px;
+	height: 90px;
+	background: rgb(66, 66, 66);
+	padding: 10px;
+	position: relative;
+}
+
+.profile-img > img {
+	width: 70px;
+	border-radius: 50%;
+}
+.change-img {
+	position: absolute;
+	top: 0;
+	right: 0px;
+	padding: 5px 10px;
+	border-radius: 50%;
+	background: rgb(124, 126, 126);
+}
+.change-img > i {
+	font-size: 1.1rem;
+	color: rgb(47, 48, 48);
+}

@@ -57,21 +57,6 @@ h5 {
 		background: red;
 	}
 }
-.glass {
-	background: white;
-	min-height: 90vh;
-	width: 100%;
-	background: linear-gradient(
-		to right bottom,
-		rgba(255, 255, 255, 0.7),
-		rgba(255, 255, 255, 0.3)
-	);
-	border-radius: 2rem;
-	z-index: 3;
-	backdrop-filter: blur(2rem);
-	display: flex;
-	position: relative;
-}
 
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {

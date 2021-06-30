@@ -10,12 +10,14 @@ import { DiscoverComponent } from './dashboard-content/discover/discover.compone
 import { UserCardsComponent } from './dashboard-content/discover/user-cards/user-cards.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { FriendRequestsComponent } from './dashboard-content/discover-left/friend-requests/friend-requests.component';
+import { FriendRequestsComponent } from './dashboard-content/discover/discover-left/friend-requests/friend-requests.component';
 import { MessagesComponent } from './dashboard-content/messages/messages.component';
 import { MessagesLeftComponent } from './dashboard-content/messages/messages-left/messages-left.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { SettingsComponent } from './dashboard-content/settings/settings.component';
+import { SettingsLeftComponent } from './dashboard-content/settings/settings-left/settings-left.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -27,6 +29,8 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 		FriendRequestsComponent,
 		MessagesComponent,
 		MessagesLeftComponent,
+  SettingsComponent,
+  SettingsLeftComponent,
 	],
 	imports: [
 		BrowserModule,
