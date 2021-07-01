@@ -18,6 +18,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { SettingsComponent } from './dashboard-content/settings/settings.component';
 import { SettingsLeftComponent } from './dashboard-content/settings/settings-left/settings-left.component';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -29,8 +30,8 @@ import { SettingsLeftComponent } from './dashboard-content/settings/settings-lef
 		FriendRequestsComponent,
 		MessagesComponent,
 		MessagesLeftComponent,
-  SettingsComponent,
-  SettingsLeftComponent,
+		SettingsComponent,
+		SettingsLeftComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -39,6 +40,7 @@ import { SettingsLeftComponent } from './dashboard-content/settings/settings-lef
 		HttpClientModule,
 		FormsModule,
 		NgxSpinnerModule,
+		TabsModule,
 	],
 	providers: [
 		{

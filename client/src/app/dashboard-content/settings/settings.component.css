@@ -1,10 +1,10 @@
 .heading {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 0.5rem;
+	padding: 1rem;
+	max-height: 0.9vh;
 }
-
+tabset {
+	width: 100%;
+}
 .heading > div {
 	border-radius: 2rem;
 	font-weight: 700;
@@ -20,7 +20,7 @@
 	padding: 1rem;
 	background-color: rgb(47, 48, 48);
 	border-radius: 0.5rem;
-	height: 300px;
+	margin-bottom: 1rem;
 }
 .profile-img {
 	border-radius: 50%;
@@ -33,17 +33,89 @@
 
 .profile-img > img {
 	width: 70px;
+	height: 70px;
 	border-radius: 50%;
 }
 .change-img {
 	position: absolute;
 	top: 0;
 	right: 0px;
-	padding: 5px 10px;
+	width: 30px;
+	height: 30px;
 	border-radius: 50%;
 	background: rgb(124, 126, 126);
+	display: inline-block;
+	text-align: center;
+	transition: 0.1s ease-out;
 }
-.change-img > i {
-	font-size: 1.1rem;
-	color: rgb(47, 48, 48);
+.change-img:hover {
+	cursor: pointer;
+	transform: scale(1.1);
+	background-color: black;
+	color: rgb(124, 126, 126);
+}
+.change-img > svg {
+	vertical-align: middle;
+}
+.details {
+	padding: 1rem 0 0 0;
+}
+.detail-input-group {
+	flex-direction: column;
+	margin-bottom: 20px;
+}
+
+.detail-input-group > label {
+	color: white;
+	text-transform: uppercase;
+	font-size: 0.8rem;
+	margin-bottom: 0;
+}
+
+.inp-group {
+	display: flex;
+}
+
+.pwd-auth > span {
+	font-size: 1.2rem;
+	font-weight: 700;
+}
+.pwd-auth > div {
+	padding: 0.5rem 0;
+}
+.pwd-auth > div > button {
+	border: none;
+	padding: 8px 12px;
+	background: #2288fa;
+	border-radius: 0.2rem;
+	color: white;
+	font-weight: 500;
+	cursor: pointer;
+	transition: 0.2s ease-in-out;
+}
+
+.pwd-auth > div > button:hover {
+	background-color: #0062d1;
+}
+
+.deletion {
+	padding: 1rem 0;
+}
+.deletion > span {
+	font-weight: 700;
+	font-size: 1.2rem;
+}
+.deletion > div > button {
+	border: none;
+	padding: 8px 12px;
+	background: #eb1818;
+	border-radius: 0.2rem;
+	color: white;
+	font-weight: 500;
+	cursor: pointer;
+	transition: 0.2s ease-in-out;
+}
+
+.deletion > div > button:hover {
+	background-color: #b80000;
 }
