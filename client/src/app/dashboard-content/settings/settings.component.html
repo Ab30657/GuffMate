@@ -1,8 +1,37 @@
 <div class="heading">
-	<tabset type="pills">
-		<tab heading="General"></tab>
-		<tab heading="Gallery"></tab>
-		<tab heading="Account"
+	<tabset #smallnav type="pills">
+		<tab class="tab-link" heading="General" (selectTab)="setTab('0')">
+			<div class="content">
+				<div class="card">
+					<div class="detail-input-group">
+						<label for="status">Status</label>
+						<div class="inp-group">
+							<textarea
+								type="text"
+								id="status"
+								class="form-control"
+								autocomplete="off"
+								rows="5"
+							>
+Be wild, moonchild
+</textarea
+							>
+						</div>
+					</div>
+
+					<div class="detail-input-group">
+						<div class="checkbox">
+							<input id="notify" type="checkbox" />
+							<label for="notify"
+								>Enable Desktop Notifications</label
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+		</tab>
+		<tab class="tab-link" heading="Gallery" (selectTab)="setTab('1')"></tab>
+		<tab class="tab-link" heading="Account" (selectTab)="setTab('2')"
 			><div class="content">
 				<div class="card">
 					<div class="profile-img">

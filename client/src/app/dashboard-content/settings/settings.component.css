@@ -1,3 +1,6 @@
+textarea {
+	resize: none;
+}
 .heading {
 	padding: 1rem;
 	max-height: 0.9vh;
@@ -118,4 +121,15 @@ tabset {
 
 .deletion > div > button:hover {
 	background-color: #b80000;
+}
+
+.detail-input-group > .checkbox > label {
+	color: white;
+	padding: 0.5rem 1rem;
+}
+.detail-input-group > .checkbox > input {
+	width: 16px;
+	height: 16px;
+	border: none;
+	cursor: pointer;
 }

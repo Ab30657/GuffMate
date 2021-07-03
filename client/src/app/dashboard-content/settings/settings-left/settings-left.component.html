@@ -1,12 +1,23 @@
 <div class="nav-list">
-	<a class="nav-link" routerLink="/general">
+	<a
+		class="nav-link"
+		(click)="setTab('0')"
+		[ngClass]="activeTab == '0' ? 'active' : ''"
+	>
 		<span class="nav-name">General</span>
 	</a>
-	<a class="nav-link" routerLink="/gallery">
+	<a
+		class="nav-link"
+		(click)="setTab('1')"
+		[ngClass]="activeTab == '1' ? 'active' : ''"
+	>
 		<span class="nav-name">Gallery</span>
 	</a>
-
-	<a class="nav-link" routerLink="/account">
+	<a
+		class="nav-link"
+		(click)="setTab('2')"
+		[ngClass]="activeTab == '2' ? 'active' : ''"
+	>
 		<span class="nav-name">Account</span>
 	</a>
 </div>

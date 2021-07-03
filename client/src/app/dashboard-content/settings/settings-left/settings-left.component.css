@@ -12,3 +12,16 @@
 	font-weight: 700;
 	letter-spacing: 1.2px;
 }
+
+.nav-link {
+	color: gray !important;
+	cursor: pointer;
+	transition: 0.2s ease-in;
+}
+.nav-link:hover {
+	color: black !important;
+}
+
+.nav-link.active {
+	color: black !important;
+}
