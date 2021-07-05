@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	tab2;
 	panel1;
 	panel2;
+	islogin = true;
 	constructor(
 		private accountService: AccountService,
 		private router: Router
@@ -47,6 +48,16 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		);
 	}
 
+	register() {
+		this.accountService.register(this.registermodel).subscribe(
+			(response) => {
+				this.router.navigateByUrl('/discover');
+			},
+			(error) => {
+				console.log(error);
+			}
+		);
+	}
 	getCurrentUser() {
 		this.accountService.currentUser$.subscribe(
 			(user) => {
@@ -72,12 +83,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		this.tab2.classList.remove('active');
 		this.tab1.classList.add('active');
 		this.reel.style.transform = 'translateX(0%)';
+		this.islogin = true;
 	}
 
 	slideRight() {
 		this.tab1.classList.remove('active');
 		this.tab2.classList.add('active');
 		this.reel.style.transform = 'translateX(-125%)';
+		this.islogin = false;
 	}
-	register() {}
 }

@@ -1,6 +1,5 @@
 .app-logo nav {
 	width: 100%;
-	height: 60%;
 	display: flex;
 	position: relative;
 	align-self: stretch;
@@ -77,10 +76,8 @@ hr {
 }
 .app-logo {
 	display: flex;
-	justify-content: center;
 	align-items: center;
 	flex-direction: column;
-	flex: 1;
 	width: 100%;
 }
 
@@ -98,11 +95,12 @@ hr {
 	margin-bottom: 1rem;
 	display: flex;
 	justify-content: center;
-	align-items: center;
 	flex-direction: column;
 	min-width: 0rem;
 }
-
+.register-control-group {
+	margin-bottom: 0.4rem;
+}
 .login-control-group > h5,
 .register-control-group > h5 {
 	align-self: flex-start;
@@ -230,7 +228,6 @@ hr {
 .tab_panel2 {
 	position: absolute;
 	left: 125%;
-	height: 100%;
 }
 .tab_reel .tab_panel1,
 .tab_reel .tab_panel2 {
@@ -261,7 +258,7 @@ hr {
 }
 
 .main-content {
-	flex: 1;
+	flex: 3;
 	width: 100%;
 	height: 100%;
 }
@@ -272,7 +269,7 @@ hr {
 	justify-content: space-evenly;
 }
 .register-form h5 {
-	font-size: 1.1rem;
+	font-size: 0.9rem;
 	font-weight: 500;
 	color: #4267ff;
 }

@@ -1,7 +1,7 @@
 <div class="glass">
 	<div class="login-dashboard">
 		<div class="app-logo">
-			<i class="fa fa-5x fa-joomla"></i>
+			<i class="fa fa-joomla" [ngClass]="islogin ? 'fa-5x' : 'fa-3x'"></i>
 			<nav>
 				<div class="tab tab1 active" (click)="slideLeft()">
 					<div class="block">LOGIN</div>
@@ -77,6 +77,7 @@
 								type="text"
 								class="form-control"
 							/>
+							<span>Error</span>
 						</div>
 						<div class="register-control-group">
 							<h5>Username</h5>
@@ -86,6 +87,7 @@
 								type="text"
 								class="form-control"
 							/>
+							<span>Error</span>
 						</div>
 						<div class="register-control-group">
 							<h5>Email</h5>
@@ -95,6 +97,7 @@
 								type="email"
 								class="form-control"
 							/>
+							<span>Error</span>
 						</div>
 						<div class="register-control-group reg-password-div">
 							<h5>Password</h5>
@@ -104,7 +107,9 @@
 								#regpassword="ngModel"
 								[type]="passType"
 								class="form-control"
+								autocomplete="new-password"
 							/>
+							<span>Error</span>
 							<i
 								class="fa fa-lg password-icon"
 								[hidden]="!regpassword.dirty"
@@ -126,6 +131,7 @@
 								[ngClass]="iconStatus"
 								(click)="toggle()"
 							></i>
+							<span>Error</span>
 						</div>
 						<div class="button-group">
 							<button id="register-btn" type="submit">
