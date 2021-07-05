@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 
@@ -10,11 +10,17 @@ import { AccountService } from '../_services/account.service';
 		class: 'login-board',
 	},
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
 	model: any = {};
+	registermodel: any = {};
 	loggedIn: boolean;
 	iconStatus: string = 'fa-eye';
 	passType: string = 'password';
+	reel;
+	tab1;
+	tab2;
+	panel1;
+	panel2;
 	constructor(
 		private accountService: AccountService,
 		private router: Router
@@ -23,7 +29,13 @@ export class LoginComponent implements OnInit {
 	ngOnInit(): void {
 		this.getCurrentUser();
 	}
-
+	ngAfterViewInit(): void {
+		this.reel = document.querySelector('.tab_reel');
+		this.tab1 = document.querySelector('.tab1');
+		this.tab2 = document.querySelector('.tab2');
+		this.panel1 = document.querySelector('.tab_panel1');
+		this.panel2 = document.querySelector('.tab_panel2');
+	}
 	login() {
 		this.accountService.login(this.model).subscribe(
 			(response) => {
@@ -55,4 +67,17 @@ export class LoginComponent implements OnInit {
 		this.iconStatus = 'fa-eye';
 		this.passType = 'password';
 	}
+
+	slideLeft() {
+		this.tab2.classList.remove('active');
+		this.tab1.classList.add('active');
+		this.reel.style.transform = 'translateX(0%)';
+	}
+
+	slideRight() {
+		this.tab1.classList.remove('active');
+		this.tab2.classList.add('active');
+		this.reel.style.transform = 'translateX(-125%)';
+	}
+	register() {}
 }

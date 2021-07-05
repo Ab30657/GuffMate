@@ -1,3 +1,63 @@
+.app-logo nav {
+	width: 100%;
+	height: 60%;
+	display: flex;
+	position: relative;
+	align-self: stretch;
+}
+
+.app-logo nav .tab {
+	width: 50%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0.5rem;
+}
+
+.indicator {
+	width: 50%;
+	height: 4px;
+	position: absolute;
+	bottom: 0;
+	background: linear-gradient(to right top, #31f564, #2288fa);
+	transition: 0.3s ease;
+}
+
+.app-logo .block {
+	width: 85%;
+	height: 70%;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 700;
+	color: white;
+	font-size: 1.2rem;
+	letter-spacing: 4px;
+}
+.app-logo .tab.active .block {
+	color: #4267ff;
+}
+.app-logo .block:hover {
+	color: #4267ff;
+}
+
+.glass {
+	background: white;
+	min-height: 90vh;
+	width: 100%;
+	background: linear-gradient(
+		to right bottom,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.3)
+	);
+	border-radius: 2rem;
+	z-index: 3;
+	backdrop-filter: blur(2rem);
+	display: flex;
+	position: relative;
+}
 .login-dashboard {
 	width: 100%;
 	padding: 2.5rem 3rem;
@@ -7,6 +67,8 @@
 	flex-direction: column;
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 	border-radius: 2rem;
+	position: relative;
+	overflow: hidden;
 }
 hr {
 	border: 0;
@@ -19,6 +81,7 @@ hr {
 	align-items: center;
 	flex-direction: column;
 	flex: 1;
+	width: 100%;
 }
 
 .login-form {
@@ -30,7 +93,8 @@ hr {
 	min-width: 0rem;
 }
 
-.login-control-group {
+.login-control-group,
+.register-control-group {
 	margin-bottom: 1rem;
 	display: flex;
 	justify-content: center;
@@ -39,11 +103,13 @@ hr {
 	min-width: 0rem;
 }
 
-.login-control-group > h5 {
+.login-control-group > h5,
+.register-control-group > h5 {
 	align-self: flex-start;
 }
 
-.login-control-group > input {
+.login-control-group > input,
+.register-control-group > input {
 	min-width: 300px;
 }
 .app-logo > i {
@@ -98,7 +164,7 @@ hr {
 }
 
 .button-group {
-	padding: 2rem 0 0 0;
+	padding: 1rem 0 0 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -115,7 +181,7 @@ hr {
 }
 
 .login-control-group > h5 {
-	color: var(--fourth-color);
+	color: #4267ff;
 	/* letter-spacing: 0.1rem; */
 }
 
@@ -136,7 +202,8 @@ hr {
 	background-color: #ff4437;
 }
 
-.password-div {
+.password-div,
+.reg-password-div {
 	position: relative;
 }
 
@@ -147,6 +214,91 @@ hr {
 	color: #2288fa;
 }
 
-.password-div > input {
+.password-div > input,
+.reg-password-div > input {
 	padding-right: 2.2rem !important;
+}
+
+.tab_reel {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	position: relative;
+	transition: 0.5s cubic-bezier(0.18, 1.14, 0.5, 1.18);
+}
+
+.tab_panel2 {
+	position: absolute;
+	left: 125%;
+	height: 100%;
+}
+.tab_reel .tab_panel1,
+.tab_reel .tab_panel2 {
+	width: 100%;
+	padding: 10px;
+}
+
+.desc {
+	width: 100%;
+	padding: 10px;
+}
+.desc .block {
+	width: 40%;
+	height: 7px;
+	margin-bottom: 5px;
+	background: #92b4f2;
+}
+.desc .block:nth-child(2) {
+	width: 35%;
+	margin-bottom: 0px;
+}
+.tab1.active ~ .indicator {
+	left: 0;
+}
+
+.tab2.active ~ .indicator {
+	left: 50%;
+}
+
+.main-content {
+	flex: 1;
+	width: 100%;
+	height: 100%;
+}
+.register-form {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+.register-form h5 {
+	font-size: 1.1rem;
+	font-weight: 500;
+	color: #4267ff;
+}
+
+.register-form .button-group {
+	align-self: stretch;
+}
+
+.register-form #register-btn {
+	background: linear-gradient(to right top, #2288fa, #31f564);
+	border-radius: 2rem;
+	color: white;
+	padding: 1rem;
+	border: none;
+	width: 100%;
+	transition: 0.3s;
+	background-size: 400%;
+	cursor: pointer;
+	background-position: right;
+}
+
+.register-form #register-btn:hover {
+	background-position: top;
+}
+
+.reg-password-div > .password-icon {
+	top: 55%;
+	padding: 0 0.7rem;
 }

@@ -2,46 +2,139 @@
 	<div class="login-dashboard">
 		<div class="app-logo">
 			<i class="fa fa-5x fa-joomla"></i>
-			<h2>L O G I N</h2>
+			<nav>
+				<div class="tab tab1 active" (click)="slideLeft()">
+					<div class="block">LOGIN</div>
+				</div>
+				<div class="tab tab2">
+					<div class="block" (click)="slideRight()">REGISTER</div>
+				</div>
+				<div class="indicator"></div>
+			</nav>
 		</div>
-		<form
-			#loginForm="ngForm"
-			class="login-form"
-			(ngSubmit)="login()"
-			autocomplete="off"
-		>
-			<div class="login-control-group">
-				<h5>Username</h5>
-				<input
-					name="username"
-					[(ngModel)]="model.username"
-					type="text"
-					class="form-control"
-				/>
+
+		<div class="main-content">
+			<div class="tab_reel">
+				<div class="tab_panel1">
+					<form
+						#loginForm="ngForm"
+						class="login-form"
+						(ngSubmit)="login()"
+						autocomplete="off"
+					>
+						<div class="login-control-group">
+							<h5>Username</h5>
+							<input
+								name="username"
+								[(ngModel)]="model.username"
+								type="text"
+								class="form-control"
+							/>
+						</div>
+						<div class="login-control-group password-div">
+							<h5>Password</h5>
+							<input
+								name="password"
+								[(ngModel)]="model.password"
+								#password="ngModel"
+								[type]="passType"
+								class="form-control"
+							/>
+							<i
+								class="fa fa-lg password-icon"
+								[hidden]="!password.dirty"
+								[ngClass]="iconStatus"
+								(click)="toggle()"
+							></i>
+							<a href="">Forgot Password?</a>
+						</div>
+						<div class="button-group">
+							<button id="login-btn" type="submit">
+								<h4>Log In</h4>
+							</button>
+							<hr />
+							<button id="fb-login">
+								<h5>Log in from Facebook</h5>
+							</button>
+							<button id="google-login">
+								<h5>Log in from Google</h5>
+							</button>
+						</div>
+					</form>
+				</div>
+				<div class="tab_panel2">
+					<form
+						#registerForm="ngForm"
+						class="register-form"
+						(ngSubmit)="register()"
+						autocomplete="off"
+					>
+						<div class="register-control-group">
+							<h5>Name</h5>
+							<input
+								name="name"
+								[(ngModel)]="registermodel.name"
+								type="text"
+								class="form-control"
+							/>
+						</div>
+						<div class="register-control-group">
+							<h5>Username</h5>
+							<input
+								name="username"
+								[(ngModel)]="registermodel.username"
+								type="text"
+								class="form-control"
+							/>
+						</div>
+						<div class="register-control-group">
+							<h5>Email</h5>
+							<input
+								name="email"
+								[(ngModel)]="registermodel.email"
+								type="email"
+								class="form-control"
+							/>
+						</div>
+						<div class="register-control-group reg-password-div">
+							<h5>Password</h5>
+							<input
+								name="reg-password"
+								[(ngModel)]="registermodel.password"
+								#regpassword="ngModel"
+								[type]="passType"
+								class="form-control"
+							/>
+							<i
+								class="fa fa-lg password-icon"
+								[hidden]="!regpassword.dirty"
+								[ngClass]="iconStatus"
+								(click)="toggle()"
+							></i>
+						</div>
+						<div class="register-control-group reg-password-div">
+							<h5>Confirm Password</h5>
+							<input
+								name="cpassword"
+								#cpassword
+								[type]="passType"
+								class="form-control"
+							/>
+							<i
+								class="fa fa-lg password-icon"
+								[hidden]="!cpassword.dirty"
+								[ngClass]="iconStatus"
+								(click)="toggle()"
+							></i>
+						</div>
+						<div class="button-group">
+							<button id="register-btn" type="submit">
+								<h4>Register</h4>
+							</button>
+						</div>
+					</form>
+				</div>
 			</div>
-			<div class="login-control-group password-div">
-				<h5>Password</h5>
-				<input
-					name="password"
-					[(ngModel)]="model.password"
-					#password="ngModel"
-					[type]="passType"
-					class="form-control"
-				/>
-				<i
-					class="fa fa-lg password-icon"
-					[hidden]="!password.dirty"
-					[ngClass]="iconStatus"
-					(click)="toggle()"
-				></i>
-				<a href="">Forgot Password?</a>
-			</div>
-			<div class="button-group">
-				<button id="login-btn" type="submit"><h4>Log In</h4></button>
-				<hr />
-				<button id="fb-login"><h5>Log in from Facebook</h5></button>
-				<button id="google-login"><h5>Log in from Google</h5></button>
-			</div>
-		</form>
+		</div>
 	</div>
 </div>
