@@ -64,7 +64,7 @@
 				</div>
 				<div class="tab_panel2">
 					<form
-						#registerForm="ngForm"
+						[formGroup]="registerForm"
 						class="register-form"
 						(ngSubmit)="register()"
 						autocomplete="off"
@@ -72,18 +72,23 @@
 						<div class="register-control-group">
 							<h5>Name</h5>
 							<input
-								name="name"
-								[(ngModel)]="registermodel.name"
+								formControlName="name"
 								type="text"
 								class="form-control"
 							/>
-							<span>Error</span>
+							<span
+								class="error"
+								*ngIf="
+									registerForm.controls['name'].touched &&
+									registerForm.controls['name'].errors
+								"
+								>Name is required</span
+							>
 						</div>
 						<div class="register-control-group">
 							<h5>Username</h5>
 							<input
-								name="username"
-								[(ngModel)]="registermodel.username"
+								formControlName="username"
 								type="text"
 								class="form-control"
 							/>
@@ -92,8 +97,7 @@
 						<div class="register-control-group">
 							<h5>Email</h5>
 							<input
-								name="email"
-								[(ngModel)]="registermodel.email"
+								formControlName="email"
 								type="email"
 								class="form-control"
 							/>
@@ -102,9 +106,8 @@
 						<div class="register-control-group reg-password-div">
 							<h5>Password</h5>
 							<input
-								name="reg-password"
-								[(ngModel)]="registermodel.password"
-								#regpassword="ngModel"
+								formControlName="password"
+								#regpassword
 								[type]="passType"
 								class="form-control"
 								autocomplete="new-password"
@@ -112,7 +115,9 @@
 							<span>Error</span>
 							<i
 								class="fa fa-lg password-icon"
-								[hidden]="!regpassword.dirty"
+								[hidden]="
+									!registerForm.controls['password'].dirty
+								"
 								[ngClass]="iconStatus"
 								(click)="toggle()"
 							></i>
@@ -120,17 +125,11 @@
 						<div class="register-control-group reg-password-div">
 							<h5>Confirm Password</h5>
 							<input
-								name="cpassword"
-								#cpassword
+								formControlName="confirmpassword"
+								#confirmpassword
 								[type]="passType"
 								class="form-control"
 							/>
-							<i
-								class="fa fa-lg password-icon"
-								[hidden]="!cpassword.dirty"
-								[ngClass]="iconStatus"
-								(click)="toggle()"
-							></i>
 							<span>Error</span>
 						</div>
 						<div class="button-group">

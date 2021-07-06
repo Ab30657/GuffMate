@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 
@@ -12,7 +13,7 @@ import { AccountService } from '../_services/account.service';
 })
 export class LoginComponent implements OnInit, AfterViewInit {
 	model: any = {};
-	registermodel: any = {};
+	registerForm: FormGroup;
 	loggedIn: boolean;
 	iconStatus: string = 'fa-eye';
 	passType: string = 'password';
@@ -29,6 +30,18 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
 	ngOnInit(): void {
 		this.getCurrentUser();
+		this.initRegForm();
+		console.log(this.registerForm.controls['password']);
+	}
+	initRegForm(): void {
+		this.registerForm = new FormGroup({
+			name: new FormControl('', Validators.required),
+			email: new FormControl('', Validators.required),
+			username: new FormControl('', Validators.required),
+
+			password: new FormControl('', Validators.required),
+			confirmpassword: new FormControl('', Validators.required),
+		});
 	}
 	ngAfterViewInit(): void {
 		this.reel = document.querySelector('.tab_reel');
@@ -49,7 +62,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	}
 
 	register() {
-		this.accountService.register(this.registermodel).subscribe(
+		this.accountService.register(this.registerForm.value).subscribe(
 			(response) => {
 				this.router.navigateByUrl('/discover');
 			},
@@ -77,6 +90,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		}
 		this.iconStatus = 'fa-eye';
 		this.passType = 'password';
+		console.log(this.registerForm.controls['name']);
 	}
 
 	slideLeft() {

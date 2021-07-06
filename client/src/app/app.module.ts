@@ -9,7 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { DiscoverComponent } from './dashboard-content/discover/discover.component';
 import { UserCardsComponent } from './dashboard-content/discover/user-cards/user-cards.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FriendRequestsComponent } from './dashboard-content/discover/discover-left/friend-requests/friend-requests.component';
 import { MessagesComponent } from './dashboard-content/messages/messages.component';
 import { MessagesLeftComponent } from './dashboard-content/messages/messages-left/messages-left.component';
@@ -39,6 +39,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 		BrowserAnimationsModule,
 		HttpClientModule,
 		FormsModule,
+		ReactiveFormsModule,
 		NgxSpinnerModule,
 		TabsModule,
 	],
