@@ -19,6 +19,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 import { SettingsComponent } from './dashboard-content/settings/settings.component';
 import { SettingsLeftComponent } from './dashboard-content/settings/settings-left/settings-left.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -32,6 +33,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 		MessagesLeftComponent,
 		SettingsComponent,
 		SettingsLeftComponent,
+  TextInputComponent,
 	],
 	imports: [
 		BrowserModule,

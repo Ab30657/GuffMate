@@ -84,30 +84,25 @@ hr {
 .login-form {
 	margin: 0 auto;
 	flex: 3;
-	padding: 2rem 1rem 0rem 1rem;
+	padding: 1rem 1rem 0rem 1rem;
 	display: flex;
 	flex-direction: column;
 	min-width: 0rem;
 }
 
-.login-control-group,
-.register-control-group {
-	margin-bottom: 1rem;
+.login-control-group {
+	margin-bottom: 0.5rem;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	min-width: 0rem;
 }
-.register-control-group {
-	margin-bottom: 0.4rem;
-}
-.login-control-group > h5,
-.register-control-group > h5 {
+.login-control-group > h5 {
 	align-self: flex-start;
 }
 
 .login-control-group > input,
-.register-control-group > input {
+.register-control-group input {
 	min-width: 350px;
 	max-width: 350px;
 }
@@ -163,11 +158,11 @@ hr {
 }
 
 .button-group {
-	padding: 1rem 0 0 0;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: flex-end;
+	margin-top: 1rem;
 }
 
 .button-group > #fb-login,
@@ -208,7 +203,6 @@ hr {
 
 .password-icon {
 	position: absolute;
-	align-self: flex-end;
 	padding: 0.7rem;
 	color: #2288fa;
 }
@@ -224,16 +218,22 @@ hr {
 	justify-content: space-between;
 	position: relative;
 	transition: 0.5s cubic-bezier(0.18, 1.14, 0.5, 1.18);
+	height: 100%;
 }
 
 .tab_panel2 {
 	position: absolute;
 	left: 125%;
 }
+
+.tab_panel1 {
+	padding-top: 20px !important;
+}
 .tab_reel .tab_panel1,
 .tab_reel .tab_panel2 {
 	width: 100%;
-	padding: 10px;
+	padding: 10px 10px 0 10px;
+	height: 100%;
 }
 
 .desc {
@@ -296,12 +296,36 @@ hr {
 .register-form #register-btn:hover {
 	background-position: top;
 }
-
-.reg-password-div > .password-icon {
-	padding: 0.7rem;
-	top: 20%;
-}
 .error {
 	color: red;
 	font-size: 0.8rem;
+}
+.password-wrapper {
+	position: relative;
+	display: flex;
+	justify-content: flex-end;
+}
+
+#register-btn[disabled]:hover {
+	animation: wiggle 0.6s;
+}
+
+@keyframes wiggle {
+	10%,
+	90% {
+		transform: translateX(-3%);
+	}
+	20%,
+	80% {
+		transform: translateX(4%);
+	}
+	30%,
+	50%,
+	70% {
+		transform: translateX(-5%);
+	}
+	40%,
+	60% {
+		transform: translateX(5%);
+	}
 }

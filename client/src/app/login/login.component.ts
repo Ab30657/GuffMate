@@ -1,5 +1,12 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+	AbstractControl,
+	FormBuilder,
+	FormControl,
+	FormGroup,
+	ValidatorFn,
+	Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 
@@ -25,7 +32,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	islogin = true;
 	constructor(
 		private accountService: AccountService,
-		private router: Router
+		private router: Router,
+		private fb: FormBuilder
 	) {}
 
 	ngOnInit(): void {
@@ -34,14 +42,24 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		console.log(this.registerForm.controls['password']);
 	}
 	initRegForm(): void {
-		this.registerForm = new FormGroup({
-			name: new FormControl('', Validators.required),
-			email: new FormControl('', Validators.required),
-			username: new FormControl('', Validators.required),
+		this.registerForm = this.fb.group({
+			name: ['', Validators.required],
+			email: ['', Validators.required],
+			username: ['', Validators.required],
 
-			password: new FormControl('', Validators.required),
-			confirmpassword: new FormControl('', Validators.required),
+			password: ['', Validators.required],
+			confirmpassword: [
+				'',
+				[Validators.required, this.matchValues('password')],
+			],
 		});
+	}
+	matchValues(matchTo: string): ValidatorFn {
+		return (control: AbstractControl) => {
+			return control?.value === control?.parent?.controls[matchTo].value
+				? null
+				: { isMatch: true };
+		};
 	}
 	ngAfterViewInit(): void {
 		this.reel = document.querySelector('.tab_reel');
@@ -90,7 +108,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		}
 		this.iconStatus = 'fa-eye';
 		this.passType = 'password';
-		console.log(this.registerForm.controls['name']);
+		console.log(this.registerForm.status);
 	}
 
 	slideLeft() {

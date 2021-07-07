@@ -25,29 +25,53 @@
 						<div class="login-control-group">
 							<h5>Username</h5>
 							<input
+								#username="ngModel"
 								name="username"
+								[class.is-invalid]="
+									username.touched && username.errors
+								"
 								[(ngModel)]="model.username"
 								type="text"
+								required
 								class="form-control"
 							/>
+							<div
+								class="error"
+								*ngIf="username.touched && username.errors"
+							>
+								Username is required
+							</div>
 						</div>
 						<div class="login-control-group password-div">
 							<h5>Password</h5>
-							<input
-								name="password"
-								[(ngModel)]="model.password"
-								#password="ngModel"
-								[type]="passType"
-								class="form-control"
-							/>
-							<i
-								class="fa fa-lg password-icon"
-								[hidden]="!password.dirty"
-								[ngClass]="iconStatus"
-								(click)="toggle()"
-							></i>
+							<div class="password-wrapper">
+								<input
+									name="password"
+									required
+									[class.is-invalid]="
+										password.touched && password.errors
+									"
+									[(ngModel)]="model.password"
+									#password="ngModel"
+									[type]="passType"
+									class="form-control"
+								/>
+								<i
+									class="fa fa-lg password-icon"
+									[hidden]="!password.dirty"
+									[ngClass]="iconStatus"
+									(click)="toggle()"
+								></i>
+							</div>
+							<div
+								class="error"
+								*ngIf="password.touched && password.errors"
+							>
+								Password is required
+							</div>
 							<a href="">Forgot Password?</a>
 						</div>
+
 						<div class="button-group">
 							<button id="login-btn" type="submit">
 								<h4>Log In</h4>
@@ -69,71 +93,64 @@
 						(ngSubmit)="register()"
 						autocomplete="off"
 					>
-						<div class="register-control-group">
-							<h5>Name</h5>
-							<input
-								formControlName="name"
-								type="text"
-								class="form-control"
-							/>
+						<app-text-input
+							[formControl]="registerForm.controls['name']"
+							[label]="'Name'"
+						></app-text-input>
+						<app-text-input
+							[formControl]="registerForm.controls['username']"
+							[label]="'Username'"
+						></app-text-input
+						><app-text-input
+							[formControl]="registerForm.controls['email']"
+							[label]="'Email'"
+						></app-text-input>
+
+						<div class="register-control-group reg-password-div">
+							<h5>Password</h5>
+							<div class="password-wrapper">
+								<input
+									[class.is-invalid]="
+										registerForm.get('password').errors &&
+										registerForm.get('password').touched
+									"
+									formControlName="password"
+									#regpassword
+									[type]="passType"
+									class="form-control"
+									autocomplete="new-password"
+								/>
+								<i
+									class="fa fa-lg password-icon"
+									[hidden]="
+										!registerForm.controls['password'].dirty
+									"
+									[ngClass]="iconStatus"
+									(click)="toggle()"
+								></i>
+							</div>
 							<span
 								class="error"
 								*ngIf="
-									registerForm.controls['name'].touched &&
-									registerForm.controls['name'].errors
+									registerForm.controls['password'].touched &&
+									registerForm.controls['password'].errors
 								"
-								>Name is required</span
+								>Password is required</span
 							>
 						</div>
-						<div class="register-control-group">
-							<h5>Username</h5>
-							<input
-								formControlName="username"
-								type="text"
-								class="form-control"
-							/>
-							<span>Error</span>
-						</div>
-						<div class="register-control-group">
-							<h5>Email</h5>
-							<input
-								formControlName="email"
-								type="email"
-								class="form-control"
-							/>
-							<span>Error</span>
-						</div>
-						<div class="register-control-group reg-password-div">
-							<h5>Password</h5>
-							<input
-								formControlName="password"
-								#regpassword
-								[type]="passType"
-								class="form-control"
-								autocomplete="new-password"
-							/>
-							<span>Error</span>
-							<i
-								class="fa fa-lg password-icon"
-								[hidden]="
-									!registerForm.controls['password'].dirty
-								"
-								[ngClass]="iconStatus"
-								(click)="toggle()"
-							></i>
-						</div>
-						<div class="register-control-group reg-password-div">
-							<h5>Confirm Password</h5>
-							<input
-								formControlName="confirmpassword"
-								#confirmpassword
-								[type]="passType"
-								class="form-control"
-							/>
-							<span>Error</span>
-						</div>
+						<app-text-input
+							[formControl]="
+								registerForm.controls['confirmpassword']
+							"
+							[label]="'Confirm Password'"
+							[type]="'password'"
+						></app-text-input>
 						<div class="button-group">
-							<button id="register-btn" type="submit">
+							<button
+								id="register-btn"
+								[disabled]="!registerForm.valid"
+								type="submit"
+							>
 								<h4>Register</h4>
 							</button>
 						</div>

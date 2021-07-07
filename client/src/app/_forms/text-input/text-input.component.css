@@ -1,0 +1,32 @@
+.error {
+	color: red;
+	font-size: 0.8rem;
+}
+
+.register-control-group {
+	margin-bottom: 0.5rem;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	min-width: 0rem;
+}
+.register-control-group {
+	margin-bottom: 0.4rem;
+}
+.register-control-group > h5 {
+	align-self: flex-start;
+}
+
+.register-control-group input {
+	min-width: 350px;
+	max-width: 350px;
+}
+h5 {
+	font-size: 0.9rem;
+	font-weight: 500;
+	color: #4267ff;
+}
+
+.invalid-feedback {
+	margin-top: 0 !important;
+}

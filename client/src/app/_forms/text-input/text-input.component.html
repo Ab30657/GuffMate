@@ -1,0 +1,27 @@
+<div class="register-control-group">
+	<h5>{{ label }}</h5>
+	<input
+		[class.is-invalid]="ngControl.touched && ngControl.invalid"
+		[formControl]="ngControl.control"
+		type="{{ type }}"
+		class="form-control"
+	/>
+	<span
+		class="error invalid-feedback"
+		*ngIf="ngControl.control.errors?.required"
+		>{{ label }} is required</span
+	>
+	<span
+		class="error invalid-feedback"
+		*ngIf="ngControl.control.errors?.minlength"
+		>{{ label }} must be atleast
+		{{ ngControl.control.errors.minlength["requiredLength"] }}
+		characters</span
+	>
+
+	<span
+		class="error invalid-feedback"
+		*ngIf="ngControl.control.errors?.isMatch"
+		>Passwords do not match</span
+	>
+</div>
