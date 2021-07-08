@@ -20,6 +20,7 @@ import { SettingsComponent } from './dashboard-content/settings/settings.compone
 import { SettingsLeftComponent } from './dashboard-content/settings/settings-left/settings-left.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -34,6 +35,7 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 		SettingsComponent,
 		SettingsLeftComponent,
   TextInputComponent,
+  ProfileCompleteComponent,
 	],
 	imports: [
 		BrowserModule,

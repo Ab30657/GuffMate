@@ -30,6 +30,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	panel1;
 	panel2;
 	islogin = true;
+	loginValidationErrors: string[];
 	constructor(
 		private accountService: AccountService,
 		private router: Router,
@@ -44,10 +45,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	initRegForm(): void {
 		this.registerForm = this.fb.group({
 			name: ['', Validators.required],
-			email: ['', Validators.required],
+			email: ['', [Validators.required, Validators.email]],
 			username: ['', Validators.required],
 
-			password: ['', Validators.required],
+			password: ['', [Validators.required, Validators.minLength(6)]],
 			confirmpassword: [
 				'',
 				[Validators.required, this.matchValues('password')],
@@ -74,7 +75,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 				this.router.navigateByUrl('/discover');
 			},
 			(error) => {
-				console.log(error);
+				this.loginValidationErrors = error.error;
 			}
 		);
 	}
@@ -83,6 +84,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		this.accountService.register(this.registerForm.value).subscribe(
 			(response) => {
 				this.router.navigateByUrl('/discover');
+				//load animations
 			},
 			(error) => {
 				console.log(error);

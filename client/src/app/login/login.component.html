@@ -71,7 +71,20 @@
 							</div>
 							<a href="">Forgot Password?</a>
 						</div>
-
+						<div
+							*ngIf="loginValidationErrors?.length > 0"
+							style="
+								font-size: 0.9rem;
+								font-weight: 700;
+								display: flex;
+								justify-content: center;
+							"
+						>
+							<span class="text-danger"
+								><i class="fa fa-info-circle"></i> Invalid
+								Credentials</span
+							>
+						</div>
 						<div class="button-group">
 							<button id="login-btn" type="submit">
 								<h4>Log In</h4>
@@ -90,7 +103,7 @@
 					<form
 						[formGroup]="registerForm"
 						class="register-form"
-						(ngSubmit)="register()"
+						(ngSubmit)="registerForm.valid && register()"
 						autocomplete="off"
 					>
 						<app-text-input
@@ -134,8 +147,22 @@
 								*ngIf="
 									registerForm.controls['password'].touched &&
 									registerForm.controls['password'].errors
+										?.required
 								"
 								>Password is required</span
+							><span
+								class="error"
+								*ngIf="
+									registerForm.controls['password'].touched &&
+									registerForm.controls['password'].errors
+										?.minlength
+								"
+								>Password must be atleast
+								{{
+									registerForm.controls["password"].errors
+										?.minlength["requiredLength"]
+								}}
+								characters</span
 							>
 						</div>
 						<app-text-input

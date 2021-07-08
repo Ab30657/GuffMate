@@ -12,11 +12,16 @@ import { SettingsLeftComponent } from './dashboard-content/settings/settings-lef
 import { SettingsComponent } from './dashboard-content/settings/settings.component';
 
 const routes: Routes = [
-	{ path: 'login', component: LoginComponent },
+	{
+		path: 'login',
+		component: LoginComponent,
+		data: { animationState: 'one' },
+	},
 	{
 		path: '',
 		component: DashboardContentComponent,
 		canActivate: [AuthGuard],
+		data: { animationState: 'two' },
 		children: [
 			{
 				path: '',

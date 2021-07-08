@@ -8,6 +8,7 @@ namespace API.Entities
 	{
 		public DateTime DateOfBirth { get; set; }
 
+		public string Name { get; set; }
 		public string KnownAs { get; set; }
 
 		public DateTime LastActive { get; set; }

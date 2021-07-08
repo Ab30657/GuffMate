@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using API.Data;
@@ -8,6 +9,7 @@ using API.DTOs;
 using Microsoft.EntityFrameworkCore;
 using API.Interfaces;
 using Microsoft.AspNetCore.Identity;
+using AutoMapper;
 
 namespace API.Controllers
 {
@@ -16,9 +18,11 @@ namespace API.Controllers
 		private readonly ITokenService _tokenService;
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly UserManager<AppUser> _userManager;
+		private readonly IMapper _mapper;
 
-		public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService)
+		public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
 		{
+			_mapper = mapper;
 			_userManager = userManager;
 			_signInManager = signInManager;
 			_tokenService = tokenService;
@@ -32,18 +36,19 @@ namespace API.Controllers
 			{
 				return BadRequest("Username is taken!");
 			}
+			var user = _mapper.Map<AppUser>(registerDto);
 			using var hmac = new HMACSHA512();
-			var user = new AppUser
-			{
-				UserName = registerDto.Username.ToLower(),
-			};
+
+			user.UserName = registerDto.Username.ToLower();
+
 			var result = await _userManager.CreateAsync(user, registerDto.Password);
 
 			if (!result.Succeeded) return BadRequest(result.Errors);
 			return new UserDto
 			{
 				Username = user.UserName,
-				Token = _tokenService.CreateToken(user)
+				Token = _tokenService.CreateToken(user),
+				Name = user.Name
 			};
 		}
 		[HttpPost("login")]
@@ -56,7 +61,7 @@ namespace API.Controllers
 			}
 			var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
-			if (!result.Succeeded) return Unauthorized();
+			if (!result.Succeeded) return Unauthorized("Invalid Password");
 			return new UserDto
 			{
 				Username = user.UserName,
