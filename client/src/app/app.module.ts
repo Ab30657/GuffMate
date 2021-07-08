@@ -10,7 +10,7 @@ import { DiscoverComponent } from './dashboard-content/discover/discover.compone
 import { UserCardsComponent } from './dashboard-content/discover/user-cards/user-cards.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FriendRequestsComponent } from './dashboard-content/discover/discover-left/friend-requests/friend-requests.component';
+import { FriendRequestComponent } from './dashboard-content/discover/discover-left/friend-request/friend-request.component';
 import { MessagesComponent } from './dashboard-content/messages/messages.component';
 import { MessagesLeftComponent } from './dashboard-content/messages/messages-left/messages-left.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
@@ -21,6 +21,7 @@ import { SettingsLeftComponent } from './dashboard-content/settings/settings-lef
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
+import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -29,13 +30,14 @@ import { ProfileCompleteComponent } from './profile-complete/profile-complete.co
 		LoginComponent,
 		DiscoverComponent,
 		UserCardsComponent,
-		FriendRequestsComponent,
 		MessagesComponent,
 		MessagesLeftComponent,
 		SettingsComponent,
 		SettingsLeftComponent,
-  TextInputComponent,
-  ProfileCompleteComponent,
+		TextInputComponent,
+		ProfileCompleteComponent,
+		FriendRequestComponent,
+		DiscoverLeftComponent,
 	],
 	imports: [
 		BrowserModule,

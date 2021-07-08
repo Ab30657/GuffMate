@@ -47,12 +47,15 @@ i {
 .nav-logo {
 	padding-left: 1rem;
 }
-.nav-link:hover {
-	color: var(--fourth-color) !important;
+.nav-link:hover,
+.nav-link.active {
+	color: white !important;
 }
 
-.nav-link:hover .nav-icon {
+.nav-link:hover .nav-icon,
+.nav-link.active .nav-icon {
 	font-size: 1.25rem;
+	color: white !important;
 }
 
 .link {
