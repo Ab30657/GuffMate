@@ -8,7 +8,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 })
 export class ProfileCompleteComponent implements OnInit {
 	registerCompleteForm;
-	genders = ['Male', 'Female', 'Others'];
+	genders = ['Male', 'Female', 'Other'];
 	constructor(private fb: FormBuilder) {}
 
 	private initRegisterCompleteForm() {
