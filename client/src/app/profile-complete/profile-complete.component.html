@@ -1,1 +1,47 @@
-<p>profile-complete works!</p>
+<div class="glass">
+	<div class="loader">
+		<ngx-spinner bdColor="rgba(51,51,51,0.1)">
+			<h3>Welcome</h3>
+		</ngx-spinner>
+	</div>
+	<div class="profile-completion-dashboard">
+		<div class="verify-contact">
+			<form
+				[formGroup]="registerCompleteForm"
+				#completeRegister
+				class="complete-register-form"
+				autocomplete="off"
+				(ngSubmit)="SaveChanges()"
+			>
+				<div class="form-control-group">
+					<label for="gender">Gender</label>
+					<select
+						name="gender"
+						formControlName="gender"
+						class="custom-select"
+					>
+						<option value="">Choose your Gender</option>
+						<option
+							*ngFor="let gender of genders"
+							[ngValue]="gender"
+						>
+							{{ gender }}
+						</option>
+					</select>
+					<div
+						class="text-danger"
+						*ngIf="
+							registerCompleteForm.controls['gender'].touched &&
+							registerCompleteForm.controls['gender'].errors
+								?.required
+						"
+					>
+						Gender missing
+					</div>
+				</div>
+			</form>
+		</div>
+		<div class="profile-picture"></div>
+		<div class="save-changes"></div>
+	</div>
+</div>

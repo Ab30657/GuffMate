@@ -1,0 +1,43 @@
+.glass {
+	background: white;
+	min-height: 90vh;
+	width: 90vw;
+	background: linear-gradient(
+		to right bottom,
+		rgba(255, 255, 255, 0.7),
+		rgba(255, 255, 255, 0.3)
+	);
+	border-radius: 2rem;
+	z-index: 3;
+	backdrop-filter: blur(2rem);
+	display: flex;
+	position: relative;
+}
+
+.profile-completion-dashboard {
+	width: 100%;
+	padding: 2.5rem 3rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
+	border-radius: 2rem;
+	position: relative;
+	overflow: hidden;
+}
+
+.profile-completion-dashboard > div {
+	height: 100%;
+	flex: 1;
+	margin-right: 20px;
+}
+.profile-picture {
+}
+
+.verify-contact {
+}
+
+.save-changes {
+	margin-right: 0px !important;
+	background-color: red;
+}

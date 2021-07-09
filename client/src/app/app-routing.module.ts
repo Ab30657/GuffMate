@@ -11,12 +11,17 @@ import { combineAll } from 'rxjs/operators';
 import { SettingsLeftComponent } from './dashboard-content/settings/settings-left/settings-left.component';
 import { SettingsComponent } from './dashboard-content/settings/settings.component';
 import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
+import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
 
 const routes: Routes = [
 	{
 		path: 'login',
 		component: LoginComponent,
 		data: { animationState: 'one' },
+	},
+	{
+		path: 'profilecompletion',
+		component: ProfileCompleteComponent,
 	},
 	{
 		path: '',
