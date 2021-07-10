@@ -14,6 +14,7 @@ export class ProfileCompleteComponent implements OnInit {
 	private initRegisterCompleteForm() {
 		this.registerCompleteForm = this.fb.group({
 			gender: ['', [Validators.required]],
+			status: ['', [Validators.maxLength(75)]],
 		});
 	}
 

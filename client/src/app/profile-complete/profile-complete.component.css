@@ -12,6 +12,7 @@
 	backdrop-filter: blur(2rem);
 	display: flex;
 	position: relative;
+	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 	overflow: hidden;
 }
 .glass > svg {
@@ -51,6 +52,7 @@
 
 .save-changes {
 	margin-right: 0px !important;
+
 	padding-right: 0px !important;
 }
 .select {
@@ -201,6 +203,12 @@ label {
 	border: none;
 	box-shadow: 0px 1em 2em -1.5em rgba(0, 0, 0, 0.5);
 }
+.status-input > textarea {
+	height: auto;
+	font-size: 0.8rem;
+	color: black;
+	resize: none;
+}
 .phone-number {
 	padding: 1rem 0;
 	padding-top: 0;
@@ -252,4 +260,93 @@ label {
 	margin-top: -10px;
 	height: auto !important;
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
+}
+
+.interest-wrapper {
+	display: flex;
+	background: #fff;
+	border-radius: 0.25rem 0.25rem 0 0;
+	padding: 1rem;
+}
+.interest-list {
+	list-style: none;
+	width: 100%;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+.interest-list > li {
+	display: inline-block;
+}
+.interest-list > .interest-item {
+	padding: 0;
+	margin: 8px 4px;
+	border: 3px solid #2288fa;
+	border-radius: 0.3rem;
+	box-shadow: none;
+	background: transparent;
+}
+.interest-item {
+	position: relative;
+}
+
+.interest-item > a {
+	position: absolute;
+	top: 0.4rem;
+	left: 10px;
+}
+
+.interest-item > div > span {
+	font-weight: normal;
+	text-align: center;
+	text-decoration: none;
+	line-height: 1;
+	white-space: nowrap;
+	display: inline-block;
+	position: relative;
+	padding: 1rem 1.5rem 1rem 2rem;
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	color: #9ecbff;
+}
+
+.interest-item i {
+	font-size: 20px;
+}
+.interest-input-section {
+	width: 100%;
+	display: flex;
+	left: 50%;
+	height: 75px;
+	border-radius: 0 0 15px 15px;
+	overflow: hidden;
+	z-index: 2;
+	transition: all 0.2s ease-in;
+}
+.interest-input {
+	background: white;
+	color: #8f8fd6;
+	width: 80%;
+	border: 0;
+	padding: 20px 40px;
+	margin: 0;
+}
+
+.animated-button {
+	width: 20%;
+	background-color: #9ecbff;
+}
+.animated-button span {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	line-height: 75px;
+	text-align: center;
+	height: 75px;
+	transition: all 0.2s ease-in;
+}
+.animated-button span i {
+	font-size: 25px;
+	color: #2288fa;
 }

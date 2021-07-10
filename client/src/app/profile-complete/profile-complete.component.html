@@ -76,7 +76,60 @@
 				</div>
 			</div>
 		</div>
-		<div class="save-changes"></div>
+		<div class="save-changes">
+			<form [formGroup]="registerCompleteForm">
+				<div class="form-control-group">
+					<label for="status">Status</label>
+					<div class="status-input">
+						<textarea
+							rows="2"
+							wrap="hard"
+							maxlength="75"
+							class="form-control"
+							formControlName="status"
+						>
+						</textarea>
+					</div>
+				</div>
+				<div class="form-control-group">
+					<label for="interests">Interests</label>
+					<div class="interest-wrapper">
+						<ul class="interest-list">
+							<li class="interest-item">
+								<div>
+									<span>Coding</span>
+								</div>
+							</li>
+							<li class="interest-item">
+								<div>
+									<span>Cooking</span>
+								</div>
+							</li>
+							<li class="interest-item">
+								<div>
+									<span>Soccer</span>
+								</div>
+							</li>
+						</ul>
+					</div>
+					<div class="interest-input-section">
+						<input
+							class="interest-input"
+							type="text"
+							placeholder="ADD YOUR INTERESTS HERE"
+							autocomplete="off"
+						/>
+						<div class="animated-button">
+							<span class="icon-paper-plane"
+								><i class="fa fa-trophy"></i></span
+							><span class="next-button email"
+								><i class="fa fa-arrow-up"></i
+							></span>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
 	</div>
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
 		<path
