@@ -1,3 +1,6 @@
+button {
+	background: white;
+}
 .glass {
 	background: white;
 	min-height: 90vh;
@@ -40,6 +43,8 @@
 	height: 100%;
 	flex: 1;
 	padding: 0 20px;
+	display: flex;
+	flex-direction: column;
 }
 .profile-picture {
 	border-right: 2px solid rgba(63, 164, 232, 0.7);
@@ -266,7 +271,7 @@ label {
 	display: flex;
 	background: #fff;
 	border-radius: 0.25rem 0.25rem 0 0;
-	padding: 1rem;
+	padding: 0.75rem;
 }
 .interest-list {
 	list-style: none;
@@ -274,6 +279,7 @@ label {
 	display: flex;
 	justify-content: space-evenly;
 	align-items: center;
+	flex-wrap: wrap;
 }
 .interest-list > li {
 	display: inline-block;
@@ -281,10 +287,11 @@ label {
 .interest-list > .interest-item {
 	padding: 0;
 	margin: 8px 4px;
-	border: 3px solid #2288fa;
 	border-radius: 0.3rem;
 	box-shadow: none;
-	background: transparent;
+	background: #2288fa;
+	color: white;
+	cursor: pointer;
 }
 .interest-item {
 	position: relative;
@@ -304,8 +311,8 @@ label {
 	white-space: nowrap;
 	display: inline-block;
 	position: relative;
-	padding: 1rem 1.5rem 1rem 2rem;
-	font-size: 1.2rem;
+	padding: 0.8rem 2.5rem 0.8rem 1.3rem;
+	font-size: 0.8rem;
 	text-transform: uppercase;
 	color: #9ecbff;
 }
@@ -317,7 +324,7 @@ label {
 	width: 100%;
 	display: flex;
 	left: 50%;
-	height: 75px;
+	height: 50px;
 	border-radius: 0 0 15px 15px;
 	overflow: hidden;
 	z-index: 2;
@@ -326,14 +333,23 @@ label {
 .interest-input {
 	background: white;
 	color: #8f8fd6;
-	width: 80%;
+	width: 85%;
 	border: 0;
 	padding: 20px 40px;
 	margin: 0;
+	font-size: 0.8rem;
 }
-
+.interest-div-wrapper {
+	border-radius: 0 0 15px 15px;
+}
+.interest-div-wrapper:focus-within {
+	background-color: #fff;
+	border-color: #80bdff;
+	outline: 0;
+	box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
 .animated-button {
-	width: 20%;
+	width: 15%;
 	background-color: #9ecbff;
 }
 .animated-button span {
@@ -341,12 +357,135 @@ label {
 	flex-direction: row;
 	justify-content: space-around;
 	align-items: center;
-	line-height: 75px;
+	line-height: 50px;
 	text-align: center;
-	height: 75px;
+	height: 50px;
 	transition: all 0.2s ease-in;
 }
 .animated-button span i {
-	font-size: 25px;
+	font-size: 20px;
 	color: #2288fa;
+}
+
+.save-btn,
+.delete-btn {
+	width: 100%;
+	padding: 0.8rem 1.3rem;
+	border-radius: 0.2rem;
+	border: none;
+	font-size: 1rem;
+	color: white;
+	cursor: pointer;
+	font-weight: 700;
+	background: #2288fa;
+	text-transform: uppercase;
+}
+.save-btn:hover {
+	background: #1d70cf;
+}
+.form-control-group.save {
+	justify-self: flex-end;
+}
+
+.save-changes > form {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.delete-btn {
+	background: red;
+	color: white;
+	margin-top: 10px;
+}
+
+.delete-btn:hover {
+	background: rgb(201, 0, 0);
+}
+
+.next {
+	margin-top: -50px;
+}
+.next-button:hover {
+	cursor: pointer;
+}
+.next-button:active {
+	background: #8db4e0;
+}
+
+.button span,
+.button .icon {
+	display: block;
+	height: 100%;
+	text-align: center;
+	position: absolute;
+	top: 0;
+}
+.button .icon {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.button span {
+	width: 72%;
+	line-height: inherit;
+	font-size: 22px;
+	text-transform: uppercase;
+	left: 0;
+	transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
+}
+.button span:after {
+	content: "";
+	background-color: #1d70cf;
+	width: 2px;
+	height: 70%;
+	position: absolute;
+	top: 15%;
+	right: -1px;
+}
+.button .icon {
+	width: 28%;
+	right: 0;
+	transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
+}
+.button .icon .fa {
+	font-size: 16px;
+	vertical-align: middle;
+	transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4),
+		height 0.25s ease;
+}
+.button .icon .fa-remove {
+}
+.button .icon .fa-check {
+	display: none;
+}
+.button.success span,
+.button:hover span {
+	left: -72%;
+	opacity: 0;
+}
+.button.success .icon,
+.button:hover .icon {
+	width: 100%;
+}
+.button.success .icon .fa,
+.button:hover .icon .fa {
+	font-size: 20px;
+}
+.button.success {
+	background-color: #27ae60;
+}
+.button.success .icon .fa-remove {
+	display: none;
+}
+.button.success .icon .fa-check {
+	display: inline-block;
+}
+.button:hover {
+	opacity: 0.9;
+}
+.button:hover .icon .fa-remove {
+}
+.button:active {
+	opacity: 1;
 }
