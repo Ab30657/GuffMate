@@ -14,25 +14,30 @@
 				autocomplete="off"
 				(ngSubmit)="SaveChanges()"
 			>
-				<div class="form-control-group">
-					<label for="gender">GENDER</label>
-					<div class="select animated zoomIn">
-						<!-- You can toggle select (disabled) -->
-						<input type="radio" name="gender" />
-						<i class="toggle fa fa-2x fa-angle-down"></i>
-						<i class="toggle fa fa-2x fa-angle-up"></i>
-						<span class="placeholder">Choose...</span>
-						<label *ngFor="let gender of genders" class="option">
-							<input
-								type="radio"
-								name="gender"
-								[value]="gender"
-								formControlName="gender"
-							/>
-							<span class="title animated fadeIn">
-								{{ gender }}
-							</span>
-						</label>
+				<div class="form-control-group gender">
+					<div class="gender-wrapper">
+						<label for="gender">GENDER</label>
+						<div class="select animated zoomIn">
+							<!-- You can toggle select (disabled) -->
+							<input type="radio" name="gender" />
+							<i class="toggle fa fa-2x fa-angle-down"></i>
+							<i class="toggle fa fa-2x fa-angle-up"></i>
+							<span class="placeholder">Choose...</span>
+							<label
+								*ngFor="let gender of genders"
+								class="option"
+							>
+								<input
+									type="radio"
+									name="gender"
+									[value]="gender"
+									formControlName="gender"
+								/>
+								<span class="title animated fadeIn">
+									{{ gender }}
+								</span>
+							</label>
+						</div>
 					</div>
 				</div>
 				<div class="form-control-group">
@@ -43,7 +48,42 @@
 						password and an authentication code from your mobile
 						phone in order to sign in.
 					</p>
-					<button class="two-fa-btn">Enable Two-Factor Auth</button>
+					<button class="two-fa-btn" (click)="triggerModal(twofa)">
+						Enable Two-Factor Auth
+					</button>
+
+					<ng-template #twofa let-modal>
+						<div class="modal-header">
+							<h4 class="modal-title" id="modal-basic-title">
+								Enable Two-Factor Auth
+							</h4>
+							<button
+								type="button"
+								class="close text-danger"
+								aria-label="Close"
+								(click)="modal.dismiss('Cross click')"
+							>
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p>
+								Download Authy App in your mobile and then enter
+								the OTP.
+							</p>
+							<br />
+							<input class="form-control w-100" />
+						</div>
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn text-danger btn-danger"
+								(click)="modal.close('Save click')"
+							>
+								Close
+							</button>
+						</div>
+					</ng-template>
 				</div>
 				<div class="form-control-group">
 					<label for="">SMS BACKUP AUTHENICATION</label>
@@ -52,11 +92,40 @@
 						your authentication app.
 					</p>
 					<div class="phone-number">
-						<input type="text" />
+						<input type="text" class="form-control" />
 					</div>
-					<button class="two-fa-btn">
+					<button class="two-fa-btn" (click)="triggerModal(smsauth)">
 						Enable SMS Authentication
 					</button>
+					<ng-template #smsauth let-modal>
+						<div class="modal-header">
+							<h4 class="modal-title" id="modal-basic-title">
+								Enable SMS Authentication
+							</h4>
+							<button
+								type="button"
+								class="close text-danger"
+								aria-label="Close"
+								(click)="modal.dismiss('Cross click')"
+							>
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<p>Enter the OTP sent to your mobile phone.</p>
+							<br />
+							<input class="form-control w-100" />
+						</div>
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn text-danger btn-danger"
+								(click)="modal.close('Save click')"
+							>
+								Close
+							</button>
+						</div>
+					</ng-template>
 				</div>
 			</form>
 		</div>
@@ -95,28 +164,18 @@
 					<div class="interest-div-wrapper">
 						<div class="interest-wrapper" [ngClass]>
 							<ul class="interest-list">
-								<li class="interest-item">
+								<li
+									*ngFor="
+										let interest of interestList$ | async
+									"
+									class="interest-item"
+								>
 									<div class="button">
-										<span>Coding</span>
-										<div class="icon">
-											<i class="fa fa-remove"></i>
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-								</li>
-								<li class="interest-item">
-									<div class="button">
-										<span>Cooking</span>
-										<div class="icon">
-											<i class="fa fa-remove"></i>
-											<i class="fa fa-check"></i>
-										</div>
-									</div>
-								</li>
-								<li class="interest-item">
-									<div class="button">
-										<span>Soccer</span>
-										<div class="icon">
+										<span>{{ interest }}</span>
+										<div
+											class="icon"
+											(click)="removeInterest(interest)"
+										>
 											<i class="fa fa-remove"></i>
 											<i class="fa fa-check"></i>
 										</div>
@@ -138,7 +197,9 @@
 									class="icon-paper-plane"
 									[ngClass]="interest ? 'next' : ''"
 									><i class="fa fa-trophy"></i></span
-								><span class="next-button email"
+								><span
+									class="next-button add-up"
+									(click)="addInterest()"
 									><i class="fa fa-arrow-up"></i
 								></span>
 							</div>

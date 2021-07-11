@@ -88,7 +88,8 @@ label {
 	width: 100%;
 	height: 100%;
 	padding: 1em 1.5em;
-	background: white;
+	background: #2288fa;
+	color: white;
 	border-top: 1px solid rgba(0, 0, 0, 0.05);
 	cursor: pointer;
 }
@@ -124,15 +125,12 @@ label {
 .select > input:not(:checked) ~ i.fa.fa-angle-down {
 	display: block;
 }
-.select > input:disabled {
-	cursor: no-drop;
-}
 .select > span.placeholder {
 	position: relative;
 	z-index: 0;
 	display: inline-block;
 	width: 100%;
-	color: #999;
+	color: white;
 	border-top: 0px;
 }
 .select label.option {
@@ -153,7 +151,7 @@ label {
 }
 .select label.option span.title:hover {
 	color: #fff;
-	background: rgba(255, 255, 255, 0.3);
+	background: #1d70cf;
 	box-shadow: inset 0px 1px 0px rgba(0, 0, 0, 0.1);
 }
 .select label.option input {
@@ -165,18 +163,27 @@ label {
 	z-index: 3;
 	top: 0px;
 	font-size: 12px;
-	background: #fff;
+	background: #2288fa;
 	border-top: 0px;
 	box-shadow: none;
-	color: inherit;
+	color: white;
 	width: 100%;
 }
 .form-control-group {
 	padding: 1rem 0.5rem;
 }
-.form-control-group > label {
+.form-control-group > label,
+.gender-wrapper > label {
 	padding-bottom: 0.5rem;
 	font-weight: 700;
+}
+.gender-wrapper {
+	position: absolute;
+	width: 100%;
+}
+.form-control-group.gender {
+	position: relative;
+	margin-bottom: 70px;
 }
 
 .form-control-group > p {
@@ -454,7 +461,8 @@ label {
 	transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4),
 		height 0.25s ease;
 }
-.button .icon .fa-remove {
+.button {
+	overflow: hidden;
 }
 .button .icon .fa-check {
 	display: none;
@@ -488,4 +496,7 @@ label {
 }
 .button:active {
 	opacity: 1;
+}
+li > .deleted {
+	display: none;
 }

@@ -22,6 +22,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
 import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -48,6 +49,7 @@ import { DiscoverLeftComponent } from './dashboard-content/discover/discover-lef
 		ReactiveFormsModule,
 		NgxSpinnerModule,
 		TabsModule,
+		NgbModule,
 	],
 	providers: [
 		{
