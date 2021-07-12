@@ -17,7 +17,6 @@ export class ProfileCompleteComponent implements OnInit {
 	registerCompleteForm;
 	interest;
 	interestList = ['S', 'Cooking', 'Soccer', 'MMA', 'Basketball'];
-	interestList$ = of(this.interestList);
 	closeModal;
 	genders = ['Male', 'Female', 'Other'];
 	constructor(private fb: FormBuilder, private modalService: NgbModal) {}
@@ -33,9 +32,14 @@ export class ProfileCompleteComponent implements OnInit {
 	ngOnInit(): void {
 		this.initRegisterCompleteForm();
 	}
-	SaveChanges() {}
+	SaveChanges() {
+		this.registerCompleteForm.controls['interests'].setValue(
+			this.interestList
+		);
+	}
 	addInterest() {
 		this.interestList.push(this.interest);
+		this.interest = '';
 	}
 	removeInterest(interest) {
 		this.interestList = this.interestList.filter((x) => x !== interest);

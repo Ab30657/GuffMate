@@ -287,6 +287,10 @@ label {
 	justify-content: space-evenly;
 	align-items: center;
 	flex-wrap: wrap;
+	align-content: flex-start;
+	max-height: 165px;
+	overflow-y: auto;
+	margin-bottom: 0 !important;
 }
 .interest-list > li {
 	display: inline-block;
@@ -434,7 +438,6 @@ label {
 	align-items: center;
 }
 .button span {
-	width: 72%;
 	line-height: inherit;
 	font-size: 22px;
 	text-transform: uppercase;
@@ -442,16 +445,16 @@ label {
 	transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
 }
 .button span:after {
-	content: "";
+	/* content: "";
 	background-color: #1d70cf;
 	width: 2px;
 	height: 70%;
 	position: absolute;
 	top: 15%;
-	right: -1px;
+	right: -1px; */
 }
 .button .icon {
-	width: 28%;
+	width: 40px;
 	right: 0;
 	transition: all 0.25s cubic-bezier(0.31, -0.105, 0.43, 1.4);
 }
@@ -463,6 +466,8 @@ label {
 }
 .button {
 	overflow: hidden;
+	display: flex;
+	min-width: 100px;
 }
 .button .icon .fa-check {
 	display: none;

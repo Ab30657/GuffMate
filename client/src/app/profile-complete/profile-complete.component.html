@@ -8,6 +8,7 @@
 		<div class="page-heading">Complete Your Profile</div>
 		<div class="verify-contact">
 			<form
+				id="registerCompleteForm"
 				[formGroup]="registerCompleteForm"
 				#completeRegister
 				class="complete-register-form"
@@ -166,7 +167,9 @@
 							<ul class="interest-list">
 								<li
 									*ngFor="
-										let interest of interestList$ | async
+										let interest of interestList
+											.slice()
+											.reverse()
 									"
 									class="interest-item"
 								>
@@ -191,6 +194,8 @@
 								placeholder="ADD YOUR INTERESTS HERE"
 								autocomplete="off"
 								[ngModelOptions]="{ standalone: true }"
+								(keyup.enter)="addInterest()"
+								(keyup.space)="addInterest()"
 							/>
 							<div class="animated-button">
 								<span
@@ -207,7 +212,7 @@
 					</div>
 				</div>
 				<div class="form-control-group save">
-					<button class="save-btn">
+					<button form="registerCompleteForm" class="save-btn">
 						<span class="submit">Save Changes</span>
 					</button>
 					<button class="delete-btn">
@@ -225,3 +230,4 @@
 		></path>
 	</svg>
 </div>
+{{ registerCompleteForm.value | json }}
