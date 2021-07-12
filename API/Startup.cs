@@ -37,8 +37,10 @@ namespace API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
 			services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 			services.AddScoped<IUserRepository, UserRepository>();
+			services.AddScoped<IPhotoService, PhotoService>();
 			services.AddScoped<ITokenService, TokenService>();
 			services.AddDbContext<DataContext>(options =>
 			{

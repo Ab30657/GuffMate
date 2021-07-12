@@ -25,7 +25,7 @@
 						#loginForm="ngForm"
 						class="login-form"
 						(ngSubmit)="login()"
-						autocomplete="off"
+						autocomplete="on"
 					>
 						<div class="login-control-group">
 							<h5>Username</h5>
@@ -109,7 +109,7 @@
 						[formGroup]="registerForm"
 						class="register-form"
 						(ngSubmit)="registerForm.valid && register()"
-						autocomplete="off"
+						autocomplete="on"
 					>
 						<app-text-input
 							[formControl]="registerForm.controls['name']"
@@ -136,7 +136,7 @@
 									#regpassword
 									[type]="passType"
 									class="form-control"
-									autocomplete="new-password"
+									autocomplete="on"
 								/>
 								<i
 									class="fa fa-lg password-icon"

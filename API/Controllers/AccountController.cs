@@ -68,6 +68,12 @@ namespace API.Controllers
 				Token = _tokenService.CreateToken(user)
 			};
 		}
+
+		[HttpPost("profile-completion")]
+		public async Task<ActionResult<UserDto>> ProfileComplete()
+		{
+			return Ok();
+		}
 		private async Task<bool> UserExists(string username)
 		{
 			return await _userManager.Users.AnyAsync(x => x.UserName == username.ToLower());

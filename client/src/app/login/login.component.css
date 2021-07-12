@@ -322,19 +322,19 @@ hr {
 @keyframes wiggle {
 	10%,
 	90% {
-		transform: translateX(-3%);
+		transform: translate3d(-3px, 0, 0);
 	}
 	20%,
 	80% {
-		transform: translateX(4%);
+		transform: translate3d(4px, 0, 0);
 	}
 	30%,
 	50%,
 	70% {
-		transform: translateX(-5%);
+		transform: translate3d(-5px, 0, 0);
 	}
 	40%,
 	60% {
-		transform: translateX(5%);
+		transform: translate3d(5px, 0, 0);
 	}
 }

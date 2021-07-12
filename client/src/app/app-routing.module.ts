@@ -22,6 +22,7 @@ const routes: Routes = [
 	{
 		path: 'profilecompletion',
 		component: ProfileCompleteComponent,
+		canActivate: [AuthGuard],
 	},
 	{
 		path: '',

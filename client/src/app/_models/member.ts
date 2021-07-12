@@ -2,11 +2,14 @@ import { Photo } from './photo';
 
 export interface Member {
 	id: number;
-	username: string;
+	name: string;
 	photoUrl: string;
-	knownAs: string;
+	username: string;
 	gender: string;
 	status: string;
 	lastActive: Date;
 	photos: Photo[];
+	twoFAEnabled: boolean;
+	SmsAuthEnabled: boolean;
+	interests: string[];
 }

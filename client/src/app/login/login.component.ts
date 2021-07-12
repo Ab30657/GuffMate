@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	register() {
 		this.accountService.register(this.registerForm.value).subscribe(
 			(response) => {
-				this.router.navigateByUrl('/discover');
+				this.router.navigateByUrl('/profilecompletion');
 				//load animations
 			},
 			(error) => {
