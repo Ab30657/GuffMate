@@ -14,6 +14,7 @@ import { of } from 'rxjs';
 	styleUrls: ['./profile-complete.component.css'],
 })
 export class ProfileCompleteComponent implements OnInit {
+	cardStyle;
 	registerCompleteForm;
 	interest;
 	interestList = ['S', 'Cooking', 'Soccer', 'MMA', 'Basketball'];
@@ -36,6 +37,9 @@ export class ProfileCompleteComponent implements OnInit {
 		this.registerCompleteForm.controls['interests'].setValue(
 			this.interestList
 		);
+	}
+	enlarge() {
+		this.cardStyle = !this.cardStyle;
 	}
 	addInterest() {
 		this.interestList.push(this.interest);

@@ -145,6 +145,21 @@
 					</button>
 				</div>
 			</div>
+			<div class="form-control-group" id="gallery-form">
+				<div class="gallery">
+					<label for="" class="font-weight-bold">Gallery</label>
+					<div class="grandparent">
+						<div class="gallery-row">
+							<app-gallery-image
+								*ngFor="let a of [1, 2, 3, 4]"
+							></app-gallery-image>
+							<div class="gallery-link">
+								<span>See more...</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="save-changes">
 			<form [formGroup]="registerCompleteForm">
@@ -230,4 +245,4 @@
 		></path>
 	</svg>
 </div>
-{{ registerCompleteForm.value | json }}
+<!-- {{ registerCompleteForm.value | json }} -->

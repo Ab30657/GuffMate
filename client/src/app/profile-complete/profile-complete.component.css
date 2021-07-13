@@ -229,8 +229,8 @@ label {
 	text-align: center;
 }
 .img-div > img {
-	width: 200px;
-	height: 200px;
+	width: 100px;
+	height: 100px;
 }
 
 .upload-btn > i,
@@ -504,4 +504,45 @@ label {
 }
 li > .deleted {
 	display: none;
+}
+
+.gallery-row {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	align-content: flex-start;
+	flex-wrap: wrap;
+	max-width: 400px;
+}
+.gallery-row-wrapper {
+	position: relative;
+}
+.parent {
+	position: relative;
+	width: 109px;
+	height: 109px;
+	margin: 0 auto;
+}
+#gallery-form {
+	height: 100%;
+}
+
+.gallery-link {
+	height: 109px;
+	width: 109px;
+	background: #2288fa;
+	text-transform: uppercase;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: 400;
+	cursor: pointer;
+	color: white;
+}
+.gallery-link > span {
+	font-size: 0.8rem;
+	letter-spacing: 1px;
+}
+.gallery-link:hover {
+	background: #1d70cf;
 }
