@@ -9,7 +9,6 @@ namespace API.Entities
 		public DateTime DateOfBirth { get; set; }
 
 		public string Name { get; set; }
-		public string KnownAs { get; set; }
 
 		public DateTime LastActive { get; set; }
 		public string Gender { get; set; }
@@ -18,5 +17,6 @@ namespace API.Entities
 
 		public ICollection<Photo> Photos { get; set; }
 		public ICollection<AppUserRole> UserRoles { get; set; }
+		public ICollection<AppUserInterest> UserInterests { get; set; }
 	}
 }
