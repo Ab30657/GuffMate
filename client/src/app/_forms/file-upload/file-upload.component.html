@@ -1,0 +1,12 @@
+<input
+	type="file"
+	class="file-input"
+	accept="image/*"
+	(change)="onFileSelected($event)"
+	#fileUpload
+/>
+<div class="file-upload">
+	<button class="upload-btn" (click)="fileUpload.click()">
+		<i class="fa fa-lg fa-file-image-o"></i>Upload Image
+	</button>
+</div>

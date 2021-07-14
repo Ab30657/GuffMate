@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -10,6 +10,7 @@ export class GalleryImageComponent implements OnInit {
 	cardStyle: boolean;
 	zIndexReset: boolean;
 	@Input() photo;
+	@Output() OldPhoto = new EventEmitter();
 	constructor() {}
 
 	ngOnInit(): void {
@@ -18,5 +19,9 @@ export class GalleryImageComponent implements OnInit {
 
 	enlarge() {
 		this.cardStyle = !this.cardStyle;
+	}
+
+	SetOldPhoto(e) {
+		this.OldPhoto.emit(e);
 	}
 }

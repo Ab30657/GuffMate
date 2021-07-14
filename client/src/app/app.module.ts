@@ -24,6 +24,8 @@ import { ProfileCompleteComponent } from './profile-complete/profile-complete.co
 import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryImageComponent } from './gallery-image/gallery-image.component';
+import { FileUploadComponent } from './_forms/file-upload/file-upload.component';
+import { ImageCropperModule } from 'ngx-image-cropper';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -40,7 +42,8 @@ import { GalleryImageComponent } from './gallery-image/gallery-image.component';
 		ProfileCompleteComponent,
 		FriendRequestComponent,
 		DiscoverLeftComponent,
-  GalleryImageComponent,
+		GalleryImageComponent,
+		FileUploadComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -52,6 +55,7 @@ import { GalleryImageComponent } from './gallery-image/gallery-image.component';
 		NgxSpinnerModule,
 		TabsModule,
 		NgbModule,
+		ImageCropperModule,
 	],
 	providers: [
 		{

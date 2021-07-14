@@ -228,11 +228,20 @@ label {
 .profile-picture > .form-control-group {
 	text-align: center;
 }
-.img-div > img {
+.img-div {
+	display: flex;
+	justify-content: center;
+}
+.img-div img {
 	width: 100px;
 	height: 100px;
+	object-fit: cover;
 }
-
+.img-wrapper {
+	border-radius: 50%;
+	border: 3px solid rgba(24, 197, 102, 0.8);
+	overflow: hidden;
+}
 .upload-btn > i,
 .delete-img-btn > i {
 	padding: 0 1rem;
@@ -553,4 +562,8 @@ li > .deleted {
 .gallery-link:hover {
 	background: #1d70cf;
 	flex: 1 0 auto;
+}
+.cropper-wrapper {
+	max-height: 80vh;
+	overflow: scroll;
 }

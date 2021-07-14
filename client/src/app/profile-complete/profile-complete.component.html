@@ -1,9 +1,4 @@
 <div class="glass">
-	<div class="loader">
-		<ngx-spinner bdColor="rgba(51,51,51,0.1)">
-			<h3>Welcome</h3>
-		</ngx-spinner>
-	</div>
 	<div class="profile-completion-dashboard">
 		<div class="page-heading">Complete Your Profile</div>
 		<div class="verify-contact">
@@ -134,12 +129,57 @@
 			<div class="form-control-group">
 				<label for="profile-dp">PROFILE PICTURE</label>
 				<div class="img-div">
-					<img src="./assets/profile.png" alt="" />
+					<div class="img-wrapper">
+						<img
+							[src]="croppedImage || './assets/profile.png'"
+							alt=""
+						/>
+					</div>
 				</div>
 				<div class="img-tools">
-					<button class="upload-btn">
-						<i class="fa fa-lg fa-file-image-o"></i>Upload Image
-					</button>
+					<app-file-upload
+						(img)="onImageChanged($event, photoEditor)"
+					></app-file-upload>
+					<ng-template #photoEditor let-modal>
+						<div class="modal-header">
+							<h4 class="modal-title" id="modal-basic-title">
+								Choose the part of the image you want as display
+								picture
+							</h4>
+							<button
+								type="button"
+								class="close text-danger"
+								aria-label="Close"
+								(click)="modal.dismiss('Cross click')"
+							>
+								<span aria-hidden="true">×</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="cropper-wrapper">
+								<image-cropper
+									[imageChangedEvent]="imageChangedEvent"
+									[maintainAspectRatio]="true"
+									[aspectRatio]="1 / 1"
+									[resizeToWidth]="256"
+									format="jpg"
+									(imageCropped)="imageCropped($event)"
+									(imageLoaded)="imageLoaded()"
+									(cropperReady)="cropperReady()"
+									(loadImageFailed)="loadImageFailed()"
+								></image-cropper>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn text-success btn-danger"
+								(click)="modal.close('Save click')"
+							>
+								Save
+							</button>
+						</div>
+					</ng-template>
 					<button class="delete-img-btn">
 						<i class="fa fa-lg fa-trash"></i>Delete Image
 					</button>
@@ -151,8 +191,9 @@
 					<div class="grandparent">
 						<div class="gallery-row">
 							<app-gallery-image
-								*ngFor="let a of member?.photos"
+								*ngFor="let a of member?.photos | slice: 0:4"
 								[photo]="a"
+								(OldPhoto)="SetOldPhoto($event)"
 							></app-gallery-image>
 							<div class="gallery-link">
 								<span>See more...</span>

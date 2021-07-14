@@ -46,13 +46,18 @@
 }
 
 .wrapper.open .content {
-	transform: scale(1);
+	transform: scale(0.9);
 }
 
 .wrapper .img {
 	height: 180px;
-	background-size: cover;
 	background-position: center;
+	background-size: contain;
+}
+.wrapper.open .img {
+	background-size: cover;
+	height: 100%;
+	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 }
 .wrapper .img:hover {
 	filter: brightness(70%);
@@ -63,11 +68,16 @@
 .img {
 	background-image: url("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg");
 }
-
-.text {
-	padding: 30px;
+img {
 }
-
+.text {
+	position: absolute;
+	bottom: -100%;
+	width: 100%;
+}
+.wrapper.open .text {
+	bottom: 0;
+}
 .text .line {
 	height: 13px;
 	background: #999;
@@ -75,14 +85,22 @@
 	margin-top: 20px;
 }
 
-.title {
-	width: 80%;
-}
-
-.subtitle {
-	width: 60%;
-}
-
 .gallery-pic-container {
 	padding: 0.25rem;
+}
+
+.text > button {
+	width: 100%;
+	border: none;
+	padding: 1rem;
+	text-transform: uppercase;
+	font-size: 0.875rem;
+	background-color: #24d68d;
+	color: white;
+	font-weight: 700;
+	cursor: pointer;
+}
+
+.text > button:hover {
+	background-color: #1a9c66;
 }

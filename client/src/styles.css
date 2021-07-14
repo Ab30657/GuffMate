@@ -37,6 +37,12 @@
 .nav-item .nav-link.active:hover {
 	background: #007bff !important;
 }
+
+.modal-dialog {
+	max-width: none;
+	width: 80%;
+}
+
 * {
 	margin: 0;
 	padding: 0;

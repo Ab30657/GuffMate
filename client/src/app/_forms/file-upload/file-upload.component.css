@@ -1,0 +1,23 @@
+.upload-btn {
+	padding: 0.8rem 1.3rem;
+	border-radius: 0.2rem;
+	border: 3px solid #2288fa;
+	font-size: 0.8rem;
+	color: #2288fa;
+	cursor: pointer;
+	width: 100%;
+	font-weight: 700;
+	background: white;
+}
+.upload-btn:hover {
+	background: #2288fa;
+	color: white;
+}
+.upload-btn > i {
+	padding: 0 1rem;
+	padding-left: 0;
+	vertical-align: middle;
+}
+.file-input {
+	display: none;
+}

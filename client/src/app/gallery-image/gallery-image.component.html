@@ -10,10 +10,16 @@
 				<div
 					class="img"
 					[style.background-image]="'url(' + photo.url + ')'"
-				></div>
-				<div class="text">
-					<div class="line title"></div>
-					<div class="line subtitle"></div>
+				>
+					<div class="text">
+						<button
+							(click)="
+								SetOldPhoto(photo.url); $event.stopPropagation()
+							"
+						>
+							Set as Profile Picture
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

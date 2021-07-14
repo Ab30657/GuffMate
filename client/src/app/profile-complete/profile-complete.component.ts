@@ -6,6 +6,7 @@ import {
 	NgbModal,
 	NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 import { of } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 import { Member } from '../_models/member';
@@ -19,6 +20,7 @@ import { MembersService } from '../_services/members.service';
 	styleUrls: ['./profile-complete.component.css'],
 })
 export class ProfileCompleteComponent implements OnInit {
+	profilePicPath;
 	prevImages;
 	member: Member;
 	user: User;
@@ -28,6 +30,9 @@ export class ProfileCompleteComponent implements OnInit {
 	interestList = ['S', 'Cooking', 'Soccer', 'MMA', 'Basketball'];
 	closeModal;
 	genders = ['Male', 'Female', 'Other'];
+
+	imageChangedEvent;
+	croppedImage;
 	constructor(
 		private fb: FormBuilder,
 		private modalService: NgbModal,
@@ -51,6 +56,11 @@ export class ProfileCompleteComponent implements OnInit {
 			this.member = x;
 			console.log(this.member.photos);
 		});
+	}
+	onImageChanged(e, photoEditor) {
+		this.profilePicPath = e.event;
+		this.triggerModal(photoEditor);
+		this.imageChangedEvent = e.event;
 	}
 	ngOnInit(): void {
 		this.loadMember();
@@ -94,5 +104,21 @@ export class ProfileCompleteComponent implements OnInit {
 		} else {
 			return `with: ${reason}`;
 		}
+	}
+	SetOldPhoto(photo) {
+		this.croppedImage = photo;
+	}
+	imageCropped(event: ImageCroppedEvent) {
+		this.croppedImage = event.base64;
+	}
+
+	imageLoaded() {
+		console.log('Hello');
+	}
+	cropperReady() {
+		console.log('Ready');
+	}
+	loadImageFailed() {
+		console.log('Not found');
 	}
 }
