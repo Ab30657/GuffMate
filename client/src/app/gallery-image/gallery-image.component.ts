@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { delay } from 'rxjs/operators';
 
 @Component({
@@ -9,9 +9,12 @@ import { delay } from 'rxjs/operators';
 export class GalleryImageComponent implements OnInit {
 	cardStyle: boolean;
 	zIndexReset: boolean;
+	@Input() photo;
 	constructor() {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		console.log(this.photo);
+	}
 
 	enlarge() {
 		this.cardStyle = !this.cardStyle;

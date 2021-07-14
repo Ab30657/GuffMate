@@ -7,7 +7,10 @@
 			(click)="enlarge()"
 		>
 			<div class="content">
-				<div class="img"></div>
+				<div
+					class="img"
+					[style.background-image]="'url(' + photo.url + ')'"
+				></div>
 				<div class="text">
 					<div class="line title"></div>
 					<div class="line subtitle"></div>

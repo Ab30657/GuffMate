@@ -527,6 +527,12 @@ li > .deleted {
 	height: 100%;
 }
 
+.gallery {
+	background-color: rgba(40, 79, 220, 0.5);
+	border-radius: 1rem;
+	padding: 1rem;
+}
+
 .gallery-link {
 	height: 109px;
 	width: 109px;
@@ -538,6 +544,7 @@ li > .deleted {
 	font-weight: 400;
 	cursor: pointer;
 	color: white;
+	margin: 0.25rem;
 }
 .gallery-link > span {
 	font-size: 0.8rem;
@@ -545,4 +552,5 @@ li > .deleted {
 }
 .gallery-link:hover {
 	background: #1d70cf;
+	flex: 1 0 auto;
 }

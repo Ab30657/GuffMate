@@ -151,7 +151,8 @@
 					<div class="grandparent">
 						<div class="gallery-row">
 							<app-gallery-image
-								*ngFor="let a of [1, 2, 3, 4]"
+								*ngFor="let a of member?.photos"
+								[photo]="a"
 							></app-gallery-image>
 							<div class="gallery-link">
 								<span>See more...</span>

@@ -7,6 +7,11 @@ import {
 	NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { AccountService } from '../_services/account.service';
+import { Member } from '../_models/member';
+import { take } from 'rxjs/operators';
+import { User } from '../_models/user';
+import { MembersService } from '../_services/members.service';
 
 @Component({
 	selector: 'app-profile-complete',
@@ -14,13 +19,25 @@ import { of } from 'rxjs';
 	styleUrls: ['./profile-complete.component.css'],
 })
 export class ProfileCompleteComponent implements OnInit {
+	prevImages;
+	member: Member;
+	user: User;
 	cardStyle;
 	registerCompleteForm;
 	interest;
 	interestList = ['S', 'Cooking', 'Soccer', 'MMA', 'Basketball'];
 	closeModal;
 	genders = ['Male', 'Female', 'Other'];
-	constructor(private fb: FormBuilder, private modalService: NgbModal) {}
+	constructor(
+		private fb: FormBuilder,
+		private modalService: NgbModal,
+		private accountService: AccountService,
+		private memberService: MembersService
+	) {
+		this.accountService.currentUser$.pipe(take(1)).subscribe((x) => {
+			this.user = x;
+		});
+	}
 
 	private initRegisterCompleteForm() {
 		this.registerCompleteForm = this.fb.group({
@@ -29,8 +46,14 @@ export class ProfileCompleteComponent implements OnInit {
 			interests: [''],
 		});
 	}
-
+	loadMember() {
+		this.memberService.GetUser(this.user.username).subscribe((x) => {
+			this.member = x;
+			console.log(this.member.photos);
+		});
+	}
 	ngOnInit(): void {
+		this.loadMember();
 		this.initRegisterCompleteForm();
 	}
 	SaveChanges() {

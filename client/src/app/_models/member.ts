@@ -5,11 +5,6 @@ export interface Member {
 	name: string;
 	photoUrl: string;
 	username: string;
-	gender: string;
-	status: string;
-	lastActive: Date;
 	photos: Photo[];
-	twoFAEnabled: boolean;
-	SmsAuthEnabled: boolean;
-	interests: string[];
+	lastActive: Date;
 }
