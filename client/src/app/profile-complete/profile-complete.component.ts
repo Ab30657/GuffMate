@@ -6,13 +6,19 @@ import {
 	NgbModal,
 	NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import {
+	base64ToFile,
+	Dimensions,
+	ImageCroppedEvent,
+	LoadedImage,
+} from 'ngx-image-cropper';
 import { of } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 import { Member } from '../_models/member';
 import { take } from 'rxjs/operators';
 import { User } from '../_models/user';
 import { MembersService } from '../_services/members.service';
+import { FileUploadService } from '../_services/file-upload.service';
 
 @Component({
 	selector: 'app-profile-complete',
@@ -20,6 +26,7 @@ import { MembersService } from '../_services/members.service';
 	styleUrls: ['./profile-complete.component.css'],
 })
 export class ProfileCompleteComponent implements OnInit {
+	savedImage;
 	profilePicPath;
 	prevImages;
 	member: Member;
@@ -31,13 +38,14 @@ export class ProfileCompleteComponent implements OnInit {
 	closeModal;
 	genders = ['Male', 'Female', 'Other'];
 
-	imageChangedEvent;
+	imageChangedEvent = '';
 	croppedImage;
 	constructor(
 		private fb: FormBuilder,
 		private modalService: NgbModal,
 		private accountService: AccountService,
-		private memberService: MembersService
+		private memberService: MembersService,
+		private fileUploadService: FileUploadService
 	) {
 		this.accountService.currentUser$.pipe(take(1)).subscribe((x) => {
 			this.user = x;
@@ -58,9 +66,10 @@ export class ProfileCompleteComponent implements OnInit {
 		});
 	}
 	onImageChanged(e, photoEditor) {
-		this.profilePicPath = e.event;
-		this.triggerModal(photoEditor);
+		console.log('here');
+		this.profilePicPath = e.imagePath;
 		this.imageChangedEvent = e.event;
+		this.triggerModal(photoEditor);
 	}
 	ngOnInit(): void {
 		this.loadMember();
@@ -110,15 +119,18 @@ export class ProfileCompleteComponent implements OnInit {
 	}
 	imageCropped(event: ImageCroppedEvent) {
 		this.croppedImage = event.base64;
+		this.savedImage = base64ToFile(this.croppedImage);
 	}
 
-	imageLoaded() {
-		console.log('Hello');
-	}
-	cropperReady() {
-		console.log('Ready');
-	}
+	imageLoaded(image: LoadedImage) {}
+	cropperReady() {}
 	loadImageFailed() {
 		console.log('Not found');
+	}
+
+	intializeUpload() {
+		this.fileUploadService.UploadInit(this.savedImage).subscribe((x) => {
+			console.log(x);
+		});
 	}
 }

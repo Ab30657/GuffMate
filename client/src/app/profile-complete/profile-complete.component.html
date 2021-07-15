@@ -161,28 +161,29 @@
 									[imageChangedEvent]="imageChangedEvent"
 									[maintainAspectRatio]="true"
 									[aspectRatio]="1 / 1"
-									[resizeToWidth]="256"
+									[resizeToWidth]="512"
 									format="jpg"
 									(imageCropped)="imageCropped($event)"
-									(imageLoaded)="imageLoaded()"
+									(imageLoaded)="imageLoaded($event)"
 									(cropperReady)="cropperReady()"
 									(loadImageFailed)="loadImageFailed()"
+									[cropperMinHeight]="500"
+									[roundCropper]="true"
 								></image-cropper>
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button
-								type="button"
-								class="btn text-success btn-danger"
-								(click)="modal.close('Save click')"
-							>
-								Save
-							</button>
+							<div class="save-btn-wrapper">
+								<button
+									class="save-img-btn"
+									(click)="intializeUpload()"
+								>
+									<i class="fa fa-lg fa-save"></i>Save as
+									Profile Picture
+								</button>
+							</div>
 						</div>
 					</ng-template>
-					<button class="delete-img-btn">
-						<i class="fa fa-lg fa-trash"></i>Delete Image
-					</button>
 				</div>
 			</div>
 			<div class="form-control-group" id="gallery-form">

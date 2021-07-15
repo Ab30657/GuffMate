@@ -23,8 +23,8 @@ export class FileUploadComponent implements OnInit {
 
 			reader.onload = () => {
 				this.imagePath = reader.result as string;
-				this.img.emit({ event: e, imagePath: this.imagePath });
 			};
 		}
+		this.img.emit({ event: e, imagePath: this.imagePath });
 	}
 }

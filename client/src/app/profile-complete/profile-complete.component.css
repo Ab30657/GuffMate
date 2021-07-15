@@ -243,23 +243,29 @@ label {
 	overflow: hidden;
 }
 .upload-btn > i,
-.delete-img-btn > i {
+.save-img-btn > i {
 	padding: 0 1rem;
 	padding-left: 0;
 	vertical-align: middle;
 }
-.delete-img-btn {
+.save-img-btn {
 	padding: 0.8rem 1.3rem;
 	border-radius: 0.2rem;
-	border: 3px solid red;
+	background: #24d68d;
 	font-size: 0.8rem;
-	color: red;
+	color: white;
 	cursor: pointer;
 	font-weight: 700;
-	margin-top: 10px;
+	border: none;
 }
-.delete-img-btn:hover {
-	background: red;
+.save-btn-wrapper {
+	display: flex;
+	width: 100%;
+	justify-content: flex-end;
+	align-items: center;
+}
+.save-img-btn:hover {
+	background: #27ae60;
 	color: white;
 }
 .img-tools {
@@ -565,5 +571,6 @@ li > .deleted {
 }
 .cropper-wrapper {
 	max-height: 80vh;
+	max-width: 50vw;
 	overflow: scroll;
 }
