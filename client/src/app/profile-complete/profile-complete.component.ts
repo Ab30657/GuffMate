@@ -1,29 +1,28 @@
-import { NONE_TYPE } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import {
 	ModalDismissReasons,
+	NgbActiveModal,
 	NgbModal,
-	NgbModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import {
 	base64ToFile,
-	Dimensions,
 	ImageCroppedEvent,
 	LoadedImage,
 } from 'ngx-image-cropper';
-import { of } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 import { Member } from '../_models/member';
-import { take } from 'rxjs/operators';
+import { take, finalize } from 'rxjs/operators';
 import { User } from '../_models/user';
 import { MembersService } from '../_services/members.service';
 import { FileUploadService } from '../_services/file-upload.service';
+import { Photo } from '../_models/photo';
 
 @Component({
 	selector: 'app-profile-complete',
 	templateUrl: './profile-complete.component.html',
 	styleUrls: ['./profile-complete.component.css'],
+	providers: [NgbActiveModal],
 })
 export class ProfileCompleteComponent implements OnInit {
 	savedImage;
@@ -33,11 +32,12 @@ export class ProfileCompleteComponent implements OnInit {
 	user: User;
 	cardStyle;
 	registerCompleteForm;
+	uploadLoading;
 	interest;
-	interestList = ['S', 'Cooking', 'Soccer', 'MMA', 'Basketball'];
+	interestList: string[];
 	closeModal;
+	openModal;
 	genders = ['Male', 'Female', 'Other'];
-
 	imageChangedEvent = '';
 	croppedImage;
 	constructor(
@@ -57,23 +57,32 @@ export class ProfileCompleteComponent implements OnInit {
 			gender: ['', [Validators.required]],
 			status: ['', [Validators.maxLength(75)]],
 			interests: [''],
+			phone: [''],
 		});
 	}
 	loadMember() {
 		this.memberService.GetUser(this.user.username).subscribe((x) => {
 			this.member = x;
-			console.log(this.member.photos);
+			this.registerCompleteForm.setValue({
+				gender: this.member.gender,
+				status: this.member.status,
+				interests: '',
+				phone: this.member.phone,
+			});
+			this.interestList = this.member.interests
+				? this.member.interests.map((x) => x.title)
+				: [];
+			this.croppedImage = this.member.photoUrl;
 		});
 	}
 	onImageChanged(e, photoEditor) {
-		console.log('here');
 		this.profilePicPath = e.imagePath;
 		this.imageChangedEvent = e.event;
 		this.triggerModal(photoEditor);
 	}
 	ngOnInit(): void {
-		this.loadMember();
 		this.initRegisterCompleteForm();
+		this.loadMember();
 	}
 	SaveChanges() {
 		this.registerCompleteForm.controls['interests'].setValue(
@@ -93,16 +102,17 @@ export class ProfileCompleteComponent implements OnInit {
 	changeGender(e) {}
 
 	triggerModal(content) {
-		this.modalService
-			.open(content, { ariaLabelledBy: 'modal-basic-title' })
-			.result.then(
-				(res) => {
-					this.closeModal = `Closed with: ${res}`;
-				},
-				(res) => {
-					this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
-				}
-			);
+		this.openModal = this.modalService.open(content, {
+			ariaLabelledBy: 'modal-basic-title',
+		});
+		this.openModal.result.then(
+			(res) => {
+				this.closeModal = `Closed with: ${res}`;
+			},
+			(res) => {
+				this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+			}
+		);
 	}
 
 	private getDismissReason(reason: any): string {
@@ -114,12 +124,21 @@ export class ProfileCompleteComponent implements OnInit {
 			return `with: ${reason}`;
 		}
 	}
-	SetOldPhoto(photo) {
-		this.croppedImage = photo;
+	SetOldPhoto(photo: Photo) {
+		this.memberService.setMainPhoto(photo.id).subscribe(() => {
+			this.croppedImage = photo.url;
+			this.user.photoUrl = photo.url;
+			this.accountService.setCurrentUser(this.user);
+			this.member.photoUrl = photo.url;
+			this.member.photos.forEach((x) => {
+				if (x.isMain) x.isMain = false;
+				if (x.id == photo.id) photo.isMain = true;
+			});
+			console.log('Photo updated successfully');
+		});
 	}
 	imageCropped(event: ImageCroppedEvent) {
-		this.croppedImage = event.base64;
-		this.savedImage = base64ToFile(this.croppedImage);
+		this.savedImage = base64ToFile(event.base64);
 	}
 
 	imageLoaded(image: LoadedImage) {}
@@ -129,8 +148,27 @@ export class ProfileCompleteComponent implements OnInit {
 	}
 
 	intializeUpload() {
-		this.fileUploadService.UploadInit(this.savedImage).subscribe((x) => {
-			console.log(x);
-		});
+		this.fileUploadService
+			.UploadInit(this.savedImage)
+			.pipe(
+				finalize(() => {
+					this.openModal.close();
+				})
+			)
+			.subscribe((photo: Photo) => {
+				console.log(photo);
+				this.memberService.setMainPhoto(photo.id).subscribe(() => {
+					this.croppedImage = photo.url;
+					this.user.photoUrl = photo.url;
+					this.accountService.setCurrentUser(this.user);
+					this.member.photoUrl = photo.url;
+					this.member.photos.forEach((x) => {
+						if (x.isMain) x.isMain = false;
+						if (x.id == photo.id) photo.isMain = true;
+					});
+					console.log('Photo updated successfully');
+				});
+				this.uploadLoading = true;
+			});
 	}
 }

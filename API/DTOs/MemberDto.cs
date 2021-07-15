@@ -13,6 +13,9 @@ namespace API.DTOs
 		public string Status { get; set; }
 		public DateTime LastActive { get; set; }
 		public ICollection<PhotoDto> Photos { get; set; }
+		public ICollection<InterestDto> Interests { get; set; }
+		public string Phone { get; set; }
+		public bool TwoFactorEnabled { get; set; }
 
 	}
 }

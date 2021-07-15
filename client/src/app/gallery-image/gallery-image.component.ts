@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { delay } from 'rxjs/operators';
+import { Photo } from '../_models/photo';
 
 @Component({
 	selector: 'app-gallery-image',
@@ -9,13 +10,11 @@ import { delay } from 'rxjs/operators';
 export class GalleryImageComponent implements OnInit {
 	cardStyle: boolean;
 	zIndexReset: boolean;
-	@Input() photo;
+	@Input() photo: Photo;
 	@Output() OldPhoto = new EventEmitter();
 	constructor() {}
 
-	ngOnInit(): void {
-		console.log(this.photo);
-	}
+	ngOnInit(): void {}
 
 	enlarge() {
 		this.cardStyle = !this.cardStyle;

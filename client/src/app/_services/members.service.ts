@@ -18,4 +18,11 @@ export class MembersService {
 	GetUser(username: string) {
 		return this.http.get<Member>(this.baseUrl + 'users/' + username);
 	}
+
+	setMainPhoto(photoId: number) {
+		return this.http.put(
+			this.baseUrl + 'users/set-main-photo/' + photoId,
+			{}
+		);
+	}
 }

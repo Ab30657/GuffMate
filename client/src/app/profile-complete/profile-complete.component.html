@@ -88,7 +88,11 @@
 						your authentication app.
 					</p>
 					<div class="phone-number">
-						<input type="text" class="form-control" />
+						<input
+							type="text"
+							class="form-control"
+							formControlName="phone"
+						/>
 					</div>
 					<button class="two-fa-btn" (click)="triggerModal(smsauth)">
 						Enable SMS Authentication
@@ -141,6 +145,7 @@
 						(img)="onImageChanged($event, photoEditor)"
 					></app-file-upload>
 					<ng-template #photoEditor let-modal>
+						<ngx-spinner></ngx-spinner>
 						<div class="modal-header">
 							<h4 class="modal-title" id="modal-basic-title">
 								Choose the part of the image you want as display
@@ -221,7 +226,13 @@
 				<div class="form-control-group interest-form">
 					<label for="interests">Interests</label>
 					<div class="interest-div-wrapper">
-						<div class="interest-wrapper" [ngClass]>
+						<div
+							class="interest-wrapper"
+							*ngIf="interestList"
+							[style.padding]="
+								interestList.length === 0 ? '0' : '0.75rem'
+							"
+						>
 							<ul class="interest-list">
 								<li
 									*ngFor="

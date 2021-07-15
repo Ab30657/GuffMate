@@ -22,7 +22,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
 import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryImageComponent } from './gallery-image/gallery-image.component';
 import { FileUploadComponent } from './_forms/file-upload/file-upload.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -54,8 +54,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 		ReactiveFormsModule,
 		NgxSpinnerModule,
 		TabsModule,
-		NgbModule,
 		ImageCropperModule,
+		NgbModule,
 	],
 	providers: [
 		{
