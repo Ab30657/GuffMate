@@ -17,6 +17,7 @@ import { User } from '../_models/user';
 import { MembersService } from '../_services/members.service';
 import { FileUploadService } from '../_services/file-upload.service';
 import { Photo } from '../_models/photo';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-profile-complete',
@@ -45,7 +46,8 @@ export class ProfileCompleteComponent implements OnInit {
 		private modalService: NgbModal,
 		private accountService: AccountService,
 		private memberService: MembersService,
-		private fileUploadService: FileUploadService
+		private fileUploadService: FileUploadService,
+		private router: Router
 	) {
 		this.accountService.currentUser$.pipe(take(1)).subscribe((x) => {
 			this.user = x;
@@ -73,6 +75,7 @@ export class ProfileCompleteComponent implements OnInit {
 				? this.member.interests.map((x) => x.title)
 				: [];
 			this.croppedImage = this.member.photoUrl;
+			console.log(this.member.photos);
 		});
 	}
 	onImageChanged(e, photoEditor) {
@@ -88,12 +91,15 @@ export class ProfileCompleteComponent implements OnInit {
 		this.registerCompleteForm.controls['interests'].setValue(
 			this.interestList
 		);
+		this.memberService.update(this.registerCompleteForm).subscribe(() => {
+			this.router.navigateByUrl('/discover');
+		});
 	}
 	enlarge() {
 		this.cardStyle = !this.cardStyle;
 	}
 	addInterest() {
-		this.interestList.push(this.interest);
+		this.interestList.push(this.interest.trim());
 		this.interest = '';
 	}
 	removeInterest(interest) {
@@ -148,6 +154,7 @@ export class ProfileCompleteComponent implements OnInit {
 	}
 
 	intializeUpload() {
+		console.log(this.member.photos);
 		this.fileUploadService
 			.UploadInit(this.savedImage)
 			.pipe(
@@ -156,17 +163,20 @@ export class ProfileCompleteComponent implements OnInit {
 				})
 			)
 			.subscribe((photo: Photo) => {
-				console.log(photo);
+				this.member.photos.push(photo);
 				this.memberService.setMainPhoto(photo.id).subscribe(() => {
 					this.croppedImage = photo.url;
 					this.user.photoUrl = photo.url;
+					console.log(this.user);
 					this.accountService.setCurrentUser(this.user);
 					this.member.photoUrl = photo.url;
+					console.log(this.member.photos);
 					this.member.photos.forEach((x) => {
 						if (x.isMain) x.isMain = false;
 						if (x.id == photo.id) photo.isMain = true;
 					});
-					console.log('Photo updated successfully');
+
+					console.log(this.member.photos);
 				});
 				this.uploadLoading = true;
 			});

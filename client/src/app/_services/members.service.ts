@@ -25,4 +25,9 @@ export class MembersService {
 			{}
 		);
 	}
+
+	update(profileCompleteForm) {
+		console.log('here');
+		return this.http.put(this.baseUrl + 'users', profileCompleteForm.value);
+	}
 }

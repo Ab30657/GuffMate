@@ -1,3 +1,4 @@
+import { Interest } from './interest';
 import { Photo } from './photo';
 
 export interface completeMember {
@@ -6,5 +7,4 @@ export interface completeMember {
 	twoFAEnabled: boolean;
 	SmsAuthEnabled: boolean;
 	interests: string[];
-	photo: Photo;
 }

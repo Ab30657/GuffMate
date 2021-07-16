@@ -8,11 +8,8 @@ namespace API.Interfaces
 	{
 		void Add(Interest interest);
 		void Update(Interest interest);
-		Task<bool> SaveAllAsync();
-
-		Task<IEnumerable<Interest>> GetInterestsAsync();
+		Task<IEnumerable<Interest>> GetInterestsByUserIdAsync(int id);
 		Task<Interest> GetInterestByTitleAsync(string title);
-
 
 
 	}

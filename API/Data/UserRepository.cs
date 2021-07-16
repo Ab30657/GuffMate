@@ -22,8 +22,7 @@ namespace API.Data
 
 		public async Task<MemberDto> GetMemberAsync(string username)
 		{
-			return await _context.Users.Where(x => x.UserName == username)
-						.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+			return await _context.Users.Where(x => x.UserName == username).ProjectTo<MemberDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
 		}
 
 		public async Task<IEnumerable<MemberDto>> GetMembersAsync()
@@ -38,7 +37,7 @@ namespace API.Data
 
 		public async Task<AppUser> GetUserByUsernameAsync(string username)
 		{
-			return await _context.Users.Include(x => x.Photos).SingleOrDefaultAsync(x => x.UserName == username);
+			return await _context.Users.Include(x => x.Photos).Include(x => x.UserInterests).SingleOrDefaultAsync(x => x.UserName == username);
 		}
 
 		public async Task<IEnumerable<AppUser>> GetUsersAsync()
@@ -46,9 +45,11 @@ namespace API.Data
 			return await _context.Users.Include(x => x.Photos).ToListAsync();
 		}
 
-		public async Task<bool> SaveAllAsync()
+		public void RemoveInterest(Interest interest, int userId)
 		{
-			return await _context.SaveChangesAsync() > 0;
+			var user = _context.Users.Include(x => x.UserInterests).SingleOrDefault(x => x.Id == userId);
+			var userInterest = user.UserInterests.SingleOrDefault(x => x.InterestId == interest.Id);
+			user.UserInterests.Remove(userInterest);
 		}
 
 		public void Update(AppUser user)

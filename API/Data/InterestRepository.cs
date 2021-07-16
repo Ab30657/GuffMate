@@ -23,11 +23,11 @@ namespace API.Data
 			return await _context.Interests.Include(x => x.UserInterests).FirstOrDefaultAsync(x => x.Title == title);
 		}
 
-		public async Task<IEnumerable<Interest>> GetInterestsAsync()
+		public async Task<IEnumerable<Interest>> GetInterestsByUserIdAsync(int id)
 		{
-			return await _context.Interests.ToListAsync();
-		}
+			return await _context.Interests.Where(x => x.UserInterests.Any(x => x.UserId == id)).ToListAsync();
 
+		}
 		public async Task<bool> SaveAllAsync()
 		{
 			return await _context.SaveChangesAsync() > 0;
@@ -42,5 +42,6 @@ namespace API.Data
 		{
 			_context.Interests.Add(interest);
 		}
+
 	}
 }

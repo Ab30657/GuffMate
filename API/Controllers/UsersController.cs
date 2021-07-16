@@ -18,28 +18,26 @@ namespace API.Controllers
 	[Authorize]
 	public class UsersController : BaseApiController
 	{
-		private readonly IUserRepository _repository;
 		private readonly IMapper _mapper;
 		private readonly IPhotoService _photoService;
-		private readonly IInterestRepository _interestRepository;
-		public UsersController(IUserRepository repository, IMapper mapper, IPhotoService photoService, IInterestRepository interestRepository)
+		private readonly IUnitOfWork _unitOfWork;
+		public UsersController(IUnitOfWork unitOfWork, IMapper mapper, IPhotoService photoService)
 		{
-			_interestRepository = interestRepository;
+			_unitOfWork = unitOfWork;
 			_photoService = photoService;
 			_mapper = mapper;
-			_repository = repository;
 		}
 
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers()
 		{
-			return Ok(await _repository.GetMembersAsync());
+			return Ok(await _unitOfWork.UserRepository.GetMembersAsync());
 		}
 
 		[HttpGet("{username}", Name = "GetUser")]
 		public async Task<ActionResult<MemberDto>> GetUser(string username)
 		{
-			var user = await _repository.GetMemberAsync(username);
+			var user = await _unitOfWork.UserRepository.GetMemberAsync(username);
 			return user;
 		}
 
@@ -47,7 +45,7 @@ namespace API.Controllers
 		[HttpPost("add-photo")]
 		public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
 		{
-			var user = await _repository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 			var result = await _photoService.AddPhotoAsync(file);
 			if (result.Error != null)
 			{
@@ -62,7 +60,7 @@ namespace API.Controllers
 
 			user.Photos.Add(photo);
 
-			if (await _repository.SaveAllAsync())
+			if (await _unitOfWork.Complete())
 			{
 				return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<PhotoDto>(photo));
 			}
@@ -73,7 +71,7 @@ namespace API.Controllers
 		[HttpPut("set-main-photo/{photoId}")]
 		public async Task<ActionResult> SetMainPhoto(int photoId)
 		{
-			var user = await _repository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
 			var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 			if (photo.IsMain) return BadRequest("This is already your main photo");
@@ -85,7 +83,7 @@ namespace API.Controllers
 			}
 			photo.IsMain = true;
 
-			if (await _repository.SaveAllAsync())
+			if (await _unitOfWork.Complete())
 			{
 				return NoContent();
 			}
@@ -97,9 +95,13 @@ namespace API.Controllers
 		[HttpPut]
 		public async Task<ActionResult> UpdateUser(ProfileCompleteDto profileCompleteDto)
 		{
-			var user = await _repository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
-			foreach (var item in profileCompleteDto.Interests)
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			var interestList = (await _unitOfWork.InterestRepository.GetInterestsByUserIdAsync(user.Id));
+			var interestListStrings = interestList.Select(x => x.Title);
+			var newInterests = profileCompleteDto.Interests.Except(interestListStrings).ToList();
+			var remainingInterests = interestList.Where(x => profileCompleteDto.Interests.Any(a => a != x.Title)).ToList();
+			//Add interest if profileCompleteDto has only added interest
+			foreach (var item in newInterests)
 			{
 				if (!(await InterestExists(item)))
 				{
@@ -107,32 +109,40 @@ namespace API.Controllers
 					{
 						Title = item
 					};
-
-					interest.UserInterests.Add(new AppUserInterest
+					var appUserInterest = new AppUserInterest
 					{
 						User = user,
 						Interest = interest
-					});
-					_interestRepository.Add(interest);
-					if (await _interestRepository.SaveAllAsync())
-					{
-						return NoContent();
-					}
-					return BadRequest("Updating user failed!");
+					};
+					_unitOfWork.InterestRepository.Add(interest);
+					user.UserInterests.Add(appUserInterest);
+					continue;
 				}
+				var existingInterest = await _unitOfWork.InterestRepository.GetInterestByTitleAsync(item);
+				var newAppUserInterest = new AppUserInterest
+				{
+					User = user,
+					Interest = existingInterest
+				};
+				user.UserInterests.Add(newAppUserInterest);
 			}
 
-			_mapper.Map(profileCompleteDto, user);
 
-			_repository.Update(user);
-			if (await _repository.SaveAllAsync()) return NoContent();
+			//Delete removed interests
+			foreach (var item in remainingInterests)
+			{
+				_unitOfWork.UserRepository.RemoveInterest(item, user.Id);
+			}
+			_mapper.Map(profileCompleteDto, user);
+			_unitOfWork.UserRepository.Update(user);
+			if (await _unitOfWork.Complete()) return NoContent();
 
 			return BadRequest("Failed to update user");
 		}
 
 		private async Task<bool> InterestExists(string title)
 		{
-			return await _interestRepository.GetInterestByTitleAsync(title) != null;
+			return await _unitOfWork.InterestRepository.GetInterestByTitleAsync(title) != null;
 		}
 	}
 }
