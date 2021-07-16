@@ -192,18 +192,31 @@ label {
 	padding: 0 0 1rem 0;
 }
 .two-fa-btn,
-.upload-btn {
+.upload-btn,
+.sms-btn {
 	padding: 0.8rem 1.3rem;
 	border-radius: 0.2rem;
-	border: 3px solid #2288fa;
 	font-size: 0.8rem;
-	color: #2288fa;
 	cursor: pointer;
+	min-width: 220px;
 	font-weight: 700;
 }
-.two-fa-btn:hover,
-.upload-btn:hover {
+.two-fa-btn.enable,
+.sms-btn {
+	color: #2288fa;
+	border: 3px solid #2288fa;
+}
+.two-fa-btn.enable:hover,
+.sms-btn:hover {
 	background: #2288fa;
+	color: white;
+}
+.two-fa-btn.disable {
+	color: red;
+	border: 3px solid red;
+}
+.two-fa-btn.disable:hover {
+	background: red;
 	color: white;
 }
 .phone-number > input {

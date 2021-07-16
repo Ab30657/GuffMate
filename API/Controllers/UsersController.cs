@@ -21,8 +21,10 @@ namespace API.Controllers
 		private readonly IUserRepository _repository;
 		private readonly IMapper _mapper;
 		private readonly IPhotoService _photoService;
-		public UsersController(IUserRepository repository, IMapper mapper, IPhotoService photoService)
+		private readonly IInterestRepository _interestRepository;
+		public UsersController(IUserRepository repository, IMapper mapper, IPhotoService photoService, IInterestRepository interestRepository)
 		{
+			_interestRepository = interestRepository;
 			_photoService = photoService;
 			_mapper = mapper;
 			_repository = repository;
@@ -89,6 +91,48 @@ namespace API.Controllers
 			}
 			return BadRequest("Error updating profile picture");
 
+		}
+
+
+		[HttpPut]
+		public async Task<ActionResult> UpdateUser(ProfileCompleteDto profileCompleteDto)
+		{
+			var user = await _repository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+			foreach (var item in profileCompleteDto.Interests)
+			{
+				if (!(await InterestExists(item)))
+				{
+					var interest = new Interest
+					{
+						Title = item
+					};
+
+					interest.UserInterests.Add(new AppUserInterest
+					{
+						User = user,
+						Interest = interest
+					});
+					_interestRepository.Add(interest);
+					if (await _interestRepository.SaveAllAsync())
+					{
+						return NoContent();
+					}
+					return BadRequest("Updating user failed!");
+				}
+			}
+
+			_mapper.Map(profileCompleteDto, user);
+
+			_repository.Update(user);
+			if (await _repository.SaveAllAsync()) return NoContent();
+
+			return BadRequest("Failed to update user");
+		}
+
+		private async Task<bool> InterestExists(string title)
+		{
+			return await _interestRepository.GetInterestByTitleAsync(title) != null;
 		}
 	}
 }

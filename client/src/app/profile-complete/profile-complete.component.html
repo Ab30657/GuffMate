@@ -44,10 +44,19 @@
 						password and an authentication code from your mobile
 						phone in order to sign in.
 					</p>
-					<button class="two-fa-btn" (click)="triggerModal(twofa)">
+					<button
+						class="two-fa-btn enable"
+						*ngIf="!member?.twoFactorEnabled"
+						(click)="triggerModal(twofa)"
+					>
 						Enable Two-Factor Auth
 					</button>
-
+					<button
+						class="two-fa-btn disable"
+						*ngIf="member?.twoFactorEnabled"
+					>
+						Remove Two-Factor Auth
+					</button>
 					<ng-template #twofa let-modal>
 						<div class="modal-header">
 							<h4 class="modal-title" id="modal-basic-title">
@@ -91,10 +100,10 @@
 						<input
 							type="text"
 							class="form-control"
-							formControlName="phone"
+							formControlName="phoneNumber"
 						/>
 					</div>
-					<button class="two-fa-btn" (click)="triggerModal(smsauth)">
+					<button class="sms-btn" (click)="triggerModal(smsauth)">
 						Enable SMS Authentication
 					</button>
 					<ng-template #smsauth let-modal>
@@ -197,7 +206,11 @@
 					<div class="grandparent">
 						<div class="gallery-row">
 							<app-gallery-image
-								*ngFor="let a of member?.photos | slice: 0:4"
+								*ngFor="
+									let a of member?.photos
+										| slice: 0:4
+										| galleryImage
+								"
 								[photo]="a"
 								(OldPhoto)="SetOldPhoto($event)"
 							></app-gallery-image>

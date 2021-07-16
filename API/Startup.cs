@@ -39,6 +39,7 @@ namespace API
 		{
 			services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
 			services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+			services.AddScoped<IInterestRepository, InterestRepository>();
 			services.AddScoped<IUserRepository, UserRepository>();
 			services.AddScoped<IPhotoService, PhotoService>();
 			services.AddScoped<ITokenService, TokenService>();

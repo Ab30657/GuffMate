@@ -11,6 +11,6 @@ export interface Member {
 	interests: Interest[];
 	gender: string;
 	status: string;
-	phone: string;
+	phoneNumber: string;
 	twoFactorEnabled: boolean;
 }

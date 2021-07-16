@@ -57,7 +57,7 @@ export class ProfileCompleteComponent implements OnInit {
 			gender: ['', [Validators.required]],
 			status: ['', [Validators.maxLength(75)]],
 			interests: [''],
-			phone: [''],
+			phoneNumber: [''],
 		});
 	}
 	loadMember() {
@@ -67,7 +67,7 @@ export class ProfileCompleteComponent implements OnInit {
 				gender: this.member.gender,
 				status: this.member.status,
 				interests: '',
-				phone: this.member.phone,
+				phoneNumber: this.member.phoneNumber,
 			});
 			this.interestList = this.member.interests
 				? this.member.interests.map((x) => x.title)

@@ -26,6 +26,7 @@ import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryImageComponent } from './gallery-image/gallery-image.component';
 import { FileUploadComponent } from './_forms/file-upload/file-upload.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { GalleryImagePipe } from './pipes/gallery-image.pipe';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -44,6 +45,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 		DiscoverLeftComponent,
 		GalleryImageComponent,
 		FileUploadComponent,
+  GalleryImagePipe,
 	],
 	imports: [
 		BrowserModule,
