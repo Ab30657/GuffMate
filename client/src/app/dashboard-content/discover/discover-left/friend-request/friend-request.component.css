@@ -52,6 +52,7 @@ h6 {
 	border-radius: 50%;
 	cursor: pointer;
 	transition: 0.3s ease-in;
+	overflow: hidden;
 }
 
 .req-dp:hover > img {

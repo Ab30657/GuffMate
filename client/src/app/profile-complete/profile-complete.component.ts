@@ -18,7 +18,7 @@ import { MembersService } from '../_services/members.service';
 import { FileUploadService } from '../_services/file-upload.service';
 import { Photo } from '../_models/photo';
 import { Router } from '@angular/router';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
 	selector: 'app-profile-complete',
@@ -42,7 +42,7 @@ export class ProfileCompleteComponent implements OnInit {
 	genders = ['Male', 'Female', 'Other'];
 	imageChangedEvent = '';
 	croppedImage;
-	ImageList;
+	ImageList$ = new BehaviorSubject([]);
 	constructor(
 		private fb: FormBuilder,
 		private modalService: NgbModal,
@@ -77,6 +77,9 @@ export class ProfileCompleteComponent implements OnInit {
 				? this.member.interests.map((x) => x.title)
 				: [];
 			this.croppedImage = this.member.photoUrl;
+			this.ImageList$.next(
+				this.member.photos.filter((x) => !x.isMain).slice(0, 4)
+			);
 		});
 	}
 	onImageChanged(e, photoEditor) {
@@ -141,6 +144,9 @@ export class ProfileCompleteComponent implements OnInit {
 				if (x.isMain) x.isMain = false;
 				if (x.id == photo.id) photo.isMain = true;
 			});
+			this.ImageList$.next(
+				this.member.photos.filter((x) => !x.isMain).slice(0, 4)
+			);
 			console.log('Photo updated successfully');
 			console.log(this.member.photos);
 		});
@@ -169,15 +175,15 @@ export class ProfileCompleteComponent implements OnInit {
 				this.memberService.setMainPhoto(photo.id).subscribe(() => {
 					this.croppedImage = photo.url;
 					this.user.photoUrl = photo.url;
-					console.log(this.user);
 					this.accountService.setCurrentUser(this.user);
 					this.member.photoUrl = photo.url;
-					console.log(this.member.photos);
 					this.member.photos.forEach((x) => {
 						if (x.isMain) x.isMain = false;
 						if (x.id == photo.id) photo.isMain = true;
 					});
-
+					this.ImageList$.next(
+						this.member.photos.filter((x) => !x.isMain).slice(0, 4)
+					);
 					console.log(this.member.photos);
 				});
 				this.uploadLoading = true;
@@ -192,6 +198,9 @@ export class ProfileCompleteComponent implements OnInit {
 			this.accountService.setCurrentUser(this.user);
 			this.member.photoUrl = null;
 			this.member.photos.find((x) => x.isMain).isMain = false;
+			this.ImageList$.next(
+				this.member.photos.filter((x) => !x.isMain).slice(0, 4)
+			);
 		});
 	}
 }

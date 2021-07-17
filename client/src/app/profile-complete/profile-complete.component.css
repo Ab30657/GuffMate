@@ -252,7 +252,7 @@ label {
 }
 .img-wrapper {
 	border-radius: 50%;
-	border: 3px solid rgba(24, 197, 102, 0.8);
+	border: 5px solid #2e58ff;
 	overflow: hidden;
 }
 .upload-btn > i,
@@ -553,6 +553,7 @@ li > .deleted {
 }
 #gallery-form {
 	height: 100%;
+	padding-top: 0;
 }
 
 .gallery {

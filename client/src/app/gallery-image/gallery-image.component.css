@@ -6,14 +6,14 @@
 
 .parent {
 	position: relative;
-	width: 109px;
-	height: 109px;
+	width: 79px;
+	height: 79px;
 	margin: 0 auto;
 }
 
 .wrapper {
-	width: 109px;
-	height: 109px;
+	width: 79px;
+	height: 79px;
 	cursor: pointer;
 	position: absolute;
 	overflow: hidden;
@@ -50,9 +50,10 @@
 }
 
 .wrapper .img {
-	height: 180px;
+	height: 150px;
 	background-position: center;
 	background-size: contain;
+	background-repeat: no-repeat;
 }
 .wrapper.open .img {
 	background-size: cover;

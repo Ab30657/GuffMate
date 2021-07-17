@@ -220,11 +220,7 @@
 					<div class="grandparent">
 						<div class="gallery-row">
 							<app-gallery-image
-								*ngFor="
-									let a of member?.photos
-										| galleryImage
-										| slice: 0:4
-								"
+								*ngFor="let a of ImageList$ | async"
 								[photo]="a"
 								(OldPhoto)="SetOldPhoto($event)"
 							></app-gallery-image>
@@ -312,7 +308,9 @@
 						<span class="submit">Save Changes</span>
 					</button>
 					<button class="delete-btn">
-						<span class="submit">Proceed Anyways</span>
+						<span class="" routerLink="/discover"
+							>Proceed Anyways</span
+						>
 					</button>
 				</div>
 			</form>
