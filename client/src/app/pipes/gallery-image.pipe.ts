@@ -5,7 +5,8 @@ import { Photo } from '../_models/photo';
 	name: 'galleryImage',
 })
 export class GalleryImagePipe implements PipeTransform {
-	transform(value: Photo[]): unknown {
+	transform(value: Photo[]): Photo[] {
+		console.log(value?.filter((x) => !x.isMain));
 		return value?.filter((x) => !x.isMain);
 	}
 }

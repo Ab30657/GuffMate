@@ -91,6 +91,19 @@ namespace API.Controllers
 
 		}
 
+		[HttpPut("remove-main-photo/")]
+		public async Task<ActionResult> RemoveMainPhoto(int photoId)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+
+			var photo = user.Photos.FirstOrDefault(x => x.IsMain);
+			photo.IsMain = false;
+			if (await _unitOfWork.Complete())
+			{
+				return NoContent();
+			}
+			return BadRequest("Error deleting your profile picture.");
+		}
 
 		[HttpPut]
 		public async Task<ActionResult> UpdateUser(ProfileCompleteDto profileCompleteDto)

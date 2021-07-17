@@ -145,7 +145,13 @@
 				<div class="img-div">
 					<div class="img-wrapper">
 						<img
-							[src]="croppedImage || './assets/profile.png'"
+							[src]="
+								croppedImage ||
+								(registerCompleteForm.controls['gender']
+									.value == 'Male'
+									? './assets/profileboy.png'
+									: './assets/profilegirl.png')
+							"
 							alt=""
 						/>
 					</div>
@@ -154,6 +160,13 @@
 					<app-file-upload
 						(img)="onImageChanged($event, photoEditor)"
 					></app-file-upload>
+					<button
+						class="upload-btn remove"
+						*ngIf="member?.photoUrl"
+						(click)="removeImage()"
+					>
+						<i class="fa fa-lg fa-trash"></i>Delete Image
+					</button>
 					<ng-template #photoEditor let-modal>
 						<ngx-spinner></ngx-spinner>
 						<div class="modal-header">
@@ -209,8 +222,8 @@
 							<app-gallery-image
 								*ngFor="
 									let a of member?.photos
-										| slice: 0:4
 										| galleryImage
+										| slice: 0:4
 								"
 								[photo]="a"
 								(OldPhoto)="SetOldPhoto($event)"

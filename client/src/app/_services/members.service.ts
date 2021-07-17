@@ -25,7 +25,9 @@ export class MembersService {
 			{}
 		);
 	}
-
+	deleteMainPhoto() {
+		return this.http.put(this.baseUrl + 'users/remove-main-photo/', {});
+	}
 	update(profileCompleteForm) {
 		console.log('here');
 		return this.http.put(this.baseUrl + 'users', profileCompleteForm.value);

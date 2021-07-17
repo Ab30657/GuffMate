@@ -18,6 +18,7 @@ import { MembersService } from '../_services/members.service';
 import { FileUploadService } from '../_services/file-upload.service';
 import { Photo } from '../_models/photo';
 import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
 @Component({
 	selector: 'app-profile-complete',
@@ -41,6 +42,7 @@ export class ProfileCompleteComponent implements OnInit {
 	genders = ['Male', 'Female', 'Other'];
 	imageChangedEvent = '';
 	croppedImage;
+	ImageList;
 	constructor(
 		private fb: FormBuilder,
 		private modalService: NgbModal,
@@ -75,7 +77,6 @@ export class ProfileCompleteComponent implements OnInit {
 				? this.member.interests.map((x) => x.title)
 				: [];
 			this.croppedImage = this.member.photoUrl;
-			console.log(this.member.photos);
 		});
 	}
 	onImageChanged(e, photoEditor) {
@@ -141,6 +142,7 @@ export class ProfileCompleteComponent implements OnInit {
 				if (x.id == photo.id) photo.isMain = true;
 			});
 			console.log('Photo updated successfully');
+			console.log(this.member.photos);
 		});
 	}
 	imageCropped(event: ImageCroppedEvent) {
@@ -180,5 +182,16 @@ export class ProfileCompleteComponent implements OnInit {
 				});
 				this.uploadLoading = true;
 			});
+	}
+
+	removeImage() {
+		this.memberService.deleteMainPhoto().subscribe(() => {
+			console.log(this.member.photos);
+			this.croppedImage = null;
+			this.user.photoUrl = null;
+			this.accountService.setCurrentUser(this.user);
+			this.member.photoUrl = null;
+			this.member.photos.find((x) => x.isMain).isMain = false;
+		});
 	}
 }
