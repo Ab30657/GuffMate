@@ -1,27 +1,10 @@
-<div class="gallery-pic-container">
-	<div class="parent">
-		<div
-			class="wrapper"
-			[ngClass]="cardStyle ? 'open' : ''"
-			[style.z-index]="cardStyle ? 10 : 5"
-			(click)="enlarge()"
-		>
-			<div class="content">
-				<div
-					class="img"
-					[style.background-image]="'url(' + photo.url + ')'"
-				>
-					<div class="text">
-						<button
-							(click)="
-								SetOldPhoto(photo); $event.stopPropagation()
-							"
-						>
-							Set as Profile Picture
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
+<div class="parent">
+	<div class="wrapper">
+		<img [src]="photo.url" class="gallery__image" />
+		<figcaption class="gallery__caption">
+			<button (click)="SetOldPhoto(photo); $event.stopPropagation()">
+				Set as Profile Picture
+			</button>
+		</figcaption>
 	</div>
 </div>

@@ -146,7 +146,7 @@
 					<div class="img-wrapper">
 						<img
 							[src]="
-								croppedImage ||
+								savedImage ||
 								(registerCompleteForm.controls['gender']
 									.value == 'Male'
 									? './assets/profileboy.png'
@@ -217,7 +217,7 @@
 			<div class="form-control-group" id="gallery-form">
 				<div class="gallery">
 					<label for="" class="font-weight-bold">Gallery</label>
-					<div class="grandparent">
+					<!-- <div class="grandparent">
 						<div class="gallery-row">
 							<app-gallery-image
 								*ngFor="let a of ImageList$ | async"
@@ -226,6 +226,27 @@
 							></app-gallery-image>
 							<div class="gallery-link">
 								<span>See more...</span>
+							</div>
+						</div>
+					</div> -->
+					<div class="gallery-wrapper-wrapper">
+						<div class="gallery-inside">
+							<div
+								class="gallery__column"
+								*ngFor="let n of [0, 1, 2]"
+							>
+								<ng-container
+									*ngFor="
+										let a of ImageList$
+											| async
+											| slice: 3 * n:3 * n + 3
+									"
+								>
+									<app-gallery-image
+										[photo]="a"
+										(OldPhoto)="SetOldPhoto($event)"
+									></app-gallery-image>
+								</ng-container>
 							</div>
 						</div>
 					</div>

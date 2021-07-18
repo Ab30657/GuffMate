@@ -1,107 +1,77 @@
-.img {
-	height: 120px;
-	background-size: cover;
-	background-position: center;
-}
-
-.parent {
-	position: relative;
-	width: 79px;
-	height: 79px;
-	margin: 0 auto;
-}
-
-.wrapper {
-	width: 79px;
-	height: 79px;
-	cursor: pointer;
+.gallery__caption > button {
 	position: absolute;
-	overflow: hidden;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-	transition: transform 375ms, width 275ms 100ms, height 375ms;
-}
-
-.wrapper.open {
-	width: 330px;
-	height: 330px;
-	transition: transform 375ms, width 375ms, height 275ms 100ms;
-}
-
-.wrapper div.content {
-	position: absolute;
-	margin: auto;
-	left: -9999px;
-	right: -9999px;
-	transform-origin: top;
-	width: 330px;
-	transform: scale(0.62);
-	height: 330px;
-	border-radius: 2rem;
-	background: #fff;
-	overflow: hidden;
-	transition: transform 375ms cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.wrapper.open .content {
-	transform: scale(0.9);
-}
-
-.wrapper .img {
-	height: 150px;
-	background-position: center;
-	background-size: contain;
-	background-repeat: no-repeat;
-}
-.wrapper.open .img {
-	background-size: cover;
-	height: 100%;
-	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
-}
-.wrapper .img:hover {
-	filter: brightness(70%);
-}
-.wrapper.open .img:hover {
-	filter: brightness(100%);
-}
-.img {
-	background-image: url("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885_1280.jpg");
-}
-img {
-}
-.text {
-	position: absolute;
-	bottom: -100%;
-	width: 100%;
-}
-.wrapper.open .text {
 	bottom: 0;
-}
-.text .line {
-	height: 13px;
-	background: #999;
-	opacity: 0.7;
-	margin-top: 20px;
-}
-
-.gallery-pic-container {
-	padding: 0.25rem;
-}
-
-.text > button {
+	left: 0;
 	width: 100%;
 	border: none;
-	padding: 1rem;
-	text-transform: uppercase;
-	font-size: 0.875rem;
+	padding: 0.2rem 1rem;
+	font-size: 0.9rem;
 	background-color: #24d68d;
 	color: white;
-	font-weight: 700;
+	font-weight: 400;
 	cursor: pointer;
 }
 
-.text > button:hover {
+.gallery__caption > button:hover {
 	background-color: #1a9c66;
+}
+.gallery-inside:hover .gallery__image {
+	filter: grayscale(1);
+}
+.gallery__column {
+	display: flex;
+	flex-direction: column;
+	width: 33.33%;
+}
+.parent {
+	margin: 2px;
+	overflow: hidden;
+}
+.parent:hover .gallery__image {
+	filter: grayscale(0);
+}
+.parent:hover .gallery__caption {
+	opacity: 1;
+}
+.wrapper {
+	position: relative;
+}
+.gallery__image {
+	display: block;
+	width: 100%;
+	transition: 0.3s;
+}
+.gallery__image:hover {
+	transform: scale(1.1);
+}
+.gallery__caption {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	padding: 25px 15px 15px;
+	width: 100%;
+	color: white;
+	opacity: 0;
+	background: linear-gradient(
+		0deg,
+		rgba(0, 0, 0, 0.5) 0%,
+		rgba(255, 255, 255, 0) 100%
+	);
+	transition: 0.3s;
+}
+
+@media only screen and (max-width: 1000px) {
+	.gallery__caption > button {
+		font-size: 0.8em;
+	}
+}
+@media only screen and (max-width: 500px) {
+	.gallery__caption > button {
+		font-size: 0.4em;
+	}
+}
+@media only screen and (max-width: 300px) {
+	.gallery__caption > button {
+		font-size: 0.3em;
+	}
 }

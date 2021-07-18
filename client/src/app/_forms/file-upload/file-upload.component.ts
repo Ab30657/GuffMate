@@ -13,7 +13,6 @@ export class FileUploadComponent implements OnInit {
 	ngOnInit(): void {}
 
 	onFileSelected(e) {
-		console.log(e);
 		const files = e.target.files;
 		const reader = new FileReader();
 

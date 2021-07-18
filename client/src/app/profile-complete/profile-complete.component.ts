@@ -28,21 +28,17 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ProfileCompleteComponent implements OnInit {
 	savedImage;
-	profilePicPath;
-	prevImages;
 	member: Member;
 	user: User;
-	cardStyle;
 	registerCompleteForm;
-	uploadLoading;
 	interest;
 	interestList: string[];
 	closeModal;
 	openModal;
 	genders = ['Male', 'Female', 'Other'];
 	imageChangedEvent = '';
-	croppedImage;
 	ImageList$ = new BehaviorSubject([]);
+
 	constructor(
 		private fb: FormBuilder,
 		private modalService: NgbModal,
@@ -55,7 +51,10 @@ export class ProfileCompleteComponent implements OnInit {
 			this.user = x;
 		});
 	}
-
+	ngOnInit(): void {
+		this.initRegisterCompleteForm();
+		this.loadMember();
+	}
 	private initRegisterCompleteForm() {
 		this.registerCompleteForm = this.fb.group({
 			gender: ['', [Validators.required]],
@@ -76,20 +75,11 @@ export class ProfileCompleteComponent implements OnInit {
 			this.interestList = this.member.interests
 				? this.member.interests.map((x) => x.title)
 				: [];
-			this.croppedImage = this.member.photoUrl;
+			this.savedImage = this.member.photoUrl;
 			this.ImageList$.next(
-				this.member.photos.filter((x) => !x.isMain).slice(0, 4)
+				this.member.photos.filter((x) => !x.isMain).slice(0, 8)
 			);
 		});
-	}
-	onImageChanged(e, photoEditor) {
-		this.profilePicPath = e.imagePath;
-		this.imageChangedEvent = e.event;
-		this.triggerModal(photoEditor);
-	}
-	ngOnInit(): void {
-		this.initRegisterCompleteForm();
-		this.loadMember();
 	}
 	SaveChanges() {
 		this.registerCompleteForm.controls['interests'].setValue(
@@ -99,9 +89,7 @@ export class ProfileCompleteComponent implements OnInit {
 			this.router.navigateByUrl('/discover');
 		});
 	}
-	enlarge() {
-		this.cardStyle = !this.cardStyle;
-	}
+	//Interest addition and removal
 	addInterest() {
 		this.interestList.push(this.interest.trim());
 		this.interest = '';
@@ -109,8 +97,8 @@ export class ProfileCompleteComponent implements OnInit {
 	removeInterest(interest) {
 		this.interestList = this.interestList.filter((x) => x !== interest);
 	}
-	changeGender(e) {}
-
+	//
+	// Modal Functions
 	triggerModal(content) {
 		this.openModal = this.modalService.open(content, {
 			ariaLabelledBy: 'modal-basic-title',
@@ -134,9 +122,11 @@ export class ProfileCompleteComponent implements OnInit {
 			return `with: ${reason}`;
 		}
 	}
+	//
+
 	SetOldPhoto(photo: Photo) {
 		this.memberService.setMainPhoto(photo.id).subscribe(() => {
-			this.croppedImage = photo.url;
+			this.savedImage = photo.url;
 			this.user.photoUrl = photo.url;
 			this.accountService.setCurrentUser(this.user);
 			this.member.photoUrl = photo.url;
@@ -145,11 +135,17 @@ export class ProfileCompleteComponent implements OnInit {
 				if (x.id == photo.id) photo.isMain = true;
 			});
 			this.ImageList$.next(
-				this.member.photos.filter((x) => !x.isMain).slice(0, 4)
+				this.member.photos.filter((x) => !x.isMain).slice(0, 8)
 			);
 			console.log('Photo updated successfully');
 			console.log(this.member.photos);
 		});
+	}
+
+	//Image cropper
+	onImageChanged(e, photoEditor) {
+		this.imageChangedEvent = e.event;
+		this.triggerModal(photoEditor);
 	}
 	imageCropped(event: ImageCroppedEvent) {
 		this.savedImage = base64ToFile(event.base64);
@@ -160,9 +156,9 @@ export class ProfileCompleteComponent implements OnInit {
 	loadImageFailed() {
 		console.log('Not found');
 	}
+	//
 
 	intializeUpload() {
-		console.log(this.member.photos);
 		this.fileUploadService
 			.UploadInit(this.savedImage)
 			.pipe(
@@ -173,7 +169,7 @@ export class ProfileCompleteComponent implements OnInit {
 			.subscribe((photo: Photo) => {
 				this.member.photos.push(photo);
 				this.memberService.setMainPhoto(photo.id).subscribe(() => {
-					this.croppedImage = photo.url;
+					this.savedImage = photo.url;
 					this.user.photoUrl = photo.url;
 					this.accountService.setCurrentUser(this.user);
 					this.member.photoUrl = photo.url;
@@ -182,24 +178,21 @@ export class ProfileCompleteComponent implements OnInit {
 						if (x.id == photo.id) photo.isMain = true;
 					});
 					this.ImageList$.next(
-						this.member.photos.filter((x) => !x.isMain).slice(0, 4)
+						this.member.photos.filter((x) => !x.isMain).slice(0, 8)
 					);
-					console.log(this.member.photos);
 				});
-				this.uploadLoading = true;
 			});
 	}
 
 	removeImage() {
 		this.memberService.deleteMainPhoto().subscribe(() => {
-			console.log(this.member.photos);
-			this.croppedImage = null;
+			this.savedImage = null;
 			this.user.photoUrl = null;
 			this.accountService.setCurrentUser(this.user);
 			this.member.photoUrl = null;
 			this.member.photos.find((x) => x.isMain).isMain = false;
 			this.ImageList$.next(
-				this.member.photos.filter((x) => !x.isMain).slice(0, 4)
+				this.member.photos.filter((x) => !x.isMain).slice(0, 8)
 			);
 		});
 	}

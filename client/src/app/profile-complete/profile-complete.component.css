@@ -41,17 +41,16 @@ button {
 
 .profile-completion-dashboard > div {
 	height: 100%;
-	flex: 1;
+	flex: 2;
 	padding: 0 20px;
 	display: flex;
 	flex-direction: column;
 }
 .profile-picture {
-	border-right: 2px solid rgba(63, 164, 232, 0.7);
+	flex: 3 !important;
 }
 
 .verify-contact {
-	border-right: 2px solid rgba(63, 164, 232, 0.7);
 	padding-left: 0 !important;
 }
 
@@ -184,6 +183,7 @@ label {
 .form-control-group.gender {
 	position: relative;
 	margin-bottom: 70px;
+	padding: 1rem 0;
 }
 
 .form-control-group > p {
@@ -198,8 +198,9 @@ label {
 	border-radius: 0.2rem;
 	font-size: 0.8rem;
 	cursor: pointer;
-	min-width: 220px;
 	font-weight: 700;
+	width: 100%;
+	white-space: nowrap;
 }
 .two-fa-btn.enable,
 .sms-btn {
@@ -252,7 +253,7 @@ label {
 }
 .img-wrapper {
 	border-radius: 50%;
-	border: 5px solid #2e58ff;
+	border: 4px solid #2e58ff;
 	overflow: hidden;
 }
 .upload-btn > i,
@@ -412,7 +413,7 @@ label {
 	padding: 0.8rem 1.3rem;
 	border-radius: 0.2rem;
 	border: none;
-	font-size: 1rem;
+	font-size: 0.9rem;
 	color: white;
 	cursor: pointer;
 	font-weight: 700;
@@ -554,10 +555,10 @@ li > .deleted {
 #gallery-form {
 	height: 100%;
 	padding-top: 0;
+	width: 100%;
 }
 
 .gallery {
-	background-color: rgba(40, 79, 220, 0.5);
 	border-radius: 1rem;
 	padding: 1rem;
 }
@@ -608,4 +609,19 @@ li > .deleted {
 
 .upload-btn.remove > i {
 	padding: 0 1rem;
+}
+
+/* Something special*/
+figure {
+	margin: 0 !important;
+}
+.gallery-inside {
+	display: flex;
+	padding: 2px;
+	transition: 0.3s;
+}
+
+.gallery-wrapper-wrapper {
+	max-height: 250px;
+	overflow-y: auto;
 }
