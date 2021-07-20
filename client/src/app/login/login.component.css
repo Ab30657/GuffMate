@@ -131,6 +131,7 @@ hr {
 .button-group > button {
 	border-radius: 2rem;
 	border: none;
+
 	color: white;
 	padding: 1rem;
 	width: 100%;

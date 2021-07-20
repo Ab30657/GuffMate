@@ -12,6 +12,7 @@ import { SettingsLeftComponent } from './dashboard-content/settings/settings-lef
 import { SettingsComponent } from './dashboard-content/settings/settings.component';
 import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
 	{
@@ -107,6 +108,11 @@ const routes: Routes = [
 				outlet: 'right',
 			},
 		],
+	},
+	{
+		path: ':username',
+		component: UserProfileComponent,
+		canActivate: [AuthGuard],
 	},
 ];
 

@@ -1,8 +1,8 @@
-<div class="user-card">
+<div class="user-card" routerLink="/{{ member.username }}">
 	<div class="user-img">
 		<img [src]="member.photoUrl || './assets/profileboy.png'" alt="" />
 		<div class="options">
-			<i class="fa fa-2x fa-plus-circle"></i>
+			<i class="fa fa-2x fa-plus"></i>
 		</div>
 	</div>
 	<div class="card-content">

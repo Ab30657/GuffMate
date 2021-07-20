@@ -35,7 +35,6 @@
 .user-img {
 	margin-bottom: 5px;
 	position: relative;
-	overflow: hidden;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -46,6 +45,8 @@
 	display: flex;
 	opacity: 0;
 	transition: 0.3s;
+	top: 0;
+	right: 0;
 }
 
 .options > i {

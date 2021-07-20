@@ -27,6 +27,7 @@ import { GalleryImageComponent } from './gallery-image/gallery-image.component';
 import { FileUploadComponent } from './_forms/file-upload/file-upload.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { GalleryImagePipe } from './pipes/gallery-image.pipe';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -46,6 +47,7 @@ import { GalleryImagePipe } from './pipes/gallery-image.pipe';
 		GalleryImageComponent,
 		FileUploadComponent,
   GalleryImagePipe,
+  UserProfileComponent,
 	],
 	imports: [
 		BrowserModule,
