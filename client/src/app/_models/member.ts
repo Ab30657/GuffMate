@@ -13,4 +13,5 @@ export interface Member {
 	status: string;
 	phoneNumber: string;
 	twoFactorEnabled: boolean;
+	email: string;
 }

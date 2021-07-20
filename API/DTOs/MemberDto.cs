@@ -16,6 +16,7 @@ namespace API.DTOs
 		public ICollection<InterestDto> Interests { get; set; }
 		public string PhoneNumber { get; set; }
 		public bool TwoFactorEnabled { get; set; }
+		public string Email { get; set; }
 
 	}
 }
