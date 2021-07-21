@@ -1,14 +1,30 @@
 <div class="glass">
 	<div class="intro">
-		<div class="cover-banner">
+		<div class="cover-banner" [style.height]="this.height + 'px'">
 			<img
 				src="https://www.setaswall.com/wp-content/uploads/2017/11/Twitter-Cover-Photo-42-1500x500.jpg"
 				alt=""
 			/>
 			<div class="intro-details">
 				<div class="profile-img-section">
-					<div class="profile-pic-wrapper">
-						<img [src]="member?.photoUrl" alt="" />
+					<div
+						class="profile-pic-wrapper"
+						[style.transform]="
+							'translateY(-' +
+							((this.height - 100) / 300) * 50 +
+							'%)'
+						"
+					>
+						<img
+							[src]="member?.photoUrl"
+							alt=""
+							[style.width]="
+								((this.height - 100) / 400) * 75 + 'px'
+							"
+							[style.height]="
+								((this.height - 100) / 400) * 75 + 'px'
+							"
+						/>
 					</div>
 				</div>
 				<div class="user-info-section">
@@ -37,7 +53,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="profile-body">
+	<div class="profile-body" (scroll)="scrollHandler($event)">
 		<div class="contact">
 			<div class="contact-details-wrapper">
 				<div class="phone-numbers">
@@ -160,6 +176,8 @@
 										<span class="input-group-btn p-l-10">
 											<button
 												class="
+													comment-btn
+													bg-primary
 													btn btn-primary
 													f-s-12
 													rounded-corner

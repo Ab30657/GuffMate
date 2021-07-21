@@ -69,8 +69,6 @@ button {
 }
 .profile-pic-wrapper > img {
 	object-fit: contain;
-	height: 175px;
-	width: 175px;
 }
 .user-info-section > h5 > div {
 	float: right;
