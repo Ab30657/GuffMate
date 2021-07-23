@@ -1,5 +1,8 @@
 <div class="glass">
 	<div class="intro">
+		<div class="back-btn" (click)="routeBack()">
+			<i class="fa fa-arrow-left"></i>
+		</div>
 		<div class="cover-banner" [style.height]="this.height + 'px'">
 			<img
 				src="https://www.setaswall.com/wp-content/uploads/2017/11/Twitter-Cover-Photo-42-1500x500.jpg"
@@ -19,15 +22,30 @@
 							[src]="member?.photoUrl"
 							alt=""
 							[style.width]="
-								75 + ((this.height - 100) / 300) * 100 + 'px'
+								75 +
+								((this.height - 100) / 300) *
+									10 *
+									((this.height - 100) / 300) *
+									10 +
+								'px'
 							"
 							[style.height]="
-								75 + ((this.height - 100) / 300) * 100 + 'px'
+								75 +
+								((this.height - 100) / 300) *
+									10 *
+									((this.height - 100) / 300) *
+									10 +
+								'px'
 							"
 						/>
 					</div>
 				</div>
-				<div class="user-info-section">
+				<div
+					class="user-info-section"
+					[style.margin-top]="
+						60 - ((this.height - 100) / 300) * 60 + 'px'
+					"
+				>
 					<h5>
 						{{ this.member?.name }}
 						<div class="options">
@@ -55,20 +73,22 @@
 	</div>
 	<div class="profile-body" (scroll)="scrollHandler($event)">
 		<div class="contact">
-			<div class="contact-details-wrapper">
-				<div class="phone-numbers">
-					<i class="fa fa-phone"></i>
-					<span>{{ this.member?.phoneNumber }}</span>
+			<div class="contact-flex-wrapper">
+				<div class="contact-details-wrapper">
+					<div class="phone-numbers">
+						<i class="fa fa-phone"></i>
+						<span>{{ this.member?.phoneNumber }}</span>
+					</div>
+					<div class="email">
+						<i class="fa fa-mail-forward"></i>
+						<span>{{ this.member?.email }}</span>
+					</div>
 				</div>
-				<div class="email">
-					<i class="fa fa-mail-forward"></i>
-					<span>{{ this.member?.email }}</span>
+				<div class="chat-btn-wrapper">
+					<button class="chat-btn">
+						<i class="fa fa-wechat"></i> Chat
+					</button>
 				</div>
-			</div>
-			<div class="chat-btn-wrapper">
-				<button class="chat-btn">
-					<i class="fa fa-wechat"></i> Chat
-				</button>
 			</div>
 		</div>
 		<div class="body">

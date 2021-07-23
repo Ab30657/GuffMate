@@ -94,12 +94,22 @@ button {
 }
 .contact {
 	flex: 1;
+	padding: 0.5rem 2rem;
+	position: relative;
 }
 .contact-details-wrapper > div {
 	min-width: 175px;
 	display: flex;
 	justify-content: flex-start;
 	align-items: center;
+	padding: 0.5rem;
+}
+.contact-flex-wrapper {
+	position: absolute;
+	right: 1.5rem;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
 }
 .contact-details-wrapper > div > i {
 	padding-right: 1rem;
@@ -118,7 +128,7 @@ button {
 	background-size: 400%;
 	cursor: pointer;
 	background-position: right;
-	min-width: 175px;
+	min-width: 220px;
 }
 .chat-btn:hover {
 	background-position: top;
@@ -403,4 +413,16 @@ button {
 .text-danger,
 .text-red {
 	color: #ff5b57 !important;
+}
+
+.back-btn {
+	position: absolute;
+	border-radius: 50%;
+	padding: 2rem;
+	z-index: 5;
+	color: white;
+	cursor: pointer;
+}
+.back-btn:hover {
+	transform: translateX(-10%);
 }

@@ -91,16 +91,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
 			}
 		);
 	}
+
 	getCurrentUser() {
-		this.accountService.currentUser$.subscribe(
-			(user) => {
-				this.loggedIn = !!user;
-				this.router.navigateByUrl('/discover');
-			},
-			(error) => {
-				console.log(error);
-			}
-		);
+		let user = JSON.parse(localStorage.getItem('user'));
+		this.loggedIn = !!user;
+		if (this.loggedIn) {
+			this.router.navigateByUrl('/discover');
+		}
 	}
 	toggle() {
 		if (this.passType == 'password') {

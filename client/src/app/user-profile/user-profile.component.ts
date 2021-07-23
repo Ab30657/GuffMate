@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Member } from '../_models/member';
 import { MembersService } from '../_services/members.service';
 
@@ -28,7 +28,8 @@ export class UserProfileComponent implements OnInit {
 	}
 	constructor(
 		private memberService: MembersService,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private router: Router
 	) {}
 
 	ngOnInit(): void {
@@ -40,6 +41,11 @@ export class UserProfileComponent implements OnInit {
 			.GetUser(this.route.snapshot.paramMap.get('username'))
 			.subscribe((x) => {
 				this.member = x;
+				console.log(this.member);
 			});
+	}
+
+	routeBack() {
+		this.router.navigateByUrl('/discover');
 	}
 }
