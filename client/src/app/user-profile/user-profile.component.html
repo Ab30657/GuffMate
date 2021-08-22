@@ -52,7 +52,9 @@
 							<i class="fa fa-ellipsis-h"></i>
 						</div>
 					</h5>
-					<span>{{ this.member?.status }}</span>
+					<span *ngIf="this.member?.status">{{
+						this.member?.status
+					}}</span>
 					<div class="user-socials">
 						<div class="user-fb">
 							<i class="fa fa-facebook-square"></i
@@ -75,11 +77,11 @@
 		<div class="contact">
 			<div class="contact-flex-wrapper">
 				<div class="contact-details-wrapper">
-					<div class="phone-numbers">
+					<div *ngIf="this.member?.phoneNumber" class="phone-numbers">
 						<i class="fa fa-phone"></i>
 						<span>{{ this.member?.phoneNumber }}</span>
 					</div>
-					<div class="email">
+					<div *ngIf="this.member?.email" class="email">
 						<i class="fa fa-mail-forward"></i>
 						<span>{{ this.member?.email }}</span>
 					</div>
