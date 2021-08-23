@@ -28,6 +28,7 @@ import { FileUploadComponent } from './_forms/file-upload/file-upload.component'
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { GalleryImagePipe } from './pipes/gallery-image.pipe';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -46,8 +47,8 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 		DiscoverLeftComponent,
 		GalleryImageComponent,
 		FileUploadComponent,
-  GalleryImagePipe,
-  UserProfileComponent,
+		GalleryImagePipe,
+		UserProfileComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -60,6 +61,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 		TabsModule,
 		ImageCropperModule,
 		NgbModule,
+		PaginationModule.forRoot(),
 	],
 	providers: [
 		{
