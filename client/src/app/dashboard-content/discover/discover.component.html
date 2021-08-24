@@ -5,11 +5,35 @@
 		</ngx-spinner>
 	</div>
 	<div class="tab-heading"><h3>Discover people around you!</h3></div>
+	<div class="filter-div">
+		<div class="wrapper">
+			<div class="icon facebook">
+				<div class="tooltip">Facebook</div>
+				<span><i class="fa fa-male"></i></span>
+			</div>
+			<div class="icon twitter">
+				<div class="tooltip">Twitter</div>
+				<span><i class="fa fa-female"></i></span>
+			</div>
+		</div>
+	</div>
 	<div class="users-list">
 		<app-user-cards
 			*ngFor="let user of users"
 			[member]="user"
 		></app-user-cards>
 	</div>
-	<div class="paging-div" *ngIf="pagination"></div>
+	<div class="paging-div my-5" *ngIf="pagination?.totalItems > 0">
+		<pagination
+			[boundaryLinks]="true"
+			[itemsPerPage]="pagination.itemsPerPage"
+			[totalItems]="pagination.totalItems"
+			(pageChanged)="pageChanged($event)"
+			previousText="&lsaquo;"
+			nextText="&rsaquo;"
+			firstText="&laquo;"
+			lastText="&raquo;"
+		>
+		</pagination>
+	</div>
 </div>

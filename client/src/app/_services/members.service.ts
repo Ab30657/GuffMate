@@ -6,6 +6,7 @@ import { Member } from '../_models/member';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/pagination';
+import { UserParams } from '../_models/userParams';
 
 @Injectable({
 	providedIn: 'root',
@@ -13,40 +14,49 @@ import { PaginatedResult } from '../_models/pagination';
 export class MembersService {
 	baseUrl = environment.apiUrl;
 	members: Member[] = [];
-	paginatedResult: PaginatedResult<Member[]> = new PaginatedResult<
-		Member[]
-	>();
 
 	constructor(private http: HttpClient) {}
 
-	GetUsers(page?: number, itemsPerPage?: number) {
+	GetUsers(userParams: UserParams) {
 		// if (this.members.length > 0) {
 		// 	return of(this.members);
 		// }
-		let params = new HttpParams();
-
-		if (page !== null && itemsPerPage !== null) {
-			params = params.append('pageNumber', page.toString());
-			params = params.append('pageSize', itemsPerPage.toString());
-		}
+		let params = this.getPaginationHeaders(
+			userParams.pageNumber,
+			userParams.pageSize
+		);
+		params = params.append('gender', userParams.gender);
+		return this.getPaginatedResult<Member[]>(
+			this.baseUrl + 'users',
+			params
+		);
+	}
+	private getPaginatedResult<T>(url, params: HttpParams) {
+		const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
 		return this.http
-			.get<Member[]>(this.baseUrl + 'users', {
+			.get<T>(url, {
 				observe: 'response',
 				params,
 			})
 			.pipe(
 				map((response) => {
-					this.paginatedResult.result = response.body;
+					paginatedResult.result = response.body;
 					if (response.headers.get('Pagination') !== null) {
-						this.paginatedResult.pagination = JSON.parse(
+						paginatedResult.pagination = JSON.parse(
 							response.headers.get('Pagination')
 						);
 					}
-					return this.paginatedResult;
+					return paginatedResult;
 				})
 			);
 	}
 
+	private getPaginationHeaders(pageNumber: number, pageSize: number) {
+		let params = new HttpParams();
+		params = params.append('pageNumber', pageNumber.toString());
+		params = params.append('pageSize', pageSize.toString());
+		return params;
+	}
 	GetUser(username: string) {
 		const member = this.members.find((x) => x.username === username);
 		if (member !== undefined) return of(member);

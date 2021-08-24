@@ -4,6 +4,10 @@ import { MembersService } from '../../_services/members.service';
 import { Observable } from 'rxjs';
 import { Member } from 'src/app/_models/member';
 import { Pagination } from '../../_models/pagination';
+import { UserParams } from '../../_models/userParams';
+import { AccountService } from '../../_services/account.service';
+import { take } from 'rxjs/operators';
+import { User } from 'src/app/_models/user';
 
 @Component({
 	selector: 'app-discover',
@@ -11,27 +15,40 @@ import { Pagination } from '../../_models/pagination';
 	styleUrls: ['./discover.component.css'],
 })
 export class DiscoverComponent implements OnInit {
-	constructor(private memberService: MembersService) {}
+	user: User;
+	constructor(
+		private memberService: MembersService,
+		private accountService: AccountService
+	) {
+		this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
+			this.user = user;
+			this.userParams = new UserParams(user);
+		});
+	}
 	users: Member[];
 	pagination: Pagination;
-	pageNumber = 1;
-	pageSize = 5;
+	userParams: UserParams;
+	genderList = ['Male', 'Female', 'Not Specified'];
+
 	ngOnInit(): void {
 		this.loadMembers();
 	}
 
 	loadMembers() {
-		this.memberService
-			.GetUsers(this.pageNumber, this.pageSize)
-			.subscribe((response) => {
-				this.users = response.result;
-				this.pagination = response.pagination;
-				console.log(this.pagination);
-			});
+		this.memberService.GetUsers(this.userParams).subscribe((response) => {
+			this.users = response.result;
+			this.pagination = response.pagination;
+			console.log(this.pagination);
+		});
 	}
 
 	pageChanged(event: any) {
-		this.pageNumber = event.page;
+		this.userParams.pageNumber = event.page;
+		this.loadMembers();
+	}
+
+	resetFilters() {
+		this.userParams = new UserParams(this.user);
 		this.loadMembers();
 	}
 }
