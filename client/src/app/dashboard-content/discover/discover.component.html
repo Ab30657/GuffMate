@@ -5,17 +5,22 @@
 		</ngx-spinner>
 	</div>
 	<div class="tab-heading"><h3>Discover people around you!</h3></div>
-	<div class="filter-div">
-		<div class="wrapper">
-			<div class="icon facebook">
-				<div class="tooltip">Facebook</div>
-				<span><i class="fa fa-male"></i></span>
-			</div>
-			<div class="icon twitter">
-				<div class="tooltip">Twitter</div>
-				<span><i class="fa fa-female"></i></span>
-			</div>
-		</div>
+	<div class="filter-div d-flex w-100 justify-content-start">
+		<form
+			#form="ngForm"
+			class="form-inline"
+			(ngSubmit)="loadMembers()"
+			autocomplete="off"
+			action=""
+		>
+			<label
+				class="d-flex justify-content-center align-items-center mr-3"
+				*ngFor="let gender of genderList"
+			>
+				<input type="checkbox" class="option-input checkbox" checked />
+				{{ gender }}
+			</label>
+		</form>
 	</div>
 	<div class="users-list">
 		<app-user-cards

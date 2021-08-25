@@ -35,10 +35,6 @@ namespace API.Controllers
 		{
 			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 			userParams.CurrentUserName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-			if (string.IsNullOrEmpty(userParams.Gender))
-			{
-				userParams.Gender = user.Gender;
-			}
 			var users = await _unitOfWork.UserRepository.GetMembersAsync(userParams);
 			Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 			return Ok(users);

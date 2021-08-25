@@ -30,7 +30,17 @@ namespace API.Data
 		{
 			var query = _context.Users.AsQueryable();
 			query = query.Where(x => x.UserName != userParams.CurrentUserName);
-			query = query.Where(x => x.Gender == userParams.Gender);
+			if (!string.IsNullOrEmpty(userParams.Gender))
+			{
+				query = query.Where(x => x.Gender == userParams.Gender);
+			}
+
+			query = userParams.OrderBy switch
+			{
+				"lastActive" => query.OrderByDescending(x => x.LastActive),
+				_ => query.OrderByDescending(x => x.LastActive)
+			};
+
 			return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.pageSize);
 		}
 
