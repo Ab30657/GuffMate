@@ -29,6 +29,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { GalleryImagePipe } from './pipes/gallery-image.pipe';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -62,6 +63,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 		ImageCropperModule,
 		NgbModule,
 		PaginationModule.forRoot(),
+		ButtonsModule.forRoot(),
 	],
 	providers: [
 		{

@@ -28,7 +28,11 @@ export class DiscoverComponent implements OnInit {
 	users: Member[];
 	pagination: Pagination;
 	userParams: UserParams;
-	genderList = ['Male', 'Female', 'Not Specified'];
+	genderList = [
+		{ display: 'Male', value: 'Male' },
+		{ display: 'Female', value: 'Female' },
+		{ display: 'All', value: 'Not Specified' },
+	];
 
 	ngOnInit(): void {
 		this.loadMembers();

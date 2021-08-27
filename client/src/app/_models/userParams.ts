@@ -3,7 +3,7 @@ export class UserParams {
 	gender: string;
 	pageNumber = 1;
 	pageSize = 5;
-
+	orderBy = 'lastActive';
 	constructor(user: User) {
 		this.gender = user.gender;
 	}

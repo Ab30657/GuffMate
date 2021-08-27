@@ -33,8 +33,8 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
 		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-			userParams.CurrentUserName = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			userParams.CurrentUserName = User.FindFirst(ClaimTypes.Name)?.Value;
 			var users = await _unitOfWork.UserRepository.GetMembersAsync(userParams);
 			Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 			return Ok(users);
@@ -51,7 +51,7 @@ namespace API.Controllers
 		[HttpPost("add-photo")]
 		public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
 		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 			var result = await _photoService.AddPhotoAsync(file);
 			if (result.Error != null)
 			{
@@ -77,7 +77,7 @@ namespace API.Controllers
 		[HttpPut("set-main-photo/{photoId}")]
 		public async Task<ActionResult> SetMainPhoto(int photoId)
 		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 
 			var photo = user.Photos.FirstOrDefault(x => x.Id == photoId);
 			if (photo.IsMain) return BadRequest("This is already your main photo");
@@ -100,7 +100,7 @@ namespace API.Controllers
 		[HttpPut("remove-main-photo/")]
 		public async Task<ActionResult> RemoveMainPhoto(int photoId)
 		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 
 			var photo = user.Photos.FirstOrDefault(x => x.IsMain);
 			photo.IsMain = false;
@@ -114,7 +114,7 @@ namespace API.Controllers
 		[HttpPut]
 		public async Task<ActionResult> UpdateUser(ProfileCompleteDto profileCompleteDto)
 		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 			var interestList = (await _unitOfWork.InterestRepository.GetInterestsByUserIdAsync(user.Id));
 			var interestListStrings = interestList.Select(x => x.Title);
 			var newInterests = profileCompleteDto.Interests.Except(interestListStrings).ToList();

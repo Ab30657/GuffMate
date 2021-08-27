@@ -30,11 +30,10 @@ namespace API.Data
 		{
 			var query = _context.Users.AsQueryable();
 			query = query.Where(x => x.UserName != userParams.CurrentUserName);
-			if (!string.IsNullOrEmpty(userParams.Gender))
+			if (!string.IsNullOrEmpty(userParams.Gender) && userParams.Gender != "Not Specified")
 			{
 				query = query.Where(x => x.Gender == userParams.Gender);
 			}
-
 			query = userParams.OrderBy switch
 			{
 				"lastActive" => query.OrderByDescending(x => x.LastActive),
@@ -56,7 +55,7 @@ namespace API.Data
 
 		public async Task<IEnumerable<AppUser>> GetUsersAsync()
 		{
-			return await _context.Users.Include(x => x.Photos).ToListAsync();
+			return await _context.Users.Include(x => x.Photos).Include(x => x.UserInterests).ToListAsync();
 		}
 
 		public void RemoveInterest(Interest interest, int userId)
