@@ -37,6 +37,7 @@ namespace API.Data
 			query = userParams.OrderBy switch
 			{
 				"lastActive" => query.OrderByDescending(x => x.LastActive),
+				"alpha" => query.OrderBy(x => x.UserName),
 				_ => query.OrderByDescending(x => x.LastActive)
 			};
 

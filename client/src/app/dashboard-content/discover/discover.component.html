@@ -35,6 +35,12 @@
 			</div>
 			<div class="d-flex">
 				<button class="filter-btn" type="submit">Apply Filters</button>
+				<button
+					class="reset-btn filter-btn mx-3"
+					(click)="resetFilters()"
+				>
+					Reset Filters
+				</button>
 			</div>
 			<div class="btn-group d-flex ml-5 justify-content-end">
 				<button
@@ -46,6 +52,16 @@
 					[(ngModel)]="userParams.orderBy"
 				>
 					Last Active
+				</button>
+				<button
+					type="button"
+					class="btn btn-primary"
+					name="orderBy"
+					(click)="loadMembers()"
+					btnRadio="alpha"
+					[(ngModel)]="userParams.orderBy"
+				>
+					Alphabetical
 				</button>
 			</div>
 		</form>

@@ -19,7 +19,12 @@
 						"
 					>
 						<img
-							[src]="member?.photoUrl"
+							[src]="
+								member?.photoUrl ||
+								(member?.gender == 'Male'
+									? './assets/profileboy.png'
+									: './assets/profilegirl.png')
+							"
 							alt=""
 							[style.width]="
 								75 +
