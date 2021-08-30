@@ -115,6 +115,7 @@ namespace API.Controllers
 		public async Task<ActionResult> UpdateUser(ProfileCompleteDto profileCompleteDto)
 		{
 			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+
 			var interestList = (await _unitOfWork.InterestRepository.GetInterestsByUserIdAsync(user.Id));
 			var interestListStrings = interestList.Select(x => x.Title);
 			var newInterests = profileCompleteDto.Interests.Except(interestListStrings).ToList();

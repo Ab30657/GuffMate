@@ -16,15 +16,6 @@ import { User } from 'src/app/_models/user';
 })
 export class DiscoverComponent implements OnInit {
 	user: User;
-	constructor(
-		private memberService: MembersService,
-		private accountService: AccountService
-	) {
-		this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
-			this.user = user;
-			this.userParams = new UserParams(user);
-		});
-	}
 	users: Member[];
 	pagination: Pagination;
 	userParams: UserParams;
@@ -34,25 +25,29 @@ export class DiscoverComponent implements OnInit {
 		{ display: 'All', value: 'Not Specified' },
 	];
 
+	constructor(private memberService: MembersService) {
+		this.userParams = this.memberService.GetUserParams();
+	}
 	ngOnInit(): void {
 		this.loadMembers();
 	}
 
 	loadMembers() {
+		this.memberService.SetUserParams(this.userParams);
 		this.memberService.GetUsers(this.userParams).subscribe((response) => {
 			this.users = response.result;
 			this.pagination = response.pagination;
-			console.log(this.pagination);
 		});
 	}
 
 	pageChanged(event: any) {
 		this.userParams.pageNumber = event.page;
+		this.memberService.SetUserParams(this.userParams);
 		this.loadMembers();
 	}
 
 	resetFilters() {
-		this.userParams = new UserParams(this.user);
+		this.userParams = this.memberService.ResetUserParams();
 		this.loadMembers();
 	}
 }

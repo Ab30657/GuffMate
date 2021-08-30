@@ -82,6 +82,8 @@ export class ProfileCompleteComponent implements OnInit {
 		});
 	}
 	SaveChanges() {
+		this.user.gender = this.registerCompleteForm.value.gender;
+		this.accountService.setCurrentUser(this.user);
 		this.registerCompleteForm.controls['interests'].setValue(
 			this.interestList
 		);
@@ -137,8 +139,6 @@ export class ProfileCompleteComponent implements OnInit {
 			this.ImageList$.next(
 				this.member.photos.filter((x) => !x.isMain).slice(0, 8)
 			);
-			console.log('Photo updated successfully');
-			console.log(this.member.photos);
 		});
 	}
 

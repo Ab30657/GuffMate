@@ -4,9 +4,11 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Member } from '../_models/member';
 import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
+import { AccountService } from './account.service';
+import { User } from '../_models/user';
 
 @Injectable({
 	providedIn: 'root',
@@ -15,8 +17,28 @@ export class MembersService {
 	baseUrl = environment.apiUrl;
 	members: Member[] = [];
 	memberCache = new Map();
-	constructor(private http: HttpClient) {}
-
+	user: User;
+	userParams: UserParams;
+	constructor(
+		private http: HttpClient,
+		private accountService: AccountService
+	) {
+		this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
+			this.user = user;
+			this.userParams = new UserParams(user);
+			console.log(this.user);
+		});
+	}
+	GetUserParams() {
+		return this.userParams;
+	}
+	SetUserParams(params: UserParams) {
+		this.userParams = this.userParams;
+	}
+	ResetUserParams() {
+		this.userParams = new UserParams(this.user);
+		return this.userParams;
+	}
 	GetUsers(userParams: UserParams) {
 		// if (this.members.length > 0) {
 		// 	return of(this.members);
