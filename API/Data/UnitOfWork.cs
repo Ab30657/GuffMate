@@ -18,6 +18,7 @@ namespace API.Data
 
 		public IInterestRepository InterestRepository => new InterestRepository(_context, _mapper);
 
+		public IFriendsRepository FriendsRepository => new FriendsRepository(_context);
 		public async Task<bool> Complete()
 		{
 			return await _context.SaveChangesAsync() > 0;

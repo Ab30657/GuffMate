@@ -6,6 +6,7 @@ namespace API.Interfaces
 	{
 		IUserRepository UserRepository { get; }
 		IInterestRepository InterestRepository { get; }
+		IFriendsRepository FriendsRepository { get; }
 		Task<bool> Complete();
 		bool HasChanges();
 	}
