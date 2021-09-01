@@ -7,14 +7,12 @@ namespace API.Interfaces
 {
 	public interface IFriendsRepository
 	{
+		public void Update(UserFriend user);
 		Task<UserFriend> GetUserFriend(int sender, int receiver);
 
 		Task<AppUser> GetUserWithFriends(int userId);
 		Task<IEnumerable<FriendDto>> GetUserFriends(string predicate, int userId);
-
-		Task SendFriendRequest(UserFriend request); //get sent requests
-		Task DeleteFriendRequest(UserFriend request);// get delete request only from receiver side
-
+		Task<AppUser> GetUserWithRequests(int userId);
 
 	}
 }

@@ -17,6 +17,7 @@ namespace API.DTOs
 		public string PhoneNumber { get; set; }
 		public bool TwoFactorEnabled { get; set; }
 		public string Email { get; set; }
+		public bool isFriend { get; set; }
 
 	}
 }

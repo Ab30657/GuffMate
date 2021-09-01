@@ -49,7 +49,24 @@ namespace API.Controllers
 			if (await _unitOfWork.Complete()) return Ok();
 
 			return BadRequest("Failed to send the request");
+		}
 
+		[HttpPost("received/{username}/accept")]
+		public async Task<ActionResult> AcceptFriendRequest(string username)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			var receiverUserId = user.Id;
+			var senderUser = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+
+			if (senderUser == null) return NotFound(); //theres no user sender in db
+
+			var request = await _unitOfWork.FriendsRepository.GetUserFriend(senderUser.Id, receiverUserId);
+			if (request.RequestStatus == RequestFlag.Accepted) return BadRequest("You are already friends!");
+			request.RequestStatus = RequestFlag.Accepted;
+			_unitOfWork.FriendsRepository.Update(request);
+			if (await _unitOfWork.Complete()) return NoContent();
+
+			return BadRequest("Failed to update request");
 		}
 
 		[HttpGet]
@@ -59,5 +76,6 @@ namespace API.Controllers
 			var users = await _unitOfWork.FriendsRepository.GetUserFriends(predicate, userId);
 			return Ok(users);
 		}
+
 	}
 }
