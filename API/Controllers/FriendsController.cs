@@ -1,9 +1,12 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -78,10 +81,10 @@ namespace API.Controllers
 		}
 
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<FriendDto>>> GetUserFriends(string predicate)
+		public async Task<ActionResult<IEnumerable<FriendDto>>> GetFriends(string predicate, [FromQuery] UserParams userParams)
 		{
 			var userId = (await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value)).Id;
-			var users = await _unitOfWork.FriendsRepository.GetUserFriends(predicate, userId);
+			var users = await _unitOfWork.FriendsRepository.GetUserFriends(predicate, userId, userParams);
 			return Ok(users);
 		}
 

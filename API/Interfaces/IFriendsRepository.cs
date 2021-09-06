@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 
 namespace API.Interfaces
 {
@@ -11,7 +12,7 @@ namespace API.Interfaces
 		Task<UserFriend> GetUserFriend(int sender, int receiver);
 
 		Task<AppUser> GetUserWithFriends(int userId);
-		Task<IEnumerable<FriendDto>> GetUserFriends(string predicate, int userId);
+		Task<PagedList<FriendDto>> GetUserFriends(string predicate, int userId, UserParams userParams);
 		Task<AppUser> GetUserWithRequests(int userId);
 
 	}

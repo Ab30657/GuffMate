@@ -31,8 +31,9 @@ namespace API.Data
 			return await _context.Friends.FindAsync(sender, receiver);
 		}
 
-		public async Task<IEnumerable<FriendDto>> GetUserFriends(string predicate, int userId)
+		public async Task<PagedList<FriendDto>> GetUserFriends(string predicate, int userId, UserParams userParams)
 		{
+			userParams.CurrentUserName = "amar";
 			var requests = _context.Friends.AsQueryable();
 
 			if (predicate == "sent")
@@ -49,7 +50,8 @@ namespace API.Data
 			}
 
 			// if requests not fulfilled till now, no record in table for that user.
-			return await PagedList<FriendDto>.CreateAsync(requests.ProjectTo<FriendDto>(_mapper.ConfigurationProvider).AsNoTracking(), 1, 5);
+
+			return await PagedList<FriendDto>.CreateAsync(requests.ProjectTo<FriendDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.pageSize);
 		}
 
 		public async Task<AppUser> GetUserWithFriends(int userId) //Current user is sending out requests, get those requests

@@ -4,7 +4,7 @@ namespace API.DTOs
 {
 	public class FriendDto
 	{
-		public int FriendId;
-		public RequestFlag Status;
+		public int Id { get; set; }
+		public RequestFlag Status { get; set; }
 	}
 }
