@@ -1,10 +1,10 @@
+using API.Entities;
+
 namespace API.DTOs
 {
 	public class FriendDto
 	{
-		public int Id { get; set; }
-		public string Username { get; set; }
-		public string Name { get; set; }
-		public string PhotoUrl { get; set; }
+		public int FriendId;
+		public RequestFlag Status;
 	}
 }

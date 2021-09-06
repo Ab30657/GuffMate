@@ -14,4 +14,6 @@ export interface Member {
 	phoneNumber: string;
 	twoFactorEnabled: boolean;
 	email: string;
+	friends: string[];
+	isFriend: boolean;
 }

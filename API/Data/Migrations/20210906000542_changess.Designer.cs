@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210906000542_changess")]
+    partial class changess
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,18 +196,18 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.UserFriend", b =>
                 {
-                    b.Property<int>("ReqSenderUserId")
+                    b.Property<int>("FriendOneId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("ReqReceiverUserId")
+                    b.Property<int>("FriendTwoId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("RequestStatus")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("ReqSenderUserId", "ReqReceiverUserId");
+                    b.HasKey("FriendOneId", "FriendTwoId");
 
-                    b.HasIndex("ReqReceiverUserId");
+                    b.HasIndex("FriendTwoId");
 
                     b.ToTable("Friends");
                 });
@@ -345,21 +347,21 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.UserFriend", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "ReqReceiverUser")
-                        .WithMany("FriendsOf")
-                        .HasForeignKey("ReqReceiverUserId")
+                    b.HasOne("API.Entities.AppUser", "FriendOne")
+                        .WithMany("Friends")
+                        .HasForeignKey("FriendOneId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.AppUser", "ReqSenderUser")
-                        .WithMany("FriendsAdded")
-                        .HasForeignKey("ReqSenderUserId")
+                    b.HasOne("API.Entities.AppUser", "FriendTwo")
+                        .WithMany()
+                        .HasForeignKey("FriendTwoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ReqReceiverUser");
+                    b.Navigation("FriendOne");
 
-                    b.Navigation("ReqSenderUser");
+                    b.Navigation("FriendTwo");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -405,9 +407,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
-                    b.Navigation("FriendsAdded");
-
-                    b.Navigation("FriendsOf");
+                    b.Navigation("Friends");
 
                     b.Navigation("Photos");
 

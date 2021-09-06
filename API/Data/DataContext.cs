@@ -28,8 +28,8 @@ namespace API.Data
 
 			builder.Entity<UserFriend>().HasKey(x => new { x.ReqSenderUserId, x.ReqReceiverUserId });
 
-			builder.Entity<UserFriend>().HasOne(x => x.ReqSenderUser).WithMany(x => x.SentRequestUsers).HasForeignKey(x => x.ReqSenderUserId).OnDelete(DeleteBehavior.Cascade);
-			builder.Entity<UserFriend>().HasOne(x => x.ReqReceiverUser).WithMany(x => x.ReceiverRequestUsers).HasForeignKey(x => x.ReqReceiverUserId).OnDelete(DeleteBehavior.Cascade);
+			builder.Entity<UserFriend>().HasOne(x => x.ReqSenderUser).WithMany(x => x.FriendsAdded).HasForeignKey(x => x.ReqSenderUserId).OnDelete(DeleteBehavior.Cascade);
+			builder.Entity<UserFriend>().HasOne(x => x.ReqReceiverUser).WithMany(x => x.FriendsOf).HasForeignKey(x => x.ReqReceiverUserId).OnDelete(DeleteBehavior.Cascade);
 
 		}
 

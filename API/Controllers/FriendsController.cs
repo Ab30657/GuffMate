@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using API.DTOs;
@@ -43,9 +44,14 @@ namespace API.Controllers
 				ReqSenderUserId = senderUserId,
 				ReqReceiverUserId = receiverUser.Id
 			};
+			senderUser.FriendsAdded.Add(userFriend);
 
-			senderUser.SentRequestUsers.Add(userFriend);
-
+			userFriend = new UserFriend
+			{
+				ReqSenderUserId = receiverUser.Id,
+				ReqReceiverUserId = senderUserId
+			};
+			senderUser.FriendsOf.Add(userFriend);
 			if (await _unitOfWork.Complete()) return Ok();
 
 			return BadRequest("Failed to send the request");
@@ -61,8 +67,10 @@ namespace API.Controllers
 			if (senderUser == null) return NotFound(); //theres no user sender in db
 
 			var request = await _unitOfWork.FriendsRepository.GetUserFriend(senderUser.Id, receiverUserId);
+			var requestReverse = await _unitOfWork.FriendsRepository.GetUserFriend(receiverUserId, senderUser.Id);
 			if (request.RequestStatus == RequestFlag.Accepted) return BadRequest("You are already friends!");
 			request.RequestStatus = RequestFlag.Accepted;
+			requestReverse.RequestStatus = RequestFlag.Accepted;
 			_unitOfWork.FriendsRepository.Update(request);
 			if (await _unitOfWork.Complete()) return NoContent();
 

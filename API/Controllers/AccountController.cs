@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using API.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using AutoMapper;
+using System.Collections.Generic;
+using AutoMapper.QueryableExtensions;
 
 namespace API.Controllers
 {
@@ -19,9 +21,11 @@ namespace API.Controllers
 		private readonly SignInManager<AppUser> _signInManager;
 		private readonly UserManager<AppUser> _userManager;
 		private readonly IMapper _mapper;
+		private readonly DataContext _context;
 
-		public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
+		public AccountController(DataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
 		{
+			_context = context;
 			_mapper = mapper;
 			_userManager = userManager;
 			_signInManager = signInManager;
@@ -68,7 +72,7 @@ namespace API.Controllers
 				Token = _tokenService.CreateToken(user),
 				Name = user.Name,
 				PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain == true)?.Url,
-				Gender = user.Gender
+				Gender = user.Gender,
 			};
 		}
 

@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210904203747_changes")]
+    partial class changes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -200,6 +202,9 @@ namespace API.Data.Migrations
                     b.Property<int>("ReqReceiverUserId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("RequestStatus")
                         .HasColumnType("INTEGER");
 
@@ -346,13 +351,13 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.UserFriend", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "ReqReceiverUser")
-                        .WithMany("FriendsOf")
+                        .WithMany()
                         .HasForeignKey("ReqReceiverUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("API.Entities.AppUser", "ReqSenderUser")
-                        .WithMany("FriendsAdded")
+                        .WithMany("Friends")
                         .HasForeignKey("ReqSenderUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -405,9 +410,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
-                    b.Navigation("FriendsAdded");
-
-                    b.Navigation("FriendsOf");
+                    b.Navigation("Friends");
 
                     b.Navigation("Photos");
 

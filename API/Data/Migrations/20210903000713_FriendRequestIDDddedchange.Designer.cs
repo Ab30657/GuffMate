@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
 	[DbContext(typeof(DataContext))]
-	[Migration("20210831080106_FriendRequestEntityAdded")]
-	partial class FriendRequestEntityAdded
+	[Migration("20210903000713_FriendRequestIDDddedchange")]
+	partial class FriendRequestIDDddedchange
 	{
 		protected override void BuildTargetModel(ModelBuilder modelBuilder)
 		{
@@ -200,6 +200,9 @@ namespace API.Data.Migrations
 						.HasColumnType("INTEGER");
 
 					b.Property<int>("ReqReceiverUserId")
+						.HasColumnType("INTEGER");
+
+					b.Property<int>("Id")
 						.HasColumnType("INTEGER");
 
 					b.Property<int>("RequestStatus")

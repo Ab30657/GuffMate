@@ -37,6 +37,7 @@ export class DiscoverComponent implements OnInit {
 		this.memberService.GetUsers(this.userParams).subscribe((response) => {
 			this.users = response.result;
 			this.pagination = response.pagination;
+			console.log(this.users);
 		});
 	}
 

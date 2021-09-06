@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -12,8 +15,10 @@ namespace API.Data
 	public class FriendsRepository : IFriendsRepository
 	{
 		private readonly DataContext _context;
-		public FriendsRepository(DataContext context)
+		private readonly IMapper _mapper;
+		public FriendsRepository(DataContext context, IMapper mapper)
 		{
+			_mapper = mapper;
 			_context = context;
 
 		}
@@ -28,54 +33,33 @@ namespace API.Data
 
 		public async Task<IEnumerable<FriendDto>> GetUserFriends(string predicate, int userId)
 		{
-			var users = _context.Users.OrderBy(x => x.UserName).AsQueryable();
 			var requests = _context.Friends.AsQueryable();
 
 			if (predicate == "sent")
 			{
-				requests = requests.Where(x => x.ReqSenderUserId == userId);
-				users = requests.Select(x => x.ReqReceiverUser); //get the receiver users to which user sent requests to 
-
+				requests = requests.Where(x => x.ReqReceiverUserId == userId);
 			}
 			if (predicate == "received")
 			{
 				requests = requests.Where(x => x.ReqReceiverUserId == userId);
-				users = requests.Select(x => x.ReqSenderUser); //get the senders of the received requests
 			}
 			if (predicate == "accepted")
 			{
 				requests = requests.Where(x => (x.ReqReceiverUserId == userId));
-				if (requests != null)
-				{
-					users = requests.Where(x => x.RequestStatus == RequestFlag.Accepted).Select(x => x.ReqSenderUser);
-				}
-				else
-				{
-					requests = requests.Where(x => (x.ReqSenderUserId == userId));
-					if (requests != null)
-					{
-						users = requests.Where(x => x.RequestStatus == RequestFlag.Accepted).Select(x => x.ReqReceiverUser);
-					}
-				}
 			}
 
-			return await users.Select(x => new FriendDto
-			{
-				Username = x.UserName,
-				Name = x.Name,
-				PhotoUrl = x.Photos.FirstOrDefault(x => x.IsMain).Url,
-				Id = x.Id
-			}).ToListAsync();
+			// if requests not fulfilled till now, no record in table for that user.
+			return await PagedList<FriendDto>.CreateAsync(requests.ProjectTo<FriendDto>(_mapper.ConfigurationProvider).AsNoTracking(), 1, 5);
 		}
 
 		public async Task<AppUser> GetUserWithFriends(int userId) //Current user is sending out requests, get those requests
 		{
-			return await _context.Users.Include(x => x.SentRequestUsers).FirstOrDefaultAsync(x => x.Id == userId);// get the list of sent request friends
+			return await _context.Users.Include(x => x.FriendsOf).Include(x => x.FriendsAdded).FirstOrDefaultAsync(x => x.Id == userId);// get the list of sent request friends
 		}
 
 		public async Task<AppUser> GetUserWithRequests(int userId)
 		{
-			return await _context.Users.Include(x => x.ReceiverRequestUsers).FirstOrDefaultAsync(x => x.Id == userId);
+			return await _context.Users.Include(x => x.FriendsOf).FirstOrDefaultAsync(x => x.Id == userId);
 		}
 
 	}

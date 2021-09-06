@@ -19,8 +19,8 @@ namespace API.Entities
 		public ICollection<AppUserRole> UserRoles { get; set; }
 		public ICollection<AppUserInterest> UserInterests { get; set; }
 
-		public ICollection<UserFriend> SentRequestUsers { get; set; }
-		public ICollection<UserFriend> ReceiverRequestUsers { get; set; }
+		public ICollection<UserFriend> FriendsAdded { get; set; }
+		public ICollection<UserFriend> FriendsOf { get; set; }
 
 	}
 }
