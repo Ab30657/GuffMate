@@ -3,6 +3,7 @@ namespace API.Entities
 	public class UserFriend
 	{
 
+		public int Id { get; set; }
 		public AppUser ReqSenderUser { get; set; }
 		public int ReqSenderUserId { get; set; }
 		public AppUser ReqReceiverUser { get; set; }
