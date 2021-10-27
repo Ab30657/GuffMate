@@ -1,5 +1,5 @@
 export interface Friend {
-	i: number;
+	id: number;
 	Status: RequestStatus;
 }
 export enum RequestStatus {

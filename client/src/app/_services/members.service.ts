@@ -9,6 +9,7 @@ import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
+import { Friend } from '../_models/Friend';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,6 +29,9 @@ export class MembersService {
 			this.userParams = new UserParams(user);
 			console.log(this.user);
 		});
+	}
+	GetUserRequests() {
+		return this.http.get(this.baseUrl + 'friends?predicate=received');
 	}
 	GetUserParams() {
 		return this.userParams;

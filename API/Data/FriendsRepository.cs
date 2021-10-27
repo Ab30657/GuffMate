@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,35 +23,47 @@ namespace API.Data
 			_context = context;
 
 		}
-		public void Update(UserFriend user)
+		public void Update(UserFriend request)
 		{
-			_context.Entry(user).State = EntityState.Modified;
+			_context.Entry(request).State = EntityState.Modified;
 		}
 		public async Task<UserFriend> GetUserFriend(int sender, int receiver)
 		{
 			return await _context.Friends.FindAsync(sender, receiver);
 		}
-
+		public async Task<int> GetFriendListCount()
+		{
+			return await _context.Friends.CountAsync();
+		}
 		public async Task<PagedList<FriendDto>> GetUserFriends(string predicate, int userId, UserParams userParams)
 		{
-			userParams.CurrentUserName = "amar";
-			var requests = _context.Friends.AsQueryable();
-
+			var requests = _context.Friends.Where(x => x.ReqReceiverUserId == userId && x.RequestStatus == RequestFlag.None);
+			if (predicate == "accepted")
+			{
+				requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.Accepted);
+				// var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
+				requests.Where(x => x.ReqSenderUserId == userId);// userId is logged in user id
+			}
 			if (predicate == "sent")
 			{
-				requests = requests.Where(x => x.ReqReceiverUserId == userId);
+				// var reqRev = _context.Friends.Where(x=> await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
+				// var req = await _context.Friends.FindAsync(item.ReqSenderUserId, item.ReqReceiverUserId);
+				requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.None);
+				foreach (var item in requests)
+				{//dummy comment
+					var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId); // find the opposite
+					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.None);// If reverse Id is greater then the receiver userId is the userId
+				}
 			}
 			if (predicate == "received")
 			{
-				requests = requests.Where(x => x.ReqReceiverUserId == userId);
+				foreach (var item in requests)
+				{
+					var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId); // find the opposite
+					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.None);// If reverse Id is greater then the receiver userId is the userId
+				}
 			}
-			if (predicate == "accepted")
-			{
-				requests = requests.Where(x => (x.ReqReceiverUserId == userId));
-			}
-
 			// if requests not fulfilled till now, no record in table for that user.
-
 			return await PagedList<FriendDto>.CreateAsync(requests.ProjectTo<FriendDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.pageSize);
 		}
 

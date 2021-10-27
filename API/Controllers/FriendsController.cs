@@ -41,18 +41,21 @@ namespace API.Controllers
 
 			var userFriend = await _unitOfWork.FriendsRepository.GetUserFriend(senderUserId, receiverUser.Id);
 			if (userFriend != null) return BadRequest("You have already sent request to this user");
+			var id = await _unitOfWork.FriendsRepository.GetFriendListCount();
 
 			userFriend = new UserFriend
 			{
 				ReqSenderUserId = senderUserId,
-				ReqReceiverUserId = receiverUser.Id
+				ReqReceiverUserId = receiverUser.Id,
+				Id = id++
 			};
 			senderUser.FriendsAdded.Add(userFriend);
 
 			userFriend = new UserFriend
 			{
 				ReqSenderUserId = receiverUser.Id,
-				ReqReceiverUserId = senderUserId
+				ReqReceiverUserId = senderUserId,
+				Id = id++
 			};
 			senderUser.FriendsOf.Add(userFriend);
 			if (await _unitOfWork.Complete()) return Ok();
@@ -60,21 +63,27 @@ namespace API.Controllers
 			return BadRequest("Failed to send the request");
 		}
 
-		[HttpPost("received/{username}/accept")]
+		[HttpPut("received/{username}/accept")]
 		public async Task<ActionResult> AcceptFriendRequest(string username)
 		{
 			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 			var receiverUserId = user.Id;
 			var senderUser = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
-
 			if (senderUser == null) return NotFound(); //theres no user sender in db
 
 			var request = await _unitOfWork.FriendsRepository.GetUserFriend(senderUser.Id, receiverUserId);
+			if (request == null) return NotFound();
 			var requestReverse = await _unitOfWork.FriendsRepository.GetUserFriend(receiverUserId, senderUser.Id);
 			if (request.RequestStatus == RequestFlag.Accepted) return BadRequest("You are already friends!");
+			if (request.Id > requestReverse.Id)
+			{
+				if (requestReverse.ReqSenderUserId == user.Id) return BadRequest("You cannot accept request from their part");
+			}
+			if (request.ReqSenderUserId == user.Id) return BadRequest("You cannot accept request from their part");
 			request.RequestStatus = RequestFlag.Accepted;
 			requestReverse.RequestStatus = RequestFlag.Accepted;
 			_unitOfWork.FriendsRepository.Update(request);
+			_unitOfWork.FriendsRepository.Update(requestReverse);
 			if (await _unitOfWork.Complete()) return NoContent();
 
 			return BadRequest("Failed to update request");
