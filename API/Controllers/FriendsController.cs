@@ -89,11 +89,12 @@ namespace API.Controllers
 			return BadRequest("Failed to update request");
 		}
 
+		//Ideas to combine accept and reject functions into a same function with status property changed for a request
 		[HttpGet]
-		public async Task<ActionResult<IEnumerable<FriendDto>>> GetFriends(string predicate, [FromQuery] UserParams userParams)
+		public async Task<ActionResult<IEnumerable<FriendDto>>> GetFriends([FromQuery] FriendsParams userParams)
 		{
 			var userId = (await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value)).Id;
-			var users = await _unitOfWork.FriendsRepository.GetUserFriends(predicate, userId, userParams);
+			var users = await _unitOfWork.FriendsRepository.GetUserFriends(userId, userParams);
 			return Ok(users);
 		}
 

@@ -35,16 +35,16 @@ namespace API.Data
 		{
 			return await _context.Friends.CountAsync();
 		}
-		public async Task<PagedList<FriendDto>> GetUserFriends(string predicate, int userId, UserParams userParams)
+		public async Task<PagedList<FriendDto>> GetUserFriends(int userId, FriendsParams userParams)
 		{
 			var requests = _context.Friends.Where(x => x.ReqReceiverUserId == userId && x.RequestStatus == RequestFlag.None);
-			if (predicate == "accepted")
+			if (userParams.predicate == "accepted")
 			{
 				requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.Accepted);
 				// var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
 				requests.Where(x => x.ReqSenderUserId == userId);// userId is logged in user id
 			}
-			if (predicate == "sent")
+			if (userParams.predicate == "sent")
 			{
 				// var reqRev = _context.Friends.Where(x=> await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
 				// var req = await _context.Friends.FindAsync(item.ReqSenderUserId, item.ReqReceiverUserId);
@@ -55,7 +55,7 @@ namespace API.Data
 					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.None);// If reverse Id is greater then the receiver userId is the userId
 				}
 			}
-			if (predicate == "received")
+			if (userParams.predicate == "received")
 			{
 				foreach (var item in requests)
 				{
@@ -64,7 +64,7 @@ namespace API.Data
 				}
 			}
 			// if requests not fulfilled till now, no record in table for that user.
-			return await PagedList<FriendDto>.CreateAsync(requests.ProjectTo<FriendDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.pageSize);
+			return await PagedList<FriendDto>.CreateAsync(requests.ProjectTo<FriendDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
 		}
 
 		public async Task<AppUser> GetUserWithFriends(int userId) //Current user is sending out requests, get those requests

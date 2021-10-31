@@ -41,7 +41,7 @@ namespace API.Data
 				_ => query.OrderByDescending(x => x.LastActive)
 			};
 
-			return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.pageSize);
+			return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking(), userParams.PageNumber, userParams.PageSize);
 		}
 
 		public async Task<AppUser> GetUserByIdAsync(int id)

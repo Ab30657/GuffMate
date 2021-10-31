@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MembersService } from '../../_services/members.service';
 import { Observable } from 'rxjs';
 import { Member } from 'src/app/_models/member';
-import { Pagination } from '../../_models/pagination';
+import { IPagination } from '../../_models/pagination';
 import { UserParams } from '../../_models/userParams';
 import { AccountService } from '../../_services/account.service';
 import { take } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { User } from 'src/app/_models/user';
 export class DiscoverComponent implements OnInit {
 	user: User;
 	users: Member[];
-	pagination: Pagination;
+	pagination: IPagination;
 	userParams: UserParams;
 	genderList = [
 		{ display: 'Male', value: 'Male' },
