@@ -12,7 +12,7 @@ namespace API.Interfaces
 		Task<UserFriend> GetUserFriend(int sender, int receiver);
 		Task<int> GetFriendListCount();
 		Task<AppUser> GetUserWithFriends(int userId);
-		Task<PagedList<FriendDto>> GetUserFriends(string predicate, int userId, UserParams userParams);
+		Task<PagedList<FriendDto>> GetUserFriends(int userId, FriendsParams userParams);
 		Task<AppUser> GetUserWithRequests(int userId);
 
 	}

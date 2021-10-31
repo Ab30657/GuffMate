@@ -3,6 +3,7 @@
 	<app-friend-request
 		*ngFor="let item of Friends"
 		[request]="item"
+		(RequestStatusChanged)="ReloadList()"
 	></app-friend-request>
 </div>
 <!-- Might have to remove this component useless piece of shit -->

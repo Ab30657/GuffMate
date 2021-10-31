@@ -2,21 +2,28 @@
 	<div class="side-leaf"></div>
 	<div class="req-dp-wrapper">
 		<div class="req-dp">
-			<img src="./assets/profilegirl.png" alt="" />
+			<img
+				[src]="
+					request.photoUrl || request.gender == 'Female'
+						? './assets/profilegirl.png'
+						: './assets/profileboy.png'
+				"
+				alt=""
+			/>
 		</div>
 	</div>
 	<div class="req-info">
-		<h6 class="req-name">Khusbu Bhusal</h6>
+		<h6 class="req-name">{{ request.name }}</h6>
 		<span class="req-status-info">A Tech engineer</span>
 	</div>
 	<div class="req-icons">
 		<div class="icon-wrapper">
-			<div class="req-accept">
+			<div class="req-accept" (click)="AcceptFriend()">
 				<i class="fa fa-lg fa-check"></i>
 			</div>
 		</div>
 		<div class="icon-wrapper">
-			<div class="req-deny">
+			<div class="req-deny" (click)="RejectFriend()">
 				<i class="fa fa-lg fa-times"></i>
 			</div>
 		</div>
