@@ -28,10 +28,21 @@ export class MembersService {
 	) {
 		this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
 			this.user = user;
-			this.userParams = new UserParams(user);
+			this.userParams = new UserParams();
 			this.friendsParams = new FriendsParams();
 			console.log(this.user);
 		});
+	}
+	SendRequest(username: string) {
+		return this.http.post(
+			this.baseUrl + 'friends/send-request/' + username,
+			''
+		);
+	}
+	CancelRequest(username: string) {
+		return this.http.delete(
+			this.baseUrl + 'friends/delete-request/' + username
+		);
 	}
 	AcceptUserRequest(username: string) {
 		return this.http.put(
@@ -71,19 +82,19 @@ export class MembersService {
 		this.userParams = this.userParams;
 	}
 	ResetUserParams() {
-		this.userParams = new UserParams(this.user);
+		this.userParams = new UserParams();
 		return this.userParams;
 	}
 	GetUsers(userParams: UserParams) {
 		// if (this.members.length > 0) {
 		// 	return of(this.members);
 		// }
-		var response = this.memberCache.get(
-			Object.values(userParams).join('-')
-		);
-		if (response) {
-			return of(response);
-		}
+		// var response = this.memberCache.get(
+		// 	Object.values(userParams).join('-')
+		// );
+		// if (response) {
+		// 	return of(response);
+		// }
 		let params = this.getPaginationHeaders(
 			userParams.pageNumber,
 			userParams.pageSize

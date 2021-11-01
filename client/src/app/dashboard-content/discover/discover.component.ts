@@ -22,7 +22,7 @@ export class DiscoverComponent implements OnInit {
 	genderList = [
 		{ display: 'Male', value: 'Male' },
 		{ display: 'Female', value: 'Female' },
-		{ display: 'All', value: 'Not Specified' },
+		{ display: 'All', value: '' },
 	];
 
 	constructor(private memberService: MembersService) {

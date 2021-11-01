@@ -77,5 +77,9 @@ namespace API.Data
 			return await _context.Users.Include(x => x.FriendsOf).FirstOrDefaultAsync(x => x.Id == userId);
 		}
 
+		public void Delete(UserFriend request)
+		{
+			_context.Friends.Remove(request);
+		}
 	}
 }
