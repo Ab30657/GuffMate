@@ -13,9 +13,9 @@ namespace API.Entities
 	}
 	public enum RequestFlag
 	{
-		None,
+		Pending,
 		Accepted,
 		Rejected,
-		Blocked
+		None
 	}
 }

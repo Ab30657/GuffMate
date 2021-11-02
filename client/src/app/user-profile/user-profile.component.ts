@@ -24,7 +24,7 @@ export class UserProfileComponent implements OnInit {
 				this.height = 100;
 			}
 		}
-		console.log(this.height);
+		// console.log(this.height);
 	}
 	constructor(
 		private memberService: MembersService,
@@ -41,7 +41,7 @@ export class UserProfileComponent implements OnInit {
 			.GetUser(this.route.snapshot.paramMap.get('username'))
 			.subscribe((x) => {
 				this.member = x;
-				console.log(this.member);
+				// console.log(this.member);
 			});
 	}
 

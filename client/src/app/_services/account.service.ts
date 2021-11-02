@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class AccountService {
 	fullRegisterComplete;
 	baseUrl = environment.apiUrl;
+	memberCache = new Map();
 	private currentUserSource = new ReplaySubject<User>(1);
 	currentUser$ = this.currentUserSource.asObservable();
 	constructor(private http: HttpClient, private router: Router) {}
@@ -23,8 +24,9 @@ export class AccountService {
 			map((response: User) => {
 				const user = response;
 				if (user) {
-					console.log(user);
+					// console.log(user);
 					localStorage.setItem('user', JSON.stringify(user));
+					this.memberCache = new Map();
 					this.currentUserSource.next(user);
 				}
 			})
@@ -47,6 +49,7 @@ export class AccountService {
 	}
 	logout() {
 		localStorage.removeItem('user');
+		this.memberCache = null;
 		this.currentUserSource.next(null);
 		this.router.navigateByUrl('/login');
 	}

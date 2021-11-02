@@ -154,7 +154,7 @@ export class ProfileCompleteComponent implements OnInit {
 	imageLoaded(image: LoadedImage) {}
 	cropperReady() {}
 	loadImageFailed() {
-		console.log('Not found');
+		// console.log('Not found');
 	}
 	//
 
@@ -167,7 +167,7 @@ export class ProfileCompleteComponent implements OnInit {
 				})
 			)
 			.subscribe((photo: Photo) => {
-				console.log('here');
+				// console.log('here');
 				this.member.photos.push(photo);
 				this.memberService.setMainPhoto(photo.id).subscribe(() => {
 					this.savedImage = photo.url;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using API.Entities;
 
 namespace API.DTOs
 {
@@ -18,5 +19,6 @@ namespace API.DTOs
 		public bool TwoFactorEnabled { get; set; }
 		public string Email { get; set; }
 		public int[] Friends { get; set; }
+		public RequestFlag FriendStatus { get; set; }
 	}
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { User } from 'src/app/_models/user';
 import { Member } from '../../../_models/member';
 import { MembersService } from '../../../_services/members.service';
@@ -10,6 +10,7 @@ import { MembersService } from '../../../_services/members.service';
 })
 export class UserCardsComponent implements OnInit {
 	@Input() member: Member;
+	@Output() RequestStatusChanged = new EventEmitter();
 	sent: boolean = false;
 	constructor(private memberService: MembersService) {}
 
@@ -34,4 +35,13 @@ export class UserCardsComponent implements OnInit {
 				});
 		}
 	}
+	AcceptRequest() {
+		this.memberService
+			.AcceptUserRequest(this.member.username)
+			.subscribe((x) => {
+				this.member.friendStatus = 1;
+				this.RequestStatusChanged.emit();
+			});
+	}
+	RequestRequest() {}
 }

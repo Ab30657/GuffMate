@@ -18,7 +18,6 @@ import { FriendsParams } from '../_models/friendsParams';
 export class MembersService {
 	baseUrl = environment.apiUrl;
 	members: Member[] = [];
-	memberCache = new Map();
 	user: User;
 	userParams: UserParams;
 	friendsParams: FriendsParams;
@@ -30,7 +29,7 @@ export class MembersService {
 			this.user = user;
 			this.userParams = new UserParams();
 			this.friendsParams = new FriendsParams();
-			console.log(this.user);
+			// console.log(this.user);
 		});
 	}
 	SendRequest(username: string) {
@@ -89,12 +88,12 @@ export class MembersService {
 		// if (this.members.length > 0) {
 		// 	return of(this.members);
 		// }
-		// var response = this.memberCache.get(
-		// 	Object.values(userParams).join('-')
-		// );
-		// if (response) {
-		// 	return of(response);
-		// }
+		var response = this.accountService.memberCache.get(
+			Object.values(userParams).join('-')
+		);
+		if (response) {
+			return of(response);
+		}
 		let params = this.getPaginationHeaders(
 			userParams.pageNumber,
 			userParams.pageSize
@@ -107,7 +106,8 @@ export class MembersService {
 			params
 		).pipe(
 			map((response) => {
-				this.memberCache.set(
+				// console.log(response);
+				this.accountService.memberCache.set(
 					Object.values(userParams).join('-'),
 					response
 				);

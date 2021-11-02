@@ -36,6 +36,12 @@ namespace API.Controllers
 			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 			userParams.CurrentUserName = User.FindFirst(ClaimTypes.Name)?.Value;
 			var users = await _unitOfWork.UserRepository.GetMembersAsync(userParams);
+			foreach (var item in users)
+			{
+				var request = (await _unitOfWork.FriendsRepository.GetUserFriend(item.Id, user.Id));
+				if (request == null) item.FriendStatus = RequestFlag.None;
+				if (request != null) item.FriendStatus = request.RequestStatus;
+			}
 			Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 			return Ok(users);
 		}
