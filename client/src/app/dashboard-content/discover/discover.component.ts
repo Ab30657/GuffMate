@@ -8,6 +8,7 @@ import { UserParams } from '../../_models/userParams';
 import { AccountService } from '../../_services/account.service';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/_models/user';
+import { Friend } from 'src/app/_models/Friend';
 
 @Component({
 	selector: 'app-discover',
@@ -17,6 +18,8 @@ import { User } from 'src/app/_models/user';
 export class DiscoverComponent implements OnInit {
 	user: User;
 	users: Member[];
+	SentRequests: Friend[];
+	ReceivedRequests: Friend[];
 	pagination: IPagination;
 	userParams: UserParams;
 	genderList = [

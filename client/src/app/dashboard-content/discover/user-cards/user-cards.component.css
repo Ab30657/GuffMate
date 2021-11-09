@@ -11,28 +11,28 @@
 .user-card.sent img {
 	border: 4px dotted #2288fa;
 }
-.user-card:hover {
+.user-img:hover {
 	transform: scale(1.2, 1.2);
 	transition-duration: 300ms;
 	transition-timing-function: ease-out;
 }
 
-.user-card:hover .user-img img {
+.user-img:hover img {
 	opacity: 0.7;
 	background: white;
 }
 
-.user-card:hover .options {
+.user-img:hover .options {
 	transform: scale(1.3, 1.3);
 	transition-duration: 300ms;
 	transition-timing-function: ease-out;
 	opacity: 1;
 	transform: rotate(0deg);
 }
-.user-card.sent .options {
+.user-card.sent .options > i {
 	transform: rotate(45deg);
 }
-.user-img > img {
+.user-img img {
 	height: 80px;
 	width: 80px;
 	border-radius: 50%;
@@ -48,37 +48,37 @@
 	flex-direction: column;
 }
 .options {
-	display: flex;
 	position: absolute;
-	width: 100%;
-	height: 100%;
+	top: 0;
+	right: 0;
 	opacity: 0;
 	transition: 0.3s;
-	justify-content: center;
-	align-items: center;
 }
 
 .options > i {
+	transform-origin: 50%, 50%;
 	background: linear-gradient(to right top, #31f564, #2288fa);
 	-webkit-background-clip: text;
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
-	position: absolute;
-	top: 0;
-	right: 0;
 }
 .options > i:hover {
 	transform: scale(1.3);
 }
 .req-decision {
+	position: absolute;
 	display: flex;
 	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
-	align-items: center;
+	justify-content: center;
+	align-items: flex-end;
+	bottom: 0;
 }
 
 .req-decision > .fa-check:hover,
 .req-decision > .fa-times:hover {
 	transform: scale(1.3);
+}
+
+.req-decision button {
+	font-size: 10px !important;
 }

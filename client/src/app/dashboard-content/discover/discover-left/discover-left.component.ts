@@ -4,13 +4,14 @@ import { FriendRequestComponent } from './friend-request/friend-request.componen
 import { UserParams } from '../../../_models/userParams';
 import { Friend } from 'src/app/_models/Friend';
 import { FriendsParams } from '../../../_models/friendsParams';
+import { Member } from 'src/app/_models/member';
 @Component({
 	selector: 'app-discover-left',
 	templateUrl: './discover-left.component.html',
 	styleUrls: ['./discover-left.component.css'],
 })
 export class DiscoverLeftComponent implements OnInit {
-	Friends: Friend[];
+	Friends: Friend[] = [];
 	userParams: FriendsParams;
 	constructor(private memberService: MembersService) {
 		this.userParams = this.memberService.GetFriendsParams();
@@ -20,7 +21,8 @@ export class DiscoverLeftComponent implements OnInit {
 	}
 	ReloadList() {
 		this.memberService.GetUserRequests(this.userParams).subscribe((x) => {
-			this.Friends = x.result;
+			this.Friends = x;
+			this.Friends = this.Friends.filter((x) => x.status == 1);
 		});
 	}
 }

@@ -47,7 +47,8 @@ namespace API.Controllers
 			{
 				ReqSenderUserId = senderUserId,
 				ReqReceiverUserId = receiverUser.Id,
-				Id = id++
+				Id = id++,
+				RequestStatus = RequestFlag.SentPending
 			};
 			senderUser.FriendsAdded.Add(userFriend);
 
@@ -55,7 +56,8 @@ namespace API.Controllers
 			{
 				ReqSenderUserId = receiverUser.Id,
 				ReqReceiverUserId = senderUserId,
-				Id = id++
+				Id = id++,
+				RequestStatus = RequestFlag.ReceivedPending
 			};
 			senderUser.FriendsOf.Add(userFriend);
 			if (await _unitOfWork.Complete()) return Ok();

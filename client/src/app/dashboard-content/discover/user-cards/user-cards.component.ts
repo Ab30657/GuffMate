@@ -2,6 +2,7 @@ import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { User } from 'src/app/_models/user';
 import { Member } from '../../../_models/member';
 import { MembersService } from '../../../_services/members.service';
+import { RequestStatus } from '../../../_models/Friend';
 
 @Component({
 	selector: 'app-user-cards',
@@ -10,8 +11,7 @@ import { MembersService } from '../../../_services/members.service';
 })
 export class UserCardsComponent implements OnInit {
 	@Input() member: Member;
-	@Output() RequestStatusChanged = new EventEmitter();
-	sent: boolean = false;
+	// @Output() RequestStatusChanged = new EventEmitter();  ------------If request updates dont emit anything, later add real time functionality for updates
 	constructor(private memberService: MembersService) {}
 
 	ngOnInit(): void {}
@@ -20,18 +20,15 @@ export class UserCardsComponent implements OnInit {
 		// this.memberService.SendRequest(this.member.username).subscribe((x) => {
 		// 	this.sent = true;
 		// });
-
-		if (!this.sent) {
+		if (!(this.member.friendStatus == 0)) {
 			this.memberService
 				.SendRequest(this.member.username)
-				.subscribe((x) => {
-					this.sent = true;
-				});
+				.subscribe((x) => (this.member.friendStatus = 0));
 		} else {
 			this.memberService
 				.CancelRequest(this.member.username)
 				.subscribe((x) => {
-					this.sent = false;
+					this.member.friendStatus = 4;
 				});
 		}
 	}
@@ -39,9 +36,9 @@ export class UserCardsComponent implements OnInit {
 		this.memberService
 			.AcceptUserRequest(this.member.username)
 			.subscribe((x) => {
-				this.member.friendStatus = 1;
-				this.RequestStatusChanged.emit();
+				this.member.friendStatus = 2;
+				// this.RequestStatusChanged.emit();
 			});
 	}
-	RequestRequest() {}
+	RejectRequest() {}
 }

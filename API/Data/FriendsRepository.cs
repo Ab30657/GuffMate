@@ -37,7 +37,7 @@ namespace API.Data
 		}
 		public async Task<PagedList<FriendDto>> GetUserFriends(int userId, FriendsParams userParams)
 		{
-			var requests = _context.Friends.Where(x => x.ReqReceiverUserId == userId && x.RequestStatus == RequestFlag.Pending);
+			var requests = _context.Friends.Where(x => x.ReqReceiverUserId == userId && x.RequestStatus == RequestFlag.SentPending);
 			if (userParams.predicate == "accepted")
 			{
 				requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.Accepted);
@@ -48,19 +48,19 @@ namespace API.Data
 			{
 				// var reqRev = _context.Friends.Where(x=> await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
 				// var req = await _context.Friends.FindAsync(item.ReqSenderUserId, item.ReqReceiverUserId);
-				requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.Pending);
-				foreach (var item in requests)
-				{//dummy comment
-					var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId); // find the opposite
-					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.Pending);// If reverse Id is greater then the receiver userId is the userId
-				}
+				requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.SentPending);
+				// foreach (var item in requests)
+				// {//dummy comment
+				// 	var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId); // find the opposite
+				// 	requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.ReceivedPending);// If reverse Id is greater then the receiver userId is the userId
+				// }
 			}
 			if (userParams.predicate == "received")
 			{
 				foreach (var item in requests)
 				{
 					var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId); // find the opposite
-					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.Pending);// If reverse Id is greater then the receiver userId is the userId
+					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.ReceivedPending);// If reverse Id is greater then the receiver userId is the userId
 				}
 			}
 			// if requests not fulfilled till now, no record in table for that user.

@@ -11,9 +11,7 @@ import { MembersService } from '../../../../_services/members.service';
 export class FriendRequestComponent implements OnInit {
 	@Input() request: Friend;
 	@Output() RequestStatusChanged = new EventEmitter();
-	member: Member;
 	isActive: boolean = false;
-	Requests = [];
 	constructor(private memberService: MembersService) {}
 
 	ngOnInit(): void {}
@@ -24,7 +22,8 @@ export class FriendRequestComponent implements OnInit {
 		this.memberService
 			.AcceptUserRequest(this.request.username)
 			.subscribe((x) => {
-				this.RequestStatusChanged.emit(this.member);
+				this.request.status = 2;
+				this.RequestStatusChanged.emit(this.request);
 			});
 	}
 	RejectFriend() {

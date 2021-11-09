@@ -9,7 +9,7 @@ import { map, take } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/pagination';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
-import { Friend } from '../_models/Friend';
+import { Friend, RequestStatus } from '../_models/Friend';
 import { FriendsParams } from '../_models/friendsParams';
 
 @Injectable({
@@ -18,6 +18,7 @@ import { FriendsParams } from '../_models/friendsParams';
 export class MembersService {
 	baseUrl = environment.apiUrl;
 	members: Member[] = [];
+	friends: Friend[] = [];
 	user: User;
 	userParams: UserParams;
 	friendsParams: FriendsParams;
@@ -29,6 +30,9 @@ export class MembersService {
 			this.user = user;
 			this.userParams = new UserParams();
 			this.friendsParams = new FriendsParams();
+			this.GetUserRequests(this.friendsParams).subscribe((x) => {
+				console.log(this.friends);
+			});
 			// console.log(this.user);
 		});
 	}
@@ -44,10 +48,29 @@ export class MembersService {
 		);
 	}
 	AcceptUserRequest(username: string) {
-		return this.http.put(
-			this.baseUrl + 'friends/received/' + username + '/accept',
-			''
-		);
+		return this.http
+			.put(this.baseUrl + 'friends/received/' + username + '/accept', '')
+			.pipe(
+				map(() => {
+					this.GetUser(username).subscribe(
+						(x) => (x.friendStatus = 2)
+					);
+					this.friends.splice(
+						this.friends.findIndex((x) => x.username == username),
+						1
+					);
+					// let request: Friend = [
+					// 	...this.accountService.friendCache.values(),
+					// ]
+					// 	.reduce(
+					// 		(arr, element) => arr.concat(element.result),
+					// 		[]
+					// 	)
+					// 	.find((m: Friend) => m.username === username);
+					// request.status = 2;
+					console.log(this.friends);
+				})
+			);
 	}
 	RejectUserFriend(username: string) {
 		return this.http.put(
@@ -57,17 +80,32 @@ export class MembersService {
 	}
 	//Ideas to combine above two functions into a same function with status property changed for a request
 	GetUserRequests(userParams: FriendsParams) {
+		// var response = this.accountService.friendCache.get(
+		// 	Object.values(this.friendsParams).join('-')
+		// );
+		// if (response) {
+		// 	console.log(response);
+		// 	return of(response);
+		// }
 		let params = this.getPaginationHeaders(
 			userParams.pageNumber,
 			userParams.pageSize
 		);
 		params = params.append('predicate', 'received');
+
 		return this.getPaginatedResult<Friend[]>(
 			this.baseUrl + 'friends',
 			params
 		).pipe(
 			map((x) => {
-				return x;
+				if (x != undefined) {
+					this.accountService.friendCache.set(
+						Object.values(this.friendsParams).join('-'),
+						x
+					);
+					this.friends = x.result;
+					return this.friends;
+				}
 			})
 		);
 	}
@@ -111,6 +149,7 @@ export class MembersService {
 					Object.values(userParams).join('-'),
 					response
 				);
+				this.members = response.result;
 				return response;
 			})
 		);
@@ -142,6 +181,7 @@ export class MembersService {
 		return params;
 	}
 	GetUser(username: string) {
+		console.log(this.members);
 		const member = this.members.find((x) => x.username === username);
 		if (member !== undefined) return of(member);
 		return this.http.get<Member>(this.baseUrl + 'users/' + username);

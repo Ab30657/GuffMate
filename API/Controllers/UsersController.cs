@@ -38,7 +38,7 @@ namespace API.Controllers
 			var users = await _unitOfWork.UserRepository.GetMembersAsync(userParams);
 			foreach (var item in users)
 			{
-				var request = (await _unitOfWork.FriendsRepository.GetUserFriend(item.Id, user.Id));
+				var request = (await _unitOfWork.FriendsRepository.GetUserFriend(user.Id, item.Id)); // Logged in user is the receiver
 				if (request == null) item.FriendStatus = RequestFlag.None;
 				if (request != null) item.FriendStatus = request.RequestStatus;
 			}

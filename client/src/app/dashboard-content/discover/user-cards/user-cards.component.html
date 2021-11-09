@@ -1,5 +1,4 @@
-<div class="user-card" [class]="sent ? 'sent' : ''">
-	<!--routerLink="/{{ member.username }}"> -->
+<div class="user-card" [class]="member.friendStatus == 0 ? 'sent' : ''">
 	<div class="user-img">
 		<img
 			[src]="
@@ -8,25 +7,24 @@
 					: './assets/profileboy.png'
 			"
 			alt=""
+			routerLink="/{{ member.username }}"
 		/>
 		<div class="options">
 			<!-- <i class="fa fa fa-heart"></i> -->
 			<i
-				*ngIf="member.friendStatus == 3"
+				*ngIf="member.friendStatus == 4 || member.friendStatus == 0"
 				class="fa fa-2x fa-plus"
 				(click)="ToggleRequest()"
 			></i>
-			<div class="req-decision" *ngIf="member.friendStatus == 0">
-				<i
-					class="fa fa-2x fa-check"
-					style="color: rgb(0, 220, 0)"
-					(click)="AcceptRequest()"
-				></i>
-				<i
-					class="fa fa-2x fa-times text-danger"
-					style="color: red"
-					(click)="RejectRequest()"
-				></i>
+		</div>
+		<div class="req-decision" *ngIf="member.friendStatus == 1">
+			<div class="btn-group">
+				<button class="btn btn-success" (click)="AcceptRequest()">
+					Accept
+				</button>
+				<button class="btn btn-danger" (click)="RejectRequest()">
+					Reject
+				</button>
 			</div>
 		</div>
 	</div>
