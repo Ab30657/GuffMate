@@ -15,5 +15,5 @@ export interface Member {
 	twoFactorEnabled: boolean;
 	email: string;
 	friends: string[];
-	friendStatus: number; //1- Pending		2-Accepted		3-Rejected		4-NoRequest/None
+	friendStatus: number; // SentPending = 0, // ReceivedPending = 1,// Accepted = 2,// Rejected = 3,// None = 4,
 }

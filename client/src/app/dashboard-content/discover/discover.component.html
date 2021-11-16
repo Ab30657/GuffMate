@@ -71,7 +71,7 @@
 		<app-user-cards
 			*ngFor="let user of users"
 			[member]="user"
-			(RequestStatusChanged)="check()"
+			(RequestStatusChanged)="updateRequest($event)"
 		></app-user-cards>
 	</div>
 	<div class="paging-div my-5" *ngIf="pagination?.totalItems > 0">

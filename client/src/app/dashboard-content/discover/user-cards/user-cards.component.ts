@@ -11,7 +11,7 @@ import { RequestStatus } from '../../../_models/Friend';
 })
 export class UserCardsComponent implements OnInit {
 	@Input() member: Member;
-	// @Output() RequestStatusChanged = new EventEmitter();  ------------If request updates dont emit anything, later add real time functionality for updates
+	@Output() RequestStatusChanged = new EventEmitter(); // ------------If request updates dont emit anything, later add real time functionality for updates
 	constructor(private memberService: MembersService) {}
 
 	ngOnInit(): void {}
@@ -33,12 +33,7 @@ export class UserCardsComponent implements OnInit {
 		}
 	}
 	AcceptRequest() {
-		this.memberService
-			.AcceptUserRequest(this.member.username)
-			.subscribe((x) => {
-				this.member.friendStatus = 2;
-				// this.RequestStatusChanged.emit();
-			});
+		this.RequestStatusChanged.emit(this.member.username);
 	}
 	RejectRequest() {}
 }

@@ -20,7 +20,7 @@ namespace API.Helpers
 				.ForMember(x => x.Name, opt => opt.MapFrom(src => src.ReqReceiverUser.Name))
 				.ForMember(x => x.Gender, opt => opt.MapFrom(sourceMember => sourceMember.ReqReceiverUser.Gender))
 				.ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ReqReceiverUser.Photos.FirstOrDefault(x => x.IsMain).Url))
-			.ForMember(x => x.Status, opt => opt.MapFrom(src => src.RequestStatus));
+				.ForMember(x => x.Status, opt => opt.MapFrom(src => src.RequestStatus));
 			CreateMap<Interest, InterestDto>();
 			CreateMap<RegisterDto, AppUser>();
 			CreateMap<ProfileCompleteDto, AppUser>();

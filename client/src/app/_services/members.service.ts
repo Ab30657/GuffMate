@@ -2,10 +2,10 @@ import { UserParams } from './../_models/userParams';
 import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, ReplaySubject, BehaviorSubject } from 'rxjs';
 import { Member } from '../_models/member';
 import { of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { PaginatedResult } from '../_models/pagination';
 import { AccountService } from './account.service';
 import { User } from '../_models/user';
@@ -18,6 +18,8 @@ import { FriendsParams } from '../_models/friendsParams';
 export class MembersService {
 	baseUrl = environment.apiUrl;
 	members: Member[] = [];
+	private friendSource = new BehaviorSubject<Friend[]>([]);
+	friends$ = this.friendSource.asObservable();
 	friends: Friend[] = [];
 	user: User;
 	userParams: UserParams;
@@ -30,11 +32,12 @@ export class MembersService {
 			this.user = user;
 			this.userParams = new UserParams();
 			this.friendsParams = new FriendsParams();
-			this.GetUserRequests(this.friendsParams).subscribe((x) => {
-				console.log(this.friends);
-			});
+			this.GetUserRequests(this.friendsParams).subscribe((x) => {});
 			// console.log(this.user);
 		});
+	}
+	updateFriendList(data) {
+		this.friendSource.next(data);
 	}
 	SendRequest(username: string) {
 		return this.http.post(
@@ -52,25 +55,29 @@ export class MembersService {
 			.put(this.baseUrl + 'friends/received/' + username + '/accept', '')
 			.pipe(
 				map(() => {
-					this.GetUser(username).subscribe(
-						(x) => (x.friendStatus = 2)
-					);
 					this.friends.splice(
 						this.friends.findIndex((x) => x.username == username),
 						1
 					);
-					// let request: Friend = [
-					// 	...this.accountService.friendCache.values(),
-					// ]
-					// 	.reduce(
-					// 		(arr, element) => arr.concat(element.result),
-					// 		[]
-					// 	)
-					// 	.find((m: Friend) => m.username === username);
-					// request.status = 2;
-					console.log(this.friends);
+					this.friendSource.next(Object.assign([], this.friends));
 				})
 			);
+		// .pipe(
+		// map(() => {
+		// this.members.find((x) => x.username).friendStatus = 2;
+		// let member:Member = [...this.accountService.friendCache.values()]
+		// 	.reduce((arr, elem) => arr.concat(elem.result), [])
+		// 	.find((member: Member) => member.username === username);
+		// 	})
+		// );
+		// let friends = [];
+		// this.friends$.subscribe(
+		// 	friends => (x.find((x) => x.username == username).status = 2)
+		// );
+		// this.members.find((x) => x.username == username).friendStatus = 2;
+		// console.log(this.members);
+		// console.log(this.friends);
+		// return of(this.friends.find((x) => x.username));
 	}
 	RejectUserFriend(username: string) {
 		return this.http.put(
@@ -84,9 +91,9 @@ export class MembersService {
 		// 	Object.values(this.friendsParams).join('-')
 		// );
 		// if (response) {
-		// 	console.log(response);
 		// 	return of(response);
 		// }
+		// console.log(this.friends);
 		let params = this.getPaginationHeaders(
 			userParams.pageNumber,
 			userParams.pageSize
@@ -99,15 +106,46 @@ export class MembersService {
 		).pipe(
 			map((x) => {
 				if (x != undefined) {
-					this.accountService.friendCache.set(
-						Object.values(this.friendsParams).join('-'),
-						x
-					);
 					this.friends = x.result;
-					return this.friends;
+					this.friendSource.next(Object.assign([], this.friends));
 				}
 			})
 		);
+		// 			this.friends = x.result;
+		// 			return this.friends;
+		// 			// var requests = [];
+		// 			// x.result.forEach((x) => {
+		// 			// 	this.GetUser(x.username).subscribe((x) => {
+		// 			// 		requests.push(x);
+		// 			// 	});
+		// 			// });
+		// 			// this.accountService.friendCache.set(
+		// 			// 	Object.values(this.friendsParams).join('-'),
+		// 			// 	requests
+		// 			// );
+		// 			// return requests;
+		// 		}
+		// 	})
+		// );
+		// let params = this.getPaginationHeaders(
+		// 	userParams.pageNumber,
+		// 	userParams.pageSize
+		// );
+
+		// return this.getPaginatedResult<Member[]>(
+		// 	this.baseUrl + 'users',
+		// 	params
+		// ).pipe(
+		// 	map((response) => {
+		// 		// console.log(response);
+		// 		this.accountService.memberCache.set(
+		// 			Object.values(userParams).join('-'),
+		// 			response
+		// 		);
+		// 		this.members = response.result;
+		// 		return response;
+		// 	})
+		// );
 	}
 	GetUserParams() {
 		return this.userParams;
@@ -126,12 +164,12 @@ export class MembersService {
 		// if (this.members.length > 0) {
 		// 	return of(this.members);
 		// }
-		var response = this.accountService.memberCache.get(
-			Object.values(userParams).join('-')
-		);
-		if (response) {
-			return of(response);
-		}
+		// var response = this.accountService.memberCache.get(
+		// 	Object.values(userParams).join('-')
+		// );
+		// if (response) {
+		// 	return of(response);
+		// }
 		let params = this.getPaginationHeaders(
 			userParams.pageNumber,
 			userParams.pageSize
@@ -181,7 +219,6 @@ export class MembersService {
 		return params;
 	}
 	GetUser(username: string) {
-		console.log(this.members);
 		const member = this.members.find((x) => x.username === username);
 		if (member !== undefined) return of(member);
 		return this.http.get<Member>(this.baseUrl + 'users/' + username);

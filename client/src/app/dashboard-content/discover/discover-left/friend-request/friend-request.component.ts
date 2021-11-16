@@ -19,12 +19,7 @@ export class FriendRequestComponent implements OnInit {
 		this.isActive = !this.isActive;
 	}
 	AcceptFriend() {
-		this.memberService
-			.AcceptUserRequest(this.request.username)
-			.subscribe((x) => {
-				this.request.status = 2;
-				this.RequestStatusChanged.emit(this.request);
-			});
+		this.RequestStatusChanged.emit(this.request.username);
 	}
 	RejectFriend() {
 		// this.memberService

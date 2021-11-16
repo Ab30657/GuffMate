@@ -1,9 +1,9 @@
 <div class="heading">Friend Requests</div>
 <div class="wrapper">
 	<app-friend-request
-		*ngFor="let item of Friends"
+		*ngFor="let item of Friends$ | async"
 		[request]="item"
-		(RequestStatusChanged)="ReloadList()"
+		(RequestStatusChanged)="UpdateRequest($event)"
 	></app-friend-request>
 </div>
 <!-- Might have to remove this component useless piece of shit -->
