@@ -8,8 +8,14 @@
 	transition-duration: 300ms;
 	transition-timing-function: ease-out;
 }
+.user-card.friend img {
+	border: 3px solid #7371fc;
+}
 .user-card.sent img {
-	border: 4px dotted #2288fa;
+	border: 3px solid #ffef9f;
+}
+.user-card.received img {
+	border: 3px solid #7bf1a8;
 }
 .user-img:hover {
 	transform: scale(1.2, 1.2);
@@ -31,12 +37,16 @@
 }
 .user-card.sent .options > i {
 	transform: rotate(45deg);
+	background: linear-gradient(to right top, red, #a01414);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 .user-img img {
 	height: 80px;
 	width: 80px;
 	border-radius: 50%;
-	border: 4px solid var(--second-color);
+	border: 3px solid #2288fa;
 }
 
 .user-img {

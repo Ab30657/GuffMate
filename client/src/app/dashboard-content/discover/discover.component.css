@@ -91,7 +91,7 @@
 	background: rgba(255, 255, 255, 1);
 }
 .option-input:checked {
-	background: #40e0d0;
+	background: #7371fc;
 }
 .option-input:checked::before {
 	height: 20px;
@@ -107,17 +107,17 @@
 	-webkit-animation: click-wave 0.65s;
 	-moz-animation: click-wave 0.65s;
 	animation: click-wave 0.65s;
-	background: #40e0d0;
+	background: #7371fc;
 	content: "";
 	display: block;
 	position: relative;
 	z-index: 100;
 }
 .option-input.radio {
-	border-radius: 50%;
+	border-radius: 10%;
 }
 .option-input.radio::after {
-	border-radius: 50%;
+	border-radius: 10%;
 }
 .filter-div > label {
 	font-size: 14px;

@@ -3,14 +3,11 @@ button {
 }
 .glass {
 	background: white;
-	min-height: 90vh;
-	width: 90vw;
 	background: linear-gradient(
 		to right bottom,
 		rgba(255, 255, 255, 0.7),
 		rgba(255, 255, 255, 0.3)
 	);
-	border-radius: 2rem;
 	z-index: 3;
 	backdrop-filter: blur(2rem);
 	display: flex;
@@ -18,7 +15,6 @@ button {
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 	flex-direction: column;
 	overflow: hidden;
-	max-height: 90vh;
 }
 
 .intro {

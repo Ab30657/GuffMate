@@ -36,4 +36,17 @@ export class UserCardsComponent implements OnInit {
 		this.RequestStatusChanged.emit(this.member.username);
 	}
 	RejectRequest() {}
+
+	getFriendStatus() {
+		if (this.member.friendStatus == 0) {
+			return 'sent';
+		}
+		if (this.member.friendStatus == 1) {
+			return 'received';
+		}
+		if (this.member.friendStatus == 2) {
+			return 'friend';
+		}
+		return '';
+	}
 }

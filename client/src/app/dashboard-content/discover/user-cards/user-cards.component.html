@@ -1,4 +1,4 @@
-<div class="user-card" [class]="member.friendStatus == 0 ? 'sent' : ''">
+<div class="user-card" [class]="getFriendStatus()">
 	<div class="user-img">
 		<img
 			[src]="
