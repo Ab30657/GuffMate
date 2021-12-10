@@ -28,22 +28,16 @@ button {
 	padding: 2.5rem 3rem;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
 	grid-gap: 2rem;
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 	position: relative;
 	min-height: 100vh;
 	overflow: hidden;
 }
-
 .profile-completion-dashboard > div {
-	height: 100%;
-	flex: 2;
-	padding: 0 20px;
 	display: flex;
 	flex-direction: column;
 }
-
 .select {
 	position: relative;
 	overflow: hidden;
@@ -161,24 +155,16 @@ label {
 	padding-bottom: 0.5rem;
 	font-weight: 700;
 }
+.dboard-col-2 > label {
+	padding: 1rem;
+}
 .gender-wrapper {
 	position: absolute;
 	width: 100%;
 }
 .form-control-group.gender {
-	grid-area: 1/1/2/1;
 	position: relative;
-	margin-bottom: 70px;
-	padding: 1rem 0;
-}
-.form-control-group.two-factor {
-	grid-area: 2/1/3/2;
-}
-.form-control-group.sms-auth {
-	grid-area: 3/1/4/2;
-}
-.form-control-group.profile-pic {
-	grid-area: 1/2/4/3;
+	min-height: 250px;
 }
 .form-control-group > p {
 	opacity: 1;
@@ -276,7 +262,7 @@ label {
 .img-tools {
 	display: flex;
 	flex-direction: column;
-	padding: 1rem 2rem;
+	padding: 1rem;
 }
 
 .page-heading {
@@ -512,17 +498,6 @@ li > .deleted {
 	display: none;
 }
 
-.gallery-row {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	align-content: flex-start;
-	flex-wrap: wrap;
-	max-width: 400px;
-}
-.gallery-row-wrapper {
-	position: relative;
-}
 .parent {
 	position: relative;
 	width: 109px;
@@ -537,30 +512,10 @@ li > .deleted {
 
 .gallery {
 	border-radius: 1rem;
-	padding: 1rem;
 	height: 100%;
 }
-
-.gallery-link {
-	height: 109px;
-	width: 109px;
-	background: #2288fa;
-	text-transform: uppercase;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-weight: 400;
-	cursor: pointer;
-	color: white;
-	margin: 0.25rem;
-}
-.gallery-link > span {
-	font-size: 0.8rem;
-	letter-spacing: 1px;
-}
-.gallery-link:hover {
-	background: #1d70cf;
-	flex: 1 0 auto;
+.gallery > label {
+	padding: 1rem;
 }
 .cropper-wrapper {
 	max-height: 80vh;
@@ -593,12 +548,27 @@ li > .deleted {
 figure {
 	margin: 0 !important;
 }
+
 .gallery-inside {
-	display: flex;
-	padding: 2px;
-	transition: 0.3s;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	height: 525px;
+	overflow-y: auto;
+	justify-items: center;
+	position: relative;
+}
+@media screen and (max-width: 1200px) {
+	.gallery-inside {
+		grid-template-columns: 1fr 1fr 1fr;
+	}
+
+	.profile-completion-dashboard {
+		grid-template-columns: 1fr;
+	}
 }
 
-.gallery-wrapper-wrapper {
-	overflow-y: auto;
+@media screen and (max-width: 768px) {
+	.gallery-inside {
+		grid-template-columns: 1fr;
+	}
 }

@@ -21,7 +21,7 @@ button {
 }
 .profile-body {
 	flex: 3;
-	background-color: #f6f6f6;
+	background-color: #f5efff;
 	display: flex;
 	position: relative;
 	overflow: auto;
@@ -39,7 +39,7 @@ button {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	height: 150px;
+	height: 160px;
 	background: white;
 	display: flex;
 }
@@ -194,7 +194,7 @@ button {
 	top: 5px;
 	bottom: 5px;
 	width: 5px;
-	background: #2d353c;
+	background: #cdc1ff;
 	left: 12%;
 	margin-left: -2.5px;
 }
@@ -207,6 +207,7 @@ button {
 
 .timeline .timeline-time {
 	position: absolute;
+	color: #7371fc;
 	left: 0;
 	width: 10%;
 	text-align: right;
@@ -227,7 +228,7 @@ button {
 .timeline .timeline-time .time {
 	line-height: 24px;
 	font-size: 20px;
-	color: #242a30;
+	color: #7371fc;
 }
 
 .timeline .timeline-icon {
@@ -244,11 +245,11 @@ button {
 	height: 20px;
 	display: inline-block;
 	border-radius: 20px;
-	background: #d9e0e7;
+	background: #cdc1ff;
 	line-height: 10px;
 	color: #fff;
 	font-size: 14px;
-	border: 5px solid #2d353c;
+	border: 5px solid #7371fc;
 	transition: border-color 0.2s linear;
 }
 

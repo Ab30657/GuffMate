@@ -2,9 +2,10 @@
 	<div class="user-img">
 		<img
 			[src]="
-				member.photoUrl || member.gender == 'Female'
+				member.photoUrl ||
+				(!member.photoUrl && member.gender == 'Female'
 					? './assets/profilegirl.png'
-					: './assets/profileboy.png'
+					: './assets/profileboy.png')
 			"
 			alt=""
 			routerLink="/{{ member.username }}"

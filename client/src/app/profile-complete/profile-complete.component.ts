@@ -84,9 +84,11 @@ export class ProfileCompleteComponent implements OnInit {
 	SaveChanges() {
 		this.user.gender = this.registerCompleteForm.value.gender;
 		this.accountService.setCurrentUser(this.user);
+		console.log(this.interestList);
 		this.registerCompleteForm.controls['interests'].setValue(
 			this.interestList
 		);
+		console.log(this.interestList);
 		this.memberService.update(this.registerCompleteForm).subscribe(() => {
 			this.router.navigateByUrl('/discover');
 		});
