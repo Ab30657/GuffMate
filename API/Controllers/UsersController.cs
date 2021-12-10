@@ -125,7 +125,7 @@ namespace API.Controllers
 			var interestList = (await _unitOfWork.InterestRepository.GetInterestsByUserIdAsync(user.Id));
 			var interestListStrings = interestList.Select(x => x.Title);
 			var newInterests = profileCompleteDto.Interests.Except(interestListStrings).ToList();
-			var remainingInterests = interestList.Where(x => profileCompleteDto.Interests.Any(a => a != x.Title)).ToList();
+			var remainingInterests = interestList.Where(x => !profileCompleteDto.Interests.Any(a => a == x.Title)).ToList();
 			//Add interest if profileCompleteDto has only added interest
 			foreach (var item in newInterests)
 			{
