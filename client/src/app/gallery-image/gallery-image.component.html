@@ -2,7 +2,10 @@
 	<div class="wrapper">
 		<img [src]="photo.url" class="gallery__image" />
 		<figcaption class="gallery__caption">
-			<button (click)="SetOldPhoto(photo); $event.stopPropagation()">
+			<button
+				type="button"
+				(click)="SetOldPhoto(photo); $event.stopPropagation()"
+			>
 				Set as Profile Picture
 			</button>
 		</figcaption>

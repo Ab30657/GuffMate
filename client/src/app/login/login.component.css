@@ -1,7 +1,3 @@
-:host {
-	position: absolute;
-}
-
 .app-logo nav {
 	width: 100%;
 	display: flex;
@@ -37,7 +33,6 @@
 	font-weight: 700;
 	color: white;
 	font-size: 1.2rem;
-	letter-spacing: 4px;
 }
 .app-logo .tab.active .block {
 	color: #4267ff;
@@ -48,14 +43,14 @@
 
 .glass {
 	background: white;
-	min-height: 90vh;
+	min-height: 720px;
 	width: 100%;
 	background: linear-gradient(
 		to right bottom,
 		rgba(255, 255, 255, 0.7),
 		rgba(255, 255, 255, 0.3)
 	);
-	border-radius: 2rem;
+	border-radius: 0.5rem;
 	z-index: 3;
 	backdrop-filter: blur(2rem);
 	display: flex;
@@ -69,7 +64,7 @@
 	align-items: center;
 	flex-direction: column;
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
-	border-radius: 2rem;
+	border-radius: 0.5rem;
 	position: relative;
 	overflow: hidden;
 }
@@ -97,11 +92,11 @@ hr {
 }
 
 .login-control-group {
-	margin-bottom: 0.5rem;
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
 	min-width: 0rem;
+	position: relative;
 }
 .login-control-group > h5 {
 	align-self: flex-start;
@@ -127,11 +122,13 @@ hr {
 	font-weight: 900;
 	/* letter-spacing: 0.6rem; */
 }
-
-.button-group > button {
-	border-radius: 2rem;
+.btn-wrapper {
+	width: 100%;
+	display: flex;
+}
+.button-group button {
+	border-radius: 0.25rem;
 	border: none;
-
 	color: white;
 	padding: 1rem;
 	width: 100%;
@@ -142,7 +139,7 @@ hr {
 
 #login-btn {
 	background: linear-gradient(to right top, #2288fa, #31f564);
-	border-radius: 2rem;
+	border-radius: 0.25rem;
 	color: white;
 	padding: 1rem;
 	border: none;
@@ -150,14 +147,19 @@ hr {
 	transition: 0.3s;
 	background-size: 400%;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	background-position: right;
 }
-.button-group > button > h4 {
+.button-group button > h4 {
 	color: white;
+	margin-bottom: 0 !important;
 }
-.button-group > button > h5 {
+.button-group button > h5 {
 	color: white;
 	text-transform: capitalize;
+	margin-bottom: 0 !important;
 }
 
 .login-control-group > a {
@@ -171,7 +173,9 @@ hr {
 	justify-content: flex-end;
 	margin-top: 1rem;
 }
-
+.button-group > button {
+	margin: 0 !important;
+}
 .button-group > #fb-login,
 #google-login {
 	padding: 1rem;
@@ -289,7 +293,7 @@ hr {
 
 .register-form #register-btn {
 	background: linear-gradient(to right top, #2288fa, #31f564);
-	border-radius: 2rem;
+	border-radius: 0.25rem;
 	color: white;
 	padding: 1rem;
 	border: none;
@@ -308,6 +312,7 @@ hr {
 }
 .error {
 	color: red;
+	height: 20px;
 	font-size: 0.8rem;
 }
 .password-wrapper {
@@ -338,4 +343,8 @@ hr {
 	60% {
 		transform: translate3d(5px, 0, 0);
 	}
+}
+
+.forgot-pwd {
+	text-decoration: none;
 }

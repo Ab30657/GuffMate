@@ -6,17 +6,17 @@
 		type="{{ type }}"
 		class="form-control"
 	/>
-	<span
-		class="error invalid-feedback"
-		*ngIf="ngControl.control.errors?.required"
-		>{{ label }} is required</span
-	>
-	<span
-		class="error invalid-feedback"
-		*ngIf="ngControl.control.errors?.isMatch"
-		>Passwords do not match</span
-	>
-	<span class="error invalid-feedback" *ngIf="ngControl.control.errors?.email"
-		>Enter a valid email</span
-	>
+	<div class="error">
+		<div *ngIf="ngControl.touched && ngControl.invalid">
+			<span *ngIf="ngControl.control.errors?.required"
+				>{{ label }} is required</span
+			>
+			<span *ngIf="ngControl.control.errors?.isMatch"
+				>Passwords do not match</span
+			>
+			<span *ngIf="ngControl.control.errors?.email"
+				>Enter a valid email</span
+			>
+		</div>
+	</div>
 </div>

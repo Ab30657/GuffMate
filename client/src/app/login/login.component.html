@@ -9,10 +9,10 @@
 			<i class="fa fa-joomla" [ngClass]="islogin ? 'fa-5x' : 'fa-3x'"></i>
 			<nav>
 				<div class="tab tab1 active" (click)="slideLeft()">
-					<div class="block">LOGIN</div>
+					<div class="block">Log In</div>
 				</div>
 				<div class="tab tab2">
-					<div class="block" (click)="slideRight()">REGISTER</div>
+					<div class="block" (click)="slideRight()">Register</div>
 				</div>
 				<div class="indicator"></div>
 			</nav>
@@ -40,11 +40,11 @@
 								required
 								class="form-control"
 							/>
-							<div
-								class="error"
-								*ngIf="username.touched && username.errors"
-							>
-								Username is required
+							<div class="error">
+								<span
+									*ngIf="username.touched && username.errors"
+									>Username is required</span
+								>
 							</div>
 						</div>
 						<div class="login-control-group password-div">
@@ -68,13 +68,13 @@
 									(click)="toggle()"
 								></i>
 							</div>
-							<div
-								class="error"
-								*ngIf="password.touched && password.errors"
-							>
-								Password is required
+							<div class="error">
+								<span
+									*ngIf="password.touched && password.errors"
+									>Password is required</span
+								>
 							</div>
-							<a href="">Forgot Password?</a>
+							<a class="forgot-pwd" href="">Forgot Password?</a>
 						</div>
 						<div
 							*ngIf="loginValidationErrors?.length > 0"
@@ -91,16 +91,22 @@
 							>
 						</div>
 						<div class="button-group">
-							<button id="login-btn" type="submit">
-								<h4>Log In</h4>
-							</button>
+							<div class="btn-wrapper">
+								<button id="login-btn" type="submit">
+									<h4>Log In</h4>
+								</button>
+							</div>
 							<hr />
-							<button id="fb-login">
-								<h5>Log in from Facebook</h5>
-							</button>
-							<button id="google-login">
-								<h5>Log in from Google</h5>
-							</button>
+							<div class="btn-wrapper">
+								<button id="fb-login">
+									<h5>Log in from Facebook</h5>
+								</button>
+							</div>
+							<div class="btn-wrapper">
+								<button id="google-login">
+									<h5>Log in from Google</h5>
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -147,28 +153,31 @@
 									(click)="toggle()"
 								></i>
 							</div>
-							<span
-								class="error"
-								*ngIf="
-									registerForm.controls['password'].touched &&
-									registerForm.controls['password'].errors
-										?.required
-								"
-								>Password is required</span
-							><span
-								class="error"
-								*ngIf="
-									registerForm.controls['password'].touched &&
-									registerForm.controls['password'].errors
-										?.minlength
-								"
-								>Password must be atleast
-								{{
-									registerForm.controls["password"].errors
-										?.minlength["requiredLength"]
-								}}
-								characters</span
-							>
+							<div class="error">
+								<span
+									*ngIf="
+										registerForm.controls['password']
+											.touched &&
+										registerForm.controls['password'].errors
+											?.required
+									"
+									>Password is required</span
+								>
+								<span
+									*ngIf="
+										registerForm.controls['password']
+											.touched &&
+										registerForm.controls['password'].errors
+											?.minlength
+									"
+									>Password must be atleast
+									{{
+										registerForm.controls["password"].errors
+											?.minlength["requiredLength"]
+									}}
+									characters
+								</span>
+							</div>
 						</div>
 						<app-text-input
 							[formControl]="

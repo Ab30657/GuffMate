@@ -8,10 +8,8 @@ button {
 		rgba(255, 255, 255, 0.7),
 		rgba(255, 255, 255, 0.3)
 	);
-	border-radius: 2rem;
 	z-index: 3;
 	backdrop-filter: blur(2rem);
-	display: flex;
 	position: relative;
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 	overflow: hidden;
@@ -28,12 +26,13 @@ button {
 .profile-completion-dashboard {
 	width: 100%;
 	padding: 2.5rem 3rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+	grid-gap: 2rem;
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
-	border-radius: 2rem;
 	position: relative;
+	min-height: 100vh;
 	overflow: hidden;
 }
 
@@ -44,19 +43,7 @@ button {
 	display: flex;
 	flex-direction: column;
 }
-.profile-picture {
-	flex: 3 !important;
-}
 
-.verify-contact {
-	padding-left: 0 !important;
-}
-
-.save-changes {
-	margin-right: 0px !important;
-
-	padding-right: 0px !important;
-}
 .select {
 	position: relative;
 	overflow: hidden;
@@ -179,11 +166,20 @@ label {
 	width: 100%;
 }
 .form-control-group.gender {
+	grid-area: 1/1/2/1;
 	position: relative;
 	margin-bottom: 70px;
 	padding: 1rem 0;
 }
-
+.form-control-group.two-factor {
+	grid-area: 2/1/3/2;
+}
+.form-control-group.sms-auth {
+	grid-area: 3/1/4/2;
+}
+.form-control-group.profile-pic {
+	grid-area: 1/2/4/3;
+}
 .form-control-group > p {
 	opacity: 1;
 	font-size: 0.8rem;
@@ -237,9 +233,6 @@ label {
 	padding: 1rem 0;
 	padding-top: 0;
 }
-.profile-picture > .form-control-group {
-	text-align: center;
-}
 .img-div {
 	display: flex;
 	justify-content: center;
@@ -287,18 +280,14 @@ label {
 }
 
 .page-heading {
-	position: absolute;
-	top: 0;
+	display: flex;
+	width: 100%;
+	justify-content: center;
+	position: fixed;
+	margin: 0 auto;
 	z-index: 10;
 	padding: 0.8rem 1.5rem 0.6rem 1.5rem !important;
-	background: white;
 	font-weight: 700;
-	border-radius: 2rem;
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	margin-top: -10px;
-	height: auto !important;
-	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 }
 
 .interest-wrapper {
@@ -327,6 +316,7 @@ label {
 	margin: 8px 4px;
 	border-radius: 0.3rem;
 	box-shadow: none;
+
 	background: #2288fa;
 	color: white;
 	cursor: pointer;
@@ -420,15 +410,6 @@ label {
 }
 .save-btn:hover {
 	background: #1d70cf;
-}
-.form-control-group.save {
-	justify-self: flex-end;
-}
-
-.save-changes > form {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
 }
 
 .delete-btn {
@@ -524,8 +505,6 @@ label {
 .button:hover {
 	opacity: 0.9;
 }
-.button:hover .icon .fa-remove {
-}
 .button:active {
 	opacity: 1;
 }
@@ -559,6 +538,7 @@ li > .deleted {
 .gallery {
 	border-radius: 1rem;
 	padding: 1rem;
+	height: 100%;
 }
 
 .gallery-link {
@@ -620,6 +600,5 @@ figure {
 }
 
 .gallery-wrapper-wrapper {
-	max-height: 250px;
 	overflow-y: auto;
 }
