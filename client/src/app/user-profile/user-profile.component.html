@@ -7,26 +7,103 @@
 	<!-- <div class="profile-body" (scroll)="scrollHandler($event)"> -->
 	<div class="profile-body">
 		<div class="contact">
-			<div class="profile-pic-wrapper">
-				<img src="../../assets/profilegirl.png" alt="" />
-			</div>
-			<div class="contact-details-wrapper">
-				<div *ngIf="this.member?.phoneNumber" class="phone-numbers">
-					<i class="fa fa-phone"></i>
-					<span>{{ this.member?.phoneNumber }}</span>
+			<div class="contact-wrapper">
+				<div class="profile-pic-wrapper">
+					<img
+						[src]="
+							this.member?.photoUrl ||
+							'../../assets/profilegirl.png'
+						"
+						alt=""
+					/>
 				</div>
-				<div *ngIf="this.member?.email" class="email">
-					<i class="fa fa-mail-forward"></i>
-					<span>{{ this.member?.email }}</span>
+				<div class="profile-content">
+					<div class="profile-card-name">{{ this.member?.name }}</div>
+					<div class="profile-card-status">
+						{{ this.member?.status }}
+					</div>
 				</div>
-			</div>
-			<div class="chat-btn-wrapper">
-				<button class="chat-btn">
-					<i class="fa fa-wechat"></i> Chat
-				</button>
-				<button class="chat-btn">
-					<i class="fa fa-facebook"></i> Connect with Facebook
-				</button>
+
+				<div class="contact-details-wrapper">
+					<div
+						*ngIf="this.member?.phoneNumber"
+						class="phone-number contact-field"
+					>
+						<i class="fa fa-phone"></i>
+						<span>{{ this.member?.phoneNumber }}</span>
+					</div>
+					<div
+						*ngIf="this.member?.email || 1"
+						class="email contact-field"
+					>
+						<i class="fa fa-mail-forward"></i>
+						<span
+							>{{
+								this.member?.email
+							}}amar.budhathoki@outlook.com</span
+						>
+					</div>
+				</div>
+				<div class="profile-info-count">
+					<div class="count-item">
+						<div class="count-item-title">499</div>
+						<div class="count-item-number">Friends</div>
+					</div>
+					<div class="count-item">
+						<div class="count-item-title">23</div>
+						<div class="count-item-number">Followers</div>
+					</div>
+					<div class="count-item">
+						<div class="count-item-title">7</div>
+						<div class="count-item-number">Projects</div>
+					</div>
+					<div class="count-item">
+						<div class="count-item-title">69</div>
+						<div class="count-item-number">Updates</div>
+					</div>
+				</div>
+				<div class="profile-socials">
+					<a
+						href="https://www.facebook.com/Ab30657"
+						class="profile-card-social-btn facebook"
+					>
+						<span class="icon-font">
+							<i class="fa fa-facebook"></i>
+						</span>
+					</a>
+					<a
+						href="https://twitter.com/Ab30657"
+						class="profile-card-social-btn twitter"
+					>
+						<span class="icon-font">
+							<i class="fa fa-twitter"></i>
+						</span>
+					</a>
+					<a
+						href="https://www.instagram.com/Ab30657"
+						class="profile-card-social-btn instagram"
+					>
+						<span class="icon-font">
+							<i class="fa fa-instagram"></i>
+						</span>
+					</a>
+					<a
+						href="https://github.com/Ab30657"
+						class="profile-card-social-btn github"
+					>
+						<span class="icon-font">
+							<i class="fa fa-github"></i>
+						</span>
+					</a>
+				</div>
+				<div class="chat-btn-wrapper">
+					<button class="chat-btn message">
+						<i class="fa fa-wechat"></i> Chat with me!
+					</button>
+					<button class="chat-btn chat">
+						<i class="fa fa-mail-forward"></i>Send a Message
+					</button>
+				</div>
 			</div>
 		</div>
 		<div class="body">
@@ -131,7 +208,7 @@
 											class="form-control rounded-corner"
 											placeholder="Write a comment..."
 										/>
-										<span class="input-group-btn p-l-10">
+										<span class="input-group-append p-l-10">
 											<button
 												class="
 													comment-btn
