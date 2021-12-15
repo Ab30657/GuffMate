@@ -130,8 +130,6 @@ button {
 	align-items: center;
 	flex-wrap: wrap;
 }
-.profile-card-social-btn {
-}
 .profile-card-social-btn .icon-font {
 	display: inline-flex;
 }
@@ -231,6 +229,7 @@ button {
 .chat:hover {
 	box-shadow: 0px 7px 30px rgba(165, 148, 249, 0.7);
 }
+
 /*Special*/
 .timeline {
 	list-style-type: none;
@@ -245,7 +244,7 @@ button {
 	top: 5px;
 	bottom: 5px;
 	width: 5px;
-	background: #7371fc;
+	background: #2d353c;
 	left: 12%;
 	margin-left: -2.5px;
 }
@@ -295,7 +294,7 @@ button {
 	height: 20px;
 	display: inline-block;
 	border-radius: 20px;
-	background: #31f564;
+	background: #fff;
 	line-height: 10px;
 	color: #fff;
 	font-size: 14px;
@@ -383,10 +382,13 @@ button {
 	background: #fff;
 	border-top: 1px solid #e2e7ec;
 	padding-top: 15px;
+	display: flex;
+	justify-content: space-between;
 }
 
 .timeline-footer a:not(.btn) {
 	color: #575d63;
+	cursor: pointer;
 }
 
 .timeline-footer a:not(.btn):focus,
@@ -449,6 +451,11 @@ button {
 
 .timeline-comment-box .user + .input {
 	margin-left: 44px;
+}
+
+.comment-btn {
+	background-color: #7371fc;
+	color: white;
 }
 
 .lead {

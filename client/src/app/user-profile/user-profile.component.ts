@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Member } from '../_models/member';
 import { MembersService } from '../_services/members.service';
+import { TimeLineEvent } from '../_models/timelineEvent';
 
 @Component({
 	selector: 'app-user-profile',
@@ -12,6 +13,49 @@ export class UserProfileComponent implements OnInit {
 	member: Member;
 	height: number = 400;
 	headerShrink: boolean = false;
+	dummyData: TimeLineEvent[] = [
+		{
+			Date: new Date(),
+			Views: 18,
+			Content:
+				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus turpis quis tincidunt luctus. Nam sagittis dui in nunc consequat, in imperdiet nunc sagittis. ',
+			Shares: 259,
+			LikedUsers: 4300,
+			Comments: 21,
+		},
+		{
+			Date: new Date(-1),
+			Views: 82,
+			Content: 'Location: United States',
+			Shares: 5,
+			LikedUsers: 124,
+			Comments: 9,
+		},
+		{
+			Date: new Date('2014-02-24'),
+			Views: 1282,
+			Content: `Quisque sed varius nisl. Nulla facilisi.
+								Phasellus consequat sapien sit amet nibh
+								molestie placerat. Donec nulla quam, ullamcorper
+								ut velit vitae, lobortis condimentum magna.
+								Suspendisse mollis in sem vel mollis.`,
+			Shares: 46,
+			LikedUsers: 99,
+			Comments: 23,
+		},
+		{
+			Date: new Date('2014-01-10'),
+			Views: 1021282,
+			Content: `795 Folsom Ave, Suite 600 San Francisco, CA 94107
+						In hac habitasse platea dictumst. Pellentesque
+						bibendum id sem nec faucibus. Maecenas molestie,
+						augue vel accumsan rutrum, massa mi rutrum odio,
+						id luctus mauris nibh ut leo.`,
+			Shares: 26,
+			LikedUsers: 49,
+			Comments: 13,
+		},
+	];
 	// @HostListener('scroll', ['$event'])
 	// scrollHandler(event) {
 	// 	var scrollAmount = event.target.scrollTop;

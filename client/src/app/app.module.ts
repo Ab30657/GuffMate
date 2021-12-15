@@ -30,6 +30,7 @@ import { GalleryImagePipe } from './pipes/gallery-image.pipe';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { TimelineEventComponent } from './user-profile/timeline-event/timeline-event.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -50,6 +51,7 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 		FileUploadComponent,
 		GalleryImagePipe,
 		UserProfileComponent,
+  TimelineEventComponent,
 	],
 	imports: [
 		BrowserModule,
