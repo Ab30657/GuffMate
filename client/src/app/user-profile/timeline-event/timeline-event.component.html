@@ -15,7 +15,6 @@
 			><img [src]="this.member?.photoUrl" alt=""
 		/></span>
 		<span class="username"><a href="">Sean Ngu</a> <small></small></span>
-		<span class="pull-right text-muted">{{ post.Views || 100 }} Views</span>
 	</div>
 	<div class="timeline-content">
 		<p>
@@ -40,17 +39,19 @@
 		</div>
 	</div>
 	<div class="timeline-footer">
-		<a class="m-r-15 text-inverse-lighter"
+		<a class="m-r-15 text-inverse-lighter like-btn"
 			><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a
 		>
-		<a class="m-r-15 text-inverse-lighter"
+		<a
+			class="m-r-15 text-inverse-lighter toggle-comment-btn"
+			(click)="commentShow = !commentShow"
 			><i class="fa fa-comments fa-fw fa-lg m-r-3"></i> Comment</a
 		>
-		<a class="m-r-15 text-inverse-lighter"
+		<a class="m-r-15 text-inverse-lighter share-btn"
 			><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a
 		>
 	</div>
-	<div class="timeline-comment-box">
+	<div class="timeline-comment-box" [hidden]="commentShow">
 		<div class="user">
 			<img [src]="this.member?.photoUrl" />
 		</div>

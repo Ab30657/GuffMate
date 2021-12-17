@@ -130,15 +130,23 @@
 }
 
 .timeline-footer a:not(.btn) {
-	color: #575d63;
 	cursor: pointer;
+	user-select: none;
 }
-
-.timeline-footer a:not(.btn):focus,
 .timeline-footer a:not(.btn):hover {
-	color: #2d353c;
+	transform: scale(1.1);
+}
+.timeline-footer .like-btn:hover {
+	color: #5851db;
 }
 
+.timeline-footer .toggle-comment-btn:hover {
+	color: #1d70cf;
+}
+
+.timeline-footer .share-btn {
+	color: #7371fc;
+}
 .timeline-likes {
 	color: #6d767f;
 	font-weight: 600;
@@ -200,7 +208,9 @@
 	background-color: #7371fc;
 	color: white;
 }
-
+.comment-btn:hover {
+	background-color: #5851db;
+}
 .lead {
 	margin-bottom: 20px;
 	font-size: 21px;

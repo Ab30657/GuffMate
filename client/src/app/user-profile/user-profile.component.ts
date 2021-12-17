@@ -16,7 +16,6 @@ export class UserProfileComponent implements OnInit {
 	dummyData: TimeLineEvent[] = [
 		{
 			Date: new Date(),
-			Views: 18,
 			Content:
 				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc faucibus turpis quis tincidunt luctus. Nam sagittis dui in nunc consequat, in imperdiet nunc sagittis. ',
 			Shares: 259,
@@ -25,7 +24,6 @@ export class UserProfileComponent implements OnInit {
 		},
 		{
 			Date: new Date(-1),
-			Views: 82,
 			Content: 'Location: United States',
 			Shares: 5,
 			LikedUsers: 124,
@@ -33,7 +31,6 @@ export class UserProfileComponent implements OnInit {
 		},
 		{
 			Date: new Date('2014-02-24'),
-			Views: 1282,
 			Content: `Quisque sed varius nisl. Nulla facilisi.
 								Phasellus consequat sapien sit amet nibh
 								molestie placerat. Donec nulla quam, ullamcorper
@@ -45,7 +42,6 @@ export class UserProfileComponent implements OnInit {
 		},
 		{
 			Date: new Date('2014-01-10'),
-			Views: 1021282,
 			Content: `795 Folsom Ave, Suite 600 San Francisco, CA 94107
 						In hac habitasse platea dictumst. Pellentesque
 						bibendum id sem nec faucibus. Maecenas molestie,

@@ -1,11 +1,11 @@
 <div class="glass">
 	<!-- <div class="intro">
-		<div class="back-btn" (click)="routeBack()">
-			<i class="fa fa-arrow-left"></i>
-		</div>
 	</div> -->
 	<!-- <div class="profile-body" (scroll)="scrollHandler($event)"> -->
 	<div class="profile-body">
+		<div class="back-btn" (click)="routeBack()">
+			<i class="fa fa-arrow-left"></i>
+		</div>
 		<div class="contact">
 			<div class="contact-wrapper">
 				<div class="profile-pic-wrapper">
@@ -108,6 +108,11 @@
 		</div>
 		<div class="body">
 			<ul class="timeline">
+				<li>
+					<div class="title">
+						<div class="title-content">Timeline</div>
+					</div>
+				</li>
 				<li *ngFor="let post of dummyData">
 					<!-- begin timeline-time -->
 					<app-timeline-event

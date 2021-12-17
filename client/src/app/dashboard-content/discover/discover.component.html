@@ -8,7 +8,7 @@
 	<div class="filter-div w-100">
 		<form
 			#form="ngForm"
-			class="form-inline d-flex justify-content-start"
+			class="form-inline d-flex justify-content-between"
 			(ngSubmit)="loadMembers()"
 			autocomplete="off"
 			action=""
@@ -32,8 +32,6 @@
 					/>
 					{{ gender.display }}
 				</label>
-			</div>
-			<div class="d-flex">
 				<button class="filter-btn" type="submit">Apply Filters</button>
 				<button
 					class="reset-btn filter-btn mx-3"
@@ -42,7 +40,8 @@
 					Reset Filters
 				</button>
 			</div>
-			<div class="btn-group d-flex ml-5 justify-content-end">
+
+			<div class="btn-group d-flex">
 				<button
 					type="button"
 					class="btn btn-primary"

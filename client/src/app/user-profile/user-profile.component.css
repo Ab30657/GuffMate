@@ -38,7 +38,7 @@ button {
 	padding: 1rem;
 	width: 100%;
 	margin: auto;
-	padding-top: 100px;
+	padding: 100px 0px 0px 40px;
 }
 .contact-wrapper {
 	display: flex;
@@ -229,7 +229,35 @@ button {
 .chat:hover {
 	box-shadow: 0px 7px 30px rgba(165, 148, 249, 0.7);
 }
+.title {
+	margin-left: 15%;
+	margin-right: 17%;
+	position: relative;
+	padding: 20px 25px;
+	border-radius: 6px;
+	color: #3a3a3a;
+	font-size: 1.75rem;
+	font-weight: 900;
+	border: 5px solid #2d353c;
+	background: linear-gradient(
+		90deg,
+		rgba(34, 136, 250, 0.5),
+		rgba(205, 193, 255, 0.5)
+	);
+	text-align: center;
+	text-transform: uppercase;
+}
 
+.title:before {
+	content: "";
+	position: absolute;
+	border: 3px solid #2d353c;
+
+	left: -5%;
+	width: 5%;
+	top: 50%;
+	transform: translateY(-50%);
+}
 /*Special*/
 .timeline {
 	list-style-type: none;
@@ -241,7 +269,7 @@ button {
 .timeline:before {
 	content: "";
 	position: absolute;
-	top: 5px;
+	top: 0;
 	bottom: 5px;
 	width: 5px;
 	background: #2d353c;
@@ -475,7 +503,8 @@ button {
 	border-radius: 50%;
 	padding: 2rem;
 	z-index: 5;
-	color: white;
+	color: #2d353c;
+	font-size: 1.25rem;
 	cursor: pointer;
 }
 .back-btn:hover {

@@ -11,6 +11,7 @@ import { MembersService } from '../../_services/members.service';
 export class TimelineEventComponent implements OnInit {
 	@Input() member: Member;
 	@Input() post: TimeLineEvent;
+	commentShow: boolean = true;
 	constructor(private memberService: MembersService) {}
 
 	ngOnInit(): void {}
