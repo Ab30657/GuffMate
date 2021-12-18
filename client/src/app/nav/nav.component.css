@@ -72,3 +72,8 @@ i {
 .dashboard-navbar:hover {
 	width: 100%;
 }
+@media screen and (max-width: 1000px) {
+	.dashboard-navbar:hover {
+		width: var(--nav-width);
+	}
+}

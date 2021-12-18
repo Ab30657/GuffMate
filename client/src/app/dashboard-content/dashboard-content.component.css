@@ -28,7 +28,13 @@
 	height: 100%;
 }
 .dashboard {
-	flex: 2 0 0;
+	width: 500px;
+}
+
+@media screen and (max-width: 1000px) {
+	.dashboard {
+		width: 150px;
+	}
 }
 .card-wrapper {
 	flex: 1;

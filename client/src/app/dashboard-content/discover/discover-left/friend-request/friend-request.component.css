@@ -23,6 +23,12 @@ h6 {
 	bottom: 5%;
 	opacity: 0;
 }
+
+@media screen and (max-width: 1000px) {
+	.side-leaf {
+		display: none;
+	}
+}
 .request:hover {
 	background-color: rgba(43, 142, 255, 0.7);
 	transform: translateX(5%);
@@ -126,4 +132,60 @@ h6 {
 .request:hover .req-name,
 .request.active .req-name {
 	color: white;
+}
+@media screen and (max-width: 1000px) {
+	.req-info {
+		display: none;
+	}
+	.req-icons {
+	}
+	.request:hover {
+		background-color: rgba(43, 142, 255, 0.7);
+		transform: translateX(0%);
+		box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
+	}
+	.request.active {
+		background-color: #7371fc;
+		transform: translateX(0%);
+		box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
+	}
+	.request {
+		border-radius: 0.25rem;
+	}
+	.icon-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 1;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.req-deny {
+		padding: 0.2rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 10px;
+		width: 10px;
+		background-color: rgba(0, 0, 0, 0);
+		transition: 0.3s ease-in;
+		cursor: pointer;
+	}
+	.icon-wrapper i {
+		font-size: 0.8rem;
+	}
+	.req-deny:hover {
+		background: none;
+		color: red;
+		transform: scale(1.5);
+	}
+	.req-accept {
+		display: none;
+	}
+	.req-icons {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
 }

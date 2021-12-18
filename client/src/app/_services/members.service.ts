@@ -36,6 +36,11 @@ export class MembersService {
 			// console.log(this.user);
 		});
 	}
+	getFriends() {
+		return this.http.get<Friend[]>(
+			this.baseUrl + 'friends?predicate=accepted'
+		);
+	}
 	updateFriendList(data) {
 		this.friendSource.next(data);
 	}
