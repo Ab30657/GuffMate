@@ -9,6 +9,7 @@ namespace API.Data
 	{
 		public DbSet<Interest> Interests { get; set; }
 		public DbSet<UserFriend> Friends { get; set; }
+		public DbSet<Message> Messages { get; set; }
 		public DataContext(DbContextOptions options) : base(options)
 		{
 		}
@@ -30,6 +31,9 @@ namespace API.Data
 
 			builder.Entity<UserFriend>().HasOne(x => x.ReqSenderUser).WithMany(x => x.FriendsAdded).HasForeignKey(x => x.ReqSenderUserId).OnDelete(DeleteBehavior.Cascade);
 			builder.Entity<UserFriend>().HasOne(x => x.ReqReceiverUser).WithMany(x => x.FriendsOf).HasForeignKey(x => x.ReqReceiverUserId).OnDelete(DeleteBehavior.Cascade);
+
+			builder.Entity<Message>().HasOne(x => x.Recipient).WithMany(x => x.MessagesReceived).OnDelete(DeleteBehavior.Restrict);
+			builder.Entity<Message>().HasOne(x => x.Sender).WithMany(x => x.MessagesSent).OnDelete(DeleteBehavior.Restrict);
 
 		}
 
