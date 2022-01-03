@@ -11,6 +11,7 @@ import { AccountService } from './account.service';
 import { User } from '../_models/user';
 import { Friend, RequestStatus } from '../_models/Friend';
 import { FriendsParams } from '../_models/friendsParams';
+import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 
 @Injectable({
 	providedIn: 'root',
@@ -99,15 +100,16 @@ export class MembersService {
 		// 	return of(response);
 		// }
 		// console.log(this.friends);
-		let params = this.getPaginationHeaders(
+		let params = getPaginationHeaders(
 			userParams.pageNumber,
 			userParams.pageSize
 		);
 		params = params.append('predicate', 'received');
 
-		return this.getPaginatedResult<Friend[]>(
+		return getPaginatedResult<Friend[]>(
 			this.baseUrl + 'friends',
-			params
+			params,
+			this.http
 		).pipe(
 			map((x) => {
 				if (x != undefined) {
@@ -175,16 +177,17 @@ export class MembersService {
 		// if (response) {
 		// 	return of(response);
 		// }
-		let params = this.getPaginationHeaders(
+		let params = getPaginationHeaders(
 			userParams.pageNumber,
 			userParams.pageSize
 		);
 		params = params.append('gender', userParams.gender);
 		params = params.append('orderBy', userParams.orderBy);
 
-		return this.getPaginatedResult<Member[]>(
+		return getPaginatedResult<Member[]>(
 			this.baseUrl + 'users',
-			params
+			params,
+			this.http
 		).pipe(
 			map((response) => {
 				// console.log(response);
@@ -196,32 +199,6 @@ export class MembersService {
 				return response;
 			})
 		);
-	}
-	private getPaginatedResult<T>(url, params: HttpParams) {
-		const paginatedResult: PaginatedResult<T> = new PaginatedResult<T>();
-		return this.http
-			.get<T>(url, {
-				observe: 'response',
-				params,
-			})
-			.pipe(
-				map((response) => {
-					paginatedResult.result = response.body;
-					if (response.headers.get('Pagination') !== null) {
-						paginatedResult.pagination = JSON.parse(
-							response.headers.get('Pagination')
-						);
-					}
-					return paginatedResult;
-				})
-			);
-	}
-
-	private getPaginationHeaders(pageNumber: number, pageSize: number) {
-		let params = new HttpParams();
-		params = params.append('pageNumber', pageNumber.toString());
-		params = params.append('pageSize', pageSize.toString());
-		return params;
 	}
 	GetUser(username: string) {
 		const member = this.members.find((x) => x.username === username);

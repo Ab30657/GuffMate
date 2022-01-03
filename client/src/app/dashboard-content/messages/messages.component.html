@@ -12,11 +12,22 @@
 		<div class="msg-user-dp">
 			<img src="./assets/profileboy.png" alt="" />
 		</div>
-		<div class="heading">{{ chatMember.name }}</div>
+		<div class="heading">{{ chatMember?.name }}</div>
 		<div class="seen-status">3 hours ago</div>
 	</div>
 	<div class="messages" id="chat">
-		<div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
+		<div
+			*ngFor="let message of messages"
+			class="message"
+			[ngClass]="
+				message.senderUsername == chatMember?.username
+					? 'receiver-msg'
+					: 'sender-msg'
+			"
+		>
+			{{ message.content }}
+		</div>
+		<!-- <div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
 		<div class="message stark">Kid, where'd you come from?</div>
 		<div class="message parker">Field trip! 🤣</div>
 		<div class="message parker">
@@ -24,7 +35,7 @@
 		</div>
 		<div class="message stark">
 			Uh, he's from space, he came here to steal a necklace from a wizard.
-		</div>
+		</div> -->
 	</div>
 	<div class="input">
 		<i class="fa fa-camera"></i><i class="fa fa-smile-o"></i

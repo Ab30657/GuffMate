@@ -56,7 +56,7 @@
 		0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.1);
 }
 
-.content .messages .message.parker {
+.content .messages .message.sender-msg {
 	margin: 1rem 1rem 1rem auto;
 	border-radius: 1.125rem 1.125rem 0 1.125rem;
 	background: #333;
