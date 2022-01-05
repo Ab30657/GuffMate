@@ -16,16 +16,34 @@
 		<div class="seen-status">3 hours ago</div>
 	</div>
 	<div class="messages" id="chat">
-		<div
-			*ngFor="let message of messages"
-			class="message"
-			[ngClass]="
-				message.senderUsername == chatMember?.username
-					? 'receiver-msg'
-					: 'sender-msg'
-			"
-		>
-			{{ message.content }}
+		<div *ngFor="let message of messages" class="message-line">
+			<div
+				class="agent-face"
+				*ngIf="message.senderUsername == chatMember?.username"
+			>
+				<div class="half">
+					<img
+						class="agent circle"
+						src="http://askavenue.com/img/17.jpg"
+						alt="Jesse Tino"
+					/>
+				</div>
+			</div>
+			<div class="message-wrapper">
+				<div
+					class="message"
+					[ngClass]="
+						message.senderUsername == chatMember?.username
+							? 'receiver-msg'
+							: 'sender-msg'
+					"
+				>
+					{{ message.content }}
+				</div>
+				<div class="message-time">
+					{{ message.messageSent | date: "shortTime" }}
+				</div>
+			</div>
 		</div>
 		<!-- <div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
 		<div class="message stark">Kid, where'd you come from?</div>
