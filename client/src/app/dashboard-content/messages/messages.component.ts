@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MembersService } from '../../_services/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_models/message';
 import { MessageService } from '../../_services/message.service';
 import { IPagination } from 'src/app/_models/pagination';
+import { NgForm } from '@angular/forms';
 
 @Component({
 	selector: 'app-messages',
@@ -12,12 +13,14 @@ import { IPagination } from 'src/app/_models/pagination';
 	styleUrls: ['./messages.component.css'],
 })
 export class MessagesComponent implements OnInit {
+	@ViewChild('messageForm') messageForm: NgForm;
 	chatMember: Member;
 	messages: Message[];
 	pageNumber = 1;
 	pageSize = 5;
 	container = 'Unread';
 	pagination: IPagination;
+	messageContent: string;
 	constructor(
 		private memberService: MembersService,
 		private route: ActivatedRoute,
@@ -46,5 +49,14 @@ export class MessagesComponent implements OnInit {
 	pageChanged(event: any) {
 		this.pageNumber = event.page;
 		this.loadMessages();
+	}
+
+	sendMessage() {
+		this.messageService
+			.sendMessage(this.chatMember.username, this.messageContent)
+			.subscribe((x) => {
+				this.messages.push(x);
+				this.messageForm.reset();
+			});
 	}
 }

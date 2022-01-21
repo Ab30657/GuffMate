@@ -43,7 +43,7 @@
 }
 .content .messages .message {
 	box-sizing: border-box;
-	padding: 0.5rem 1rem;
+	padding: 0.75rem 1.25rem;
 	margin: 1rem 1rem 1rem 5.75rem;
 	background: #fff;
 	border-radius: 1.125rem 1.125rem 1.125rem 0;
@@ -62,13 +62,13 @@
 	background: #333;
 	color: white;
 }
-.input {
+.type-message-bar {
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	padding: 1rem;
 }
-.input i {
+.type-message-bar i {
 	font-size: 1.5rem;
 	margin-right: 1rem;
 	color: black;
@@ -76,7 +76,7 @@
 	transition: color 200ms;
 }
 
-.input input {
+.type-message-bar input {
 	border: none;
 	background-image: none;
 	background-color: white;
@@ -127,11 +127,47 @@
 	border: 2px solid #fff;
 }
 
-.message-time {
+.message-time,
+.message-read {
 	position: absolute;
-	right: 0;
+	bottom: 0;
+	font-size: 0.75rem;
+	font-weight: 700;
 }
-
+.message-read {
+	color: #7371fc;
+}
 .message-wrapper {
 	width: auto;
+}
+
+.message {
+	position: relative;
+}
+
+.type-message-bar button {
+	background: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: none;
+	color: #7371fc;
+}
+
+.type-message-bar button:hover {
+	color: #cdc1ff;
+	transform: scale(1.1);
+}
+
+.type-message-bar button > i {
+	margin-right: 0;
+}
+
+.type-message-bar i {
+	color: #7371fc;
+}
+
+.type-message-bar i:hover {
+	color: #cdc1ff;
+	transform: scale(1.1);
 }

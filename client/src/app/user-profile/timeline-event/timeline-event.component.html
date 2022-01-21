@@ -12,9 +12,17 @@
 <div class="timeline-body">
 	<div class="timeline-header">
 		<span class="userimage"
-			><img [src]="this.member?.photoUrl" alt=""
+			><img
+				[src]="
+					!member.photoUrl && member.gender == 'Female'
+						? './assets/profilegirl.png'
+						: './assets/profileboy.png'
+				"
+				alt=""
 		/></span>
-		<span class="username"><a href="">Sean Ngu</a> <small></small></span>
+		<span class="username"
+			><a href="">{{ this.member.name }}</a> <small></small
+		></span>
 	</div>
 	<div class="timeline-content">
 		<p>
