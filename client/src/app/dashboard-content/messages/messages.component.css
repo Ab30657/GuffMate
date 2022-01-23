@@ -54,6 +54,7 @@
 	max-width: 66%;
 	box-shadow: 0 0 2rem rgba(0, 0, 0, 0.075),
 		0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.1);
+	min-width: 100px;
 }
 
 .content .messages .message.sender-msg {
@@ -131,7 +132,7 @@
 .message-read {
 	position: absolute;
 	bottom: 0;
-	font-size: 0.75rem;
+	font-size: 0.6rem;
 	font-weight: 700;
 }
 .message-read {

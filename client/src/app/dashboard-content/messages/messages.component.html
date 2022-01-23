@@ -63,11 +63,7 @@
 					<div
 						*ngIf="message.senderUsername !== chatMember?.username"
 						class="message-read"
-						[style]="
-							message.senderUsername == chatMember?.username
-								? 'left: 1.25rem;	color: #555;'
-								: 'right:1.25rem; color:#ddd'
-						"
+						[style]="'right:0.5rem; color:#ddd'"
 					>
 						<i
 							class="fa"
@@ -76,6 +72,10 @@
 									? 'fa-check-circle-o'
 									: 'fa-check-circle'
 							"
+						></i>
+						<i
+							class="fa fa-check-circle"
+							*ngIf="message.dateRead"
 						></i>
 					</div>
 				</div>
