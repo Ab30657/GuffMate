@@ -53,9 +53,7 @@
 }
 
 .msg-dp {
-	left: 0;
 	display: inline-block;
-	padding: 0 0.5rem;
 }
 .badge {
 	width: 1.5rem;
@@ -125,6 +123,7 @@
 	}
 	.msg-dp {
 		overflow: hidden;
+		position: relative;
 		border-radius: 50%;
 		padding: 0;
 	}
@@ -145,4 +144,21 @@
 		background-color: rgba(43, 142, 255, 0.7);
 		box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 	}
+}
+.msg-dp-wrapper {
+	position: relative;
+	display: flex;
+}
+.online-presence {
+	position: absolute;
+	right: 1px;
+	bottom: 0;
+	width: 0.6rem;
+	border-radius: 50%;
+	height: 0.6rem;
+	background-color: transparent;
+}
+
+.online-presence.is-online {
+	background-color: #31f564;
 }

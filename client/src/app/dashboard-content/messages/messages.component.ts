@@ -6,6 +6,7 @@ import { Message } from 'src/app/_models/message';
 import { MessageService } from '../../_services/message.service';
 import { IPagination } from 'src/app/_models/pagination';
 import { NgForm } from '@angular/forms';
+import { PresenceService } from '../../_services/presence.service';
 
 @Component({
 	selector: 'app-messages',
@@ -24,7 +25,8 @@ export class MessagesComponent implements OnInit {
 	constructor(
 		private memberService: MembersService,
 		private route: ActivatedRoute,
-		private messageService: MessageService
+		private messageService: MessageService,
+		public presence: PresenceService
 	) {}
 
 	ngOnInit(): void {

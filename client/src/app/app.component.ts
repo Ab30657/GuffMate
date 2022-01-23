@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
 import { routeTransitionAnimations } from './route-transition-animations';
+import { PresenceService } from './_services/presence.service';
 
 @Component({
 	selector: 'app-root',
@@ -15,7 +16,10 @@ export class AppComponent implements OnInit {
 	/**
 	 *
 	 */
-	constructor(private accountService: AccountService) {}
+	constructor(
+		private accountService: AccountService,
+		private presence: PresenceService
+	) {}
 	ngOnInit(): void {
 		this.setCurrentUser();
 	}
@@ -23,6 +27,7 @@ export class AppComponent implements OnInit {
 	setCurrentUser() {
 		const user: User = JSON.parse(localStorage.getItem('user'));
 		this.accountService.setCurrentUser(user);
+		this.presence.createHubConnection(user);
 	}
 
 	prepareRoute(outlet: RouterOutlet) {

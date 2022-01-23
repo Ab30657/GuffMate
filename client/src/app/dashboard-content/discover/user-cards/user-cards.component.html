@@ -1,6 +1,9 @@
 <div class="user-card" [class]="getFriendStatus()">
 	<div class="user-img">
 		<img
+			[class.is-online]="
+				(presence.onlineUsers$ | async).includes(member.username)
+			"
 			[src]="
 				member.photoUrl ||
 				(!member.photoUrl && member.gender == 'Female'

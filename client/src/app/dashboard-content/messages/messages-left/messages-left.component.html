@@ -8,15 +8,23 @@
 		(click)="changeRoute(chat.username)"
 		[class.active]="chat.username === chatMember"
 	>
-		<div class="msg-dp">
-			<img
-				[src]="
-					chat.photoUrl || chat.gender === 'Male'
-						? '../assets/profileboy.png'
-						: '../assets/profilegirl.png'
+		<div class="msg-dp-wrapper">
+			<div class="msg-dp">
+				<img
+					[src]="
+						chat.photoUrl || chat.gender === 'Male'
+							? '../assets/profileboy.png'
+							: '../assets/profilegirl.png'
+					"
+					alt=""
+				/>
+			</div>
+			<div
+				[class.is-online]="
+					(presence.onlineUsers$ | async).includes(chat?.username)
 				"
-				alt=""
-			/>
+				class="online-presence"
+			></div>
 		</div>
 		<!-- <div class="badge">15</div> -->
 		<div class="chat-content">

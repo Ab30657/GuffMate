@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Text;
 using API.Data;
 using API.Interfaces;
@@ -13,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using API.Entities;
 using Microsoft.AspNetCore.Identity;
 using API.Helpers;
+using API.SignalR;
 
 namespace API
 {
@@ -29,6 +31,7 @@ namespace API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddSingleton<PresenceTracker>();
 			services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
 			services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
@@ -50,12 +53,28 @@ namespace API
 					ValidateIssuer = false,
 					ValidateAudience = false,
 				};
+
+				opt.Events = new JwtBearerEvents
+				{
+					OnMessageReceived = context =>
+					{
+						var accessToken = context.Request.Query["access_token"];
+						var path = context.HttpContext.Request.Path;
+						if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs"))
+						{
+							context.Token = accessToken;
+						}
+						return Task.CompletedTask;
+					}
+				};
 			});
 
 			services.AddIdentityCore<AppUser>(opt =>
 			{
 
 			}).AddRoles<AppRole>().AddRoleManager<RoleManager<AppRole>>().AddSignInManager<SignInManager<AppUser>>().AddRoleValidator<RoleValidator<AppRole>>().AddEntityFrameworkStores<DataContext>();
+
+			services.AddSignalR();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,7 +89,7 @@ namespace API
 
 			app.UseRouting();
 
-			app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+			app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("https://localhost:4200"));
 
 			app.UseAuthentication();
 
@@ -79,6 +98,7 @@ namespace API
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+				endpoints.MapHub<PresenceHub>("hubs/presence");
 			});
 		}
 	}

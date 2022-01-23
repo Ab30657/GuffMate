@@ -3,6 +3,7 @@ import { User } from 'src/app/_models/user';
 import { Member } from '../../../_models/member';
 import { MembersService } from '../../../_services/members.service';
 import { RequestStatus } from '../../../_models/Friend';
+import { PresenceService } from '../../../_services/presence.service';
 
 @Component({
 	selector: 'app-user-cards',
@@ -12,7 +13,10 @@ import { RequestStatus } from '../../../_models/Friend';
 export class UserCardsComponent implements OnInit {
 	@Input() member: Member;
 	@Output() RequestStatusChanged = new EventEmitter(); // ------------If request updates dont emit anything, later add real time functionality for updates
-	constructor(private memberService: MembersService) {}
+	constructor(
+		private memberService: MembersService,
+		public presence: PresenceService
+	) {}
 
 	ngOnInit(): void {}
 

@@ -11,6 +11,11 @@
 	<div class="chat-title">
 		<div class="msg-user-dp">
 			<img
+				[class.is-online]="
+					(presence.onlineUsers$ | async).includes(
+						chatMember?.username
+					)
+				"
 				[src]="
 					!this.chatMember?.photoUrl &&
 					this.chatMember?.gender == 'Female'

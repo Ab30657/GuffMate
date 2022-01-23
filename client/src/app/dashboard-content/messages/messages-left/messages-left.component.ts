@@ -3,6 +3,7 @@ import { MembersService } from '../../../_services/members.service';
 import { Friend } from '../../../_models/Friend';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ThisReceiver } from '@angular/compiler';
+import { PresenceService } from '../../../_services/presence.service';
 
 @Component({
 	selector: 'app-messages-left',
@@ -15,7 +16,8 @@ export class MessagesLeftComponent implements OnInit {
 	constructor(
 		private membersService: MembersService,
 		private route: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		public presence: PresenceService
 	) {}
 
 	ngOnInit(): void {
