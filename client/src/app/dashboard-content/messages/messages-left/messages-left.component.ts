@@ -4,6 +4,7 @@ import { Friend } from '../../../_models/Friend';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ThisReceiver } from '@angular/compiler';
 import { PresenceService } from '../../../_services/presence.service';
+import { MessageService } from '../../../_services/message.service';
 
 @Component({
 	selector: 'app-messages-left',
@@ -15,6 +16,7 @@ export class MessagesLeftComponent implements OnInit {
 	chatMember: string;
 	constructor(
 		private membersService: MembersService,
+		private messageService: MessageService,
 		private route: ActivatedRoute,
 		private router: Router,
 		public presence: PresenceService

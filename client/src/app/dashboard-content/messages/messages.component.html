@@ -29,7 +29,10 @@
 		<div class="seen-status">3 hours ago</div>
 	</div>
 	<div class="messages" id="chat">
-		<div *ngFor="let message of messages" class="message-line">
+		<div
+			*ngFor="let message of messageService.messageThread$ | async"
+			class="message-line"
+		>
 			<div
 				class="agent-face"
 				*ngIf="message.senderUsername == chatMember?.username"
@@ -42,7 +45,6 @@
 							? './assets/profilegirl.png'
 							: './assets/profileboy.png'
 					"
-					alt="Jesse Tino"
 				/>
 			</div>
 			<div class="message-wrapper">
