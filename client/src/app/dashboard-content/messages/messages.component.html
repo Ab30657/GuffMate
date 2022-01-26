@@ -1,13 +1,4 @@
 <div class="content">
-	<div class="loading">
-		<ngx-spinner
-			[fullScreen]="false"
-			bdColor="rgba(255,255,255,0.6)"
-			type="square-jelly-box"
-		>
-			<h3>Wait a f*cking second</h3>
-		</ngx-spinner>
-	</div>
 	<div class="chat-title">
 		<div class="msg-user-dp">
 			<img
@@ -29,8 +20,17 @@
 		<div class="seen-status">3 hours ago</div>
 	</div>
 	<div class="messages" id="chat">
+		<div class="loading">
+			<ngx-spinner
+				[fullScreen]="false"
+				bdColor="rgba(255,255,255,0.6)"
+				type="square-jelly-box"
+			>
+				<h3>Wait a f*cking second</h3>
+			</ngx-spinner>
+		</div>
 		<div
-			*ngFor="let message of messageService.messageThread$ | async"
+			*ngFor="let message of this.messageService.messageThread$ | async"
 			class="message-line"
 		>
 			<div

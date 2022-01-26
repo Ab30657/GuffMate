@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import {
+	ChangeDetectorRef,
+	Component,
+	OnDestroy,
+	OnInit,
+	ViewChild,
+} from '@angular/core';
 import { MembersService } from '../../_services/members.service';
 import { ActivatedRoute } from '@angular/router';
 import { Member } from 'src/app/_models/member';
@@ -31,8 +37,7 @@ export class MessagesComponent implements OnInit {
 		private route: ActivatedRoute,
 		public messageService: MessageService,
 		public presence: PresenceService,
-		private accountService: AccountService,
-		private cdr: ChangeDetectorRef
+		private accountService: AccountService
 	) {
 		this.accountService.currentUser$
 			.pipe(take(1))
@@ -44,13 +49,8 @@ export class MessagesComponent implements OnInit {
 			let username = this.route.snapshot.paramMap.get('username');
 			this.memberService.GetUser(username).subscribe((x) => {
 				this.chatMember = x;
-				this.messageService.createHubConnection(
-					this.user,
-					this.chatMember.username
-				);
-				this.cdr.detectChanges();
-				this.loadMessages();
 			});
+			this.messageService.createHubConnection(this.user, username);
 		});
 	}
 
@@ -71,8 +71,7 @@ export class MessagesComponent implements OnInit {
 	sendMessage() {
 		this.messageService
 			.sendMessage(this.chatMember.username, this.messageContent)
-			.subscribe((x) => {
-				this.messages.push(x);
+			.then(() => {
 				this.messageForm.reset();
 			});
 	}
