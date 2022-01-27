@@ -43,7 +43,6 @@ export class MessageService {
 
 	stopHubConnection() {
 		if (this.hubConnection) {
-			this.messageThreadSource.next([]);
 			this.hubConnection.stop();
 		}
 	}
@@ -63,7 +62,7 @@ export class MessageService {
 		);
 	}
 
-	async sendMessage(username: string, content: string) {
+	sendMessage(username: string, content: string) {
 		return this.hubConnection
 			.invoke('SendMessage', {
 				recipientUsername: username,
