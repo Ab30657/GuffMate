@@ -3,6 +3,7 @@ import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { BehaviorSubject } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
@@ -24,11 +25,19 @@ export class PresenceService {
 
 		this.hubConnection.start().catch((error) => console.log(error));
 		this.hubConnection.on('UserIsOnline', (username) => {
-			console.log(username + ' has connected');
+			this.onlineUsers$.pipe(take(1)).subscribe((users) => {
+				this.onlineUsersSource.next([...users, username]);
+			});
+			console.log('on');
 		});
 
 		this.hubConnection.on('UserIsOffline', (username) => {
-			console.log(username + ' has disconnected');
+			this.onlineUsers$.pipe(take(1)).subscribe((usernames) => {
+				this.onlineUsersSource.next([
+					...usernames.filter((x) => x != username),
+				]);
+			});
+			console.log('gone');
 		});
 
 		this.hubConnection.on('GetOnlineUsers', (usernames: string[]) => {

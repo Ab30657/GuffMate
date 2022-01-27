@@ -37,7 +37,6 @@ export class MessagesLeftComponent implements OnInit {
 	}
 
 	changeRoute(username: string) {
-		this.messageService.stopHubConnection();
 		this.router.navigate(['messages', username]);
 		this.chatMember = username;
 	}

@@ -29,65 +29,71 @@
 				<h3>Wait a f*cking second</h3>
 			</ngx-spinner>
 		</div>
-		<div
-			*ngFor="let message of this.messageService.messageThread$ | async"
-			class="message-line"
+		<ng-container
+			*ngIf="(messageService.messageThread$ | async)?.length > 0"
 		>
 			<div
-				class="agent-face"
-				*ngIf="message.senderUsername == chatMember?.username"
+				*ngFor="let message of messageService.messageThread$ | async"
+				class="message-line"
 			>
-				<img
-					class="agent circle"
-					[src]="
-						!this.chatMember.photoUrl &&
-						this.chatMember.gender == 'Female'
-							? './assets/profilegirl.png'
-							: './assets/profileboy.png'
-					"
-				/>
-			</div>
-			<div class="message-wrapper">
 				<div
-					class="message"
-					[ngClass]="
-						message.senderUsername == chatMember?.username
-							? 'receiver-msg'
-							: 'sender-msg'
-					"
+					class="agent-face"
+					*ngIf="message.senderUsername == chatMember?.username"
 				>
-					{{ message.content }}
+					<img
+						class="agent circle"
+						[src]="
+							!this.chatMember.photoUrl &&
+							this.chatMember.gender == 'Female'
+								? './assets/profilegirl.png'
+								: './assets/profileboy.png'
+						"
+					/>
+				</div>
+				<div class="message-wrapper">
 					<div
-						class="message-time"
-						[style]="
-							message.senderUsername !== chatMember?.username
-								? 'left: 1.25rem;	color: #ddd;'
-								: 'right:1.25rem; color:#555'
+						class="message"
+						[ngClass]="
+							message.senderUsername == chatMember?.username
+								? 'receiver-msg'
+								: 'sender-msg'
 						"
 					>
-						{{ message.messageSent | date: "shortTime" }}
-					</div>
-					<div
-						*ngIf="message.senderUsername !== chatMember?.username"
-						class="message-read"
-						[style]="'right:0.5rem; color:#ddd'"
-					>
-						<i
-							class="fa"
-							[ngClass]="
-								!message.dateRead
-									? 'fa-check-circle-o'
-									: 'fa-check-circle'
+						{{ message.content }}
+						<div
+							class="message-time"
+							[style]="
+								message.senderUsername !== chatMember?.username
+									? 'left: 1.25rem;	color: #ddd;'
+									: 'right:1.25rem; color:#555'
 							"
-						></i>
-						<i
-							class="fa fa-check-circle"
-							*ngIf="message.dateRead"
-						></i>
+						>
+							{{ message.messageSent | date: "shortTime" }}
+						</div>
+						<div
+							*ngIf="
+								message.senderUsername !== chatMember?.username
+							"
+							class="message-read"
+							[style]="'right:0.5rem; color:#ddd'"
+						>
+							<i
+								class="fa"
+								[ngClass]="
+									!message.dateRead
+										? 'fa-check-circle-o'
+										: 'fa-check-circle'
+								"
+							></i>
+							<i
+								class="fa fa-check-circle"
+								*ngIf="message.dateRead"
+							></i>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		</ng-container>
 		<!-- <div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
 		<div class="message stark">Kid, where'd you come from?</div>
 		<div class="message parker">Field trip! 🤣</div>
