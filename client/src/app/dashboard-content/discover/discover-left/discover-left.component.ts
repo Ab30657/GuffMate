@@ -6,6 +6,7 @@ import { Friend } from 'src/app/_models/Friend';
 import { FriendsParams } from '../../../_models/friendsParams';
 import { Member } from 'src/app/_models/member';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
 	selector: 'app-discover-left',
 	templateUrl: './discover-left.component.html',

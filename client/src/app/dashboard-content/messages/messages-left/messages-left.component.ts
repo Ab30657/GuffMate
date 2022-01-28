@@ -20,12 +20,15 @@ export class MessagesLeftComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		public presence: PresenceService
-	) {}
+	) {
+		router.routeReuseStrategy.shouldReuseRoute = () => false;
+	}
 
 	ngOnInit(): void {
 		this.membersService.getFriends().subscribe((x) => {
 			this.friends = x;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
+			console.log(this.chatMember);
 			if (this.friends.length !== 0) {
 				if (this.chatMember == '') {
 					this.router.navigateByUrl(
