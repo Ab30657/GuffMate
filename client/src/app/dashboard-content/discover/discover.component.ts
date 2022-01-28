@@ -18,7 +18,6 @@ import { Friend } from 'src/app/_models/Friend';
 export class DiscoverComponent implements OnInit {
 	user: User;
 	users: Member[];
-	Friends$: Observable<Friend[]>;
 	ReceivedRequests: Friend[];
 	pagination: IPagination;
 	userParams: UserParams;
@@ -32,8 +31,7 @@ export class DiscoverComponent implements OnInit {
 		this.userParams = this.memberService.GetUserParams();
 	}
 	ngOnInit(): void {
-		this.Friends$ = this.memberService.friends$;
-		this.Friends$.subscribe((x) => {
+		this.memberService.friends$.subscribe((x) => {
 			this.loadMembers();
 		});
 	}
@@ -43,7 +41,6 @@ export class DiscoverComponent implements OnInit {
 		this.memberService.GetUsers(this.userParams).subscribe((response) => {
 			this.users = response.result;
 			this.pagination = response.pagination;
-			console.log(this.users);
 		});
 	}
 

@@ -21,7 +21,7 @@ export class MembersService {
 	members: Member[] = [];
 	private friendSource = new BehaviorSubject<Friend[]>([]);
 	friends$ = this.friendSource.asObservable();
-	friends: Friend[] = [];
+	// friends: Friend[] = [];
 	user: User;
 	userParams: UserParams;
 	friendsParams: FriendsParams;
@@ -61,11 +61,18 @@ export class MembersService {
 			.put(this.baseUrl + 'friends/received/' + username + '/accept', '')
 			.pipe(
 				map(() => {
-					this.friends.splice(
-						this.friends.findIndex((x) => x.username == username),
-						1
-					);
-					this.friendSource.next(Object.assign([], this.friends));
+					// this.friends.splice(
+					// 	this.friends.findIndex((x) => x.username == username),
+					// 	1
+					// );
+					this.friends$.pipe(take(1)).subscribe((x) => {
+						x.splice(
+							x.findIndex((a) => a.username == username),
+							1
+						);
+						console.log(x);
+						this.friendSource.next([...x]);
+					});
 				})
 			);
 		// .pipe(
@@ -113,8 +120,7 @@ export class MembersService {
 		).pipe(
 			map((x) => {
 				if (x != undefined) {
-					this.friends = x.result;
-					this.friendSource.next(Object.assign([], this.friends));
+					this.friendSource.next([...x.result]);
 				}
 			})
 		);
