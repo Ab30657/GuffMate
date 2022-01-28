@@ -84,9 +84,11 @@ export class ProfileCompleteComponent implements OnInit {
 	SaveChanges() {
 		this.user.gender = this.registerCompleteForm.value.gender;
 		this.accountService.setCurrentUser(this.user);
+		console.log(this.interestList);
 		this.registerCompleteForm.controls['interests'].setValue(
 			this.interestList
 		);
+		console.log(this.interestList);
 		this.memberService.update(this.registerCompleteForm).subscribe(() => {
 			this.router.navigateByUrl('/discover');
 		});
@@ -154,7 +156,7 @@ export class ProfileCompleteComponent implements OnInit {
 	imageLoaded(image: LoadedImage) {}
 	cropperReady() {}
 	loadImageFailed() {
-		console.log('Not found');
+		// console.log('Not found');
 	}
 	//
 
@@ -167,7 +169,7 @@ export class ProfileCompleteComponent implements OnInit {
 				})
 			)
 			.subscribe((photo: Photo) => {
-				console.log('here');
+				// console.log('here');
 				this.member.photos.push(photo);
 				this.memberService.setMainPhoto(photo.id).subscribe(() => {
 					this.savedImage = photo.url;

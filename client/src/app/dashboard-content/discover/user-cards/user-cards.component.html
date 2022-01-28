@@ -1,8 +1,35 @@
-<div class="user-card" routerLink="/{{ member.username }}">
+<div class="user-card" [class]="getFriendStatus()">
 	<div class="user-img">
-		<img [src]="member.photoUrl || './assets/profileboy.png'" alt="" />
+		<img
+			[class.is-online]="
+				(presence.onlineUsers$ | async).includes(member.username)
+			"
+			[src]="
+				member.photoUrl ||
+				(!member.photoUrl && member.gender == 'Female'
+					? './assets/profilegirl.png'
+					: './assets/profileboy.png')
+			"
+			alt=""
+			routerLink="/{{ member.username }}"
+		/>
 		<div class="options">
-			<i class="fa fa-2x fa-plus"></i>
+			<!-- <i class="fa fa fa-heart"></i> -->
+			<i
+				*ngIf="member.friendStatus == 4 || member.friendStatus == 0"
+				class="fa fa-2x fa-plus"
+				(click)="ToggleRequest()"
+			></i>
+		</div>
+		<div class="req-decision" *ngIf="member.friendStatus == 1">
+			<div class="btn-group">
+				<button class="btn btn-success" (click)="AcceptRequest()">
+					Accept
+				</button>
+				<button class="btn btn-danger" (click)="RejectRequest()">
+					Reject
+				</button>
+			</div>
 		</div>
 	</div>
 	<div class="card-content">

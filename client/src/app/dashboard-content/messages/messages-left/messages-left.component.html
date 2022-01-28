@@ -1,37 +1,34 @@
-<div class="heading">Messages</div>
+<div class="heading">
+	<i class="fa fa-mail-reply-all"></i><span class="title">Messages</span>
+</div>
 <div class="cards">
-	<div class="msg-card">
-		<div class="msg-dp"><img src="../assets/profileboy.png" alt="" /></div>
-		<!-- <div class="badge">15</div> -->
-		<div class="chat-content">
-			<div class="card-msg-user">
-				<span class="msg-user-title">This is a test Group</span>
+	<div
+		class="msg-card"
+		*ngFor="let chat of friends"
+		(click)="changeRoute(chat.username)"
+		[class.active]="chat.username === chatMember"
+	>
+		<div class="msg-dp-wrapper">
+			<div class="msg-dp">
+				<img
+					[src]="
+						chat.photoUrl || chat.gender === 'Male'
+							? '../assets/profileboy.png'
+							: '../assets/profilegirl.png'
+					"
+				/>
 			</div>
-			<span class="card-latest-msg">This is a test message...</span>
-
-			<div class="filler"></div>
+			<div
+				[class.is-online]="
+					(presence.onlineUsers$ | async).includes(chat?.username)
+				"
+				class="online-presence"
+			></div>
 		</div>
-		<div class="chat-time"><span>9:10</span></div>
-	</div>
-	<div class="msg-card">
-		<div class="msg-dp"><img src="../assets/profileboy.png" alt="" /></div>
 		<!-- <div class="badge">15</div> -->
 		<div class="chat-content">
 			<div class="card-msg-user">
-				<span class="msg-user-title">This is a test Group</span>
-			</div>
-			<span class="card-latest-msg">This is a test message...</span>
-
-			<div class="filler"></div>
-		</div>
-		<div class="chat-time"><span>9:10</span></div>
-	</div>
-	<div class="msg-card">
-		<div class="msg-dp"><img src="../assets/profileboy.png" alt="" /></div>
-		<!-- <div class="badge">15</div> -->
-		<div class="chat-content">
-			<div class="card-msg-user">
-				<span class="msg-user-title">This is a test Group</span>
+				<span class="msg-user-title">{{ chat.name }}</span>
 			</div>
 			<span class="card-latest-msg">This is a test message...</span>
 

@@ -1,31 +1,9 @@
 [
 	{
-		"UserName": "riya",
-		"Name": "Riya Shrestha",
-		"DateOfBirth": "2001-07-07",
-		"KnownAs": "Riya",
-		"Gender": "Female",
-		"Status": "Be wild, moonchild",
-		"Photos": [
-			{
-				"Url": "",
-				"IsMain": true
-			}
-		]
-	},
-	{
 		"UserName": "amar",
 		"Name": "Amar Budhathoki",
 		"DateOfBirth": "2001-07-08",
 		"KnownAs": "Moonchild",
-		"Gender": "Male",
-		"Status": "..."
-	},
-	{
-		"UserName": "pratik",
-		"Name": "Pratik Silwal",
-		"DateOfBirth": "2001-07-08",
-		"KnownAs": "Genius",
 		"Gender": "Male",
 		"Status": "..."
 	},
@@ -35,6 +13,14 @@
 		"DateOfBirth": "2001-07-08",
 		"KnownAs": "Overthinker",
 		"Gender": "Female",
+		"Status": "..."
+	},
+	{
+		"UserName": "pratik",
+		"Name": "Pratik Silwal",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Genius",
+		"Gender": "Male",
 		"Status": "..."
 	}
 ]

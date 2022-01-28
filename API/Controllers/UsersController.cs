@@ -36,6 +36,12 @@ namespace API.Controllers
 			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 			userParams.CurrentUserName = User.FindFirst(ClaimTypes.Name)?.Value;
 			var users = await _unitOfWork.UserRepository.GetMembersAsync(userParams);
+			foreach (var item in users)
+			{
+				var request = (await _unitOfWork.FriendsRepository.GetUserFriend(user.Id, item.Id)); // Logged in user is the receiver
+				if (request == null) item.FriendStatus = RequestFlag.None;
+				if (request != null) item.FriendStatus = request.RequestStatus;
+			}
 			Response.AddPaginationHeader(users.CurrentPage, users.PageSize, users.TotalCount, users.TotalPages);
 			return Ok(users);
 		}
@@ -119,7 +125,7 @@ namespace API.Controllers
 			var interestList = (await _unitOfWork.InterestRepository.GetInterestsByUserIdAsync(user.Id));
 			var interestListStrings = interestList.Select(x => x.Title);
 			var newInterests = profileCompleteDto.Interests.Except(interestListStrings).ToList();
-			var remainingInterests = interestList.Where(x => profileCompleteDto.Interests.Any(a => a != x.Title)).ToList();
+			var remainingInterests = interestList.Where(x => !profileCompleteDto.Interests.Any(a => a == x.Title)).ToList();
 			//Add interest if profileCompleteDto has only added interest
 			foreach (var item in newInterests)
 			{

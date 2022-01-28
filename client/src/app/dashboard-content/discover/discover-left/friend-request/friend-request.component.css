@@ -7,7 +7,7 @@ h6 {
 	align-items: center;
 	min-width: 0;
 	padding: 0.4rem;
-	border-radius: 0.5rem 0 0 0.5rem;
+	border-radius: 0.25rem 0 0 0.25rem;
 	transition: 0.3s ease-in;
 	margin-bottom: 0.2rem;
 	cursor: pointer;
@@ -17,11 +17,17 @@ h6 {
 	position: absolute;
 	height: 100%;
 	width: 5%;
-	background: #2288fa;
+	background: #7371fc;
 	right: 0;
 	transform: skewY(20deg);
 	bottom: 5%;
 	opacity: 0;
+}
+
+@media screen and (max-width: 1000px) {
+	.side-leaf {
+		display: none;
+	}
 }
 .request:hover {
 	background-color: rgba(43, 142, 255, 0.7);
@@ -29,7 +35,7 @@ h6 {
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 }
 .request.active {
-	background-color: #2288fa;
+	background-color: #7371fc;
 	transform: translateX(5%);
 	box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
 }
@@ -48,8 +54,6 @@ h6 {
 
 .req-dp {
 	flex: 1;
-	border: 3px solid lime;
-	border-radius: 50%;
 	cursor: pointer;
 	transition: 0.3s ease-in;
 	overflow: hidden;
@@ -68,8 +72,7 @@ h6 {
 .req-accept,
 .req-deny {
 	padding: 0 0.6rem;
-	border: 3px solid white;
-	border-radius: 20%;
+	border-radius: 10%;
 	width: 40px;
 	display: flex;
 	justify-content: center;
@@ -123,10 +126,66 @@ h6 {
 
 .req-accept:hover {
 	color: white;
-	background: rgb(0, 220, 0);
+	background: #7bf1a8;
 }
 
 .request:hover .req-name,
 .request.active .req-name {
 	color: white;
+}
+@media screen and (max-width: 1000px) {
+	.req-info {
+		display: none;
+	}
+	.req-icons {
+	}
+	.request:hover {
+		background-color: rgba(43, 142, 255, 0.7);
+		transform: translateX(0%);
+		box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
+	}
+	.request.active {
+		background-color: #7371fc;
+		transform: translateX(0%);
+		box-shadow: 6px 6px 20px rgba(122, 122, 122, 0.5);
+	}
+	.request {
+		border-radius: 0.25rem;
+	}
+	.icon-wrapper {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		z-index: 1;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+	.req-deny {
+		padding: 0.2rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 10px;
+		width: 10px;
+		background-color: rgba(0, 0, 0, 0);
+		transition: 0.3s ease-in;
+		cursor: pointer;
+	}
+	.icon-wrapper i {
+		font-size: 0.8rem;
+	}
+	.req-deny:hover {
+		background: none;
+		color: red;
+		transform: scale(1.5);
+	}
+	.req-accept {
+		display: none;
+	}
+	.req-icons {
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
 }

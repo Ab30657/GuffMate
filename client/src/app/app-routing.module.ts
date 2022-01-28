@@ -55,7 +55,8 @@ const routes: Routes = [
 				],
 			},
 			{
-				path: 'messages',
+				path: 'messages/:username',
+				pathMatch: 'full',
 				children: [
 					{
 						path: '',
@@ -92,25 +93,12 @@ const routes: Routes = [
 	},
 	{
 		path: 'messages',
-		component: DashboardContentComponent,
 		pathMatch: 'full',
-		children: [
-			{
-				path: '',
-				component: MessagesLeftComponent,
-				canActivate: [AuthGuard],
-				outlet: 'left',
-			},
-			{
-				path: '',
-				component: MessagesComponent,
-				canActivate: [AuthGuard],
-				outlet: 'right',
-			},
-		],
+		redirectTo: 'messages/',
 	},
 	{
 		path: ':username',
+		pathMatch: 'full',
 		component: UserProfileComponent,
 		canActivate: [AuthGuard],
 	},

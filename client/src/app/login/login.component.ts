@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	ngOnInit(): void {
 		this.getCurrentUser();
 		this.initRegForm();
-		console.log(this.registerForm.controls['password']);
+		// console.log(this.registerForm.controls['password']);
 	}
 	initRegForm(): void {
 		this.registerForm = this.fb.group({
@@ -72,7 +72,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	login() {
 		this.accountService.login(this.model).subscribe(
 			(response) => {
-				console.log(this.getCurrentUser);
 				this.router.navigateByUrl('/discover');
 			},
 			(error) => {
@@ -108,7 +107,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		}
 		this.iconStatus = 'fa-eye';
 		this.passType = 'password';
-		console.log(this.registerForm.status);
+		// console.log(this.registerForm.status);
 	}
 
 	slideLeft() {

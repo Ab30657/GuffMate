@@ -10,11 +10,8 @@ import { MembersService } from '../../../../_services/members.service';
 })
 export class FriendRequestComponent implements OnInit {
 	@Input() request: Friend;
-	@Output() RequestStatusChanged = new EventEmitter<boolean>();
-	member: Member;
+	@Output() RequestStatusChanged = new EventEmitter();
 	isActive: boolean = false;
-	Friends;
-	Requests = [];
 	constructor(private memberService: MembersService) {}
 
 	ngOnInit(): void {}
@@ -22,11 +19,7 @@ export class FriendRequestComponent implements OnInit {
 		this.isActive = !this.isActive;
 	}
 	AcceptFriend() {
-		this.memberService
-			.AcceptUserRequest(this.request.username)
-			.subscribe((x) => {
-				this.RequestStatusChanged.emit();
-			});
+		this.RequestStatusChanged.emit(this.request.username);
 	}
 	RejectFriend() {
 		// this.memberService

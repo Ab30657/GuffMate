@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using API.Entities;
 
 namespace API.DTOs
 {
@@ -17,6 +18,7 @@ namespace API.DTOs
 		public string PhoneNumber { get; set; }
 		public bool TwoFactorEnabled { get; set; }
 		public string Email { get; set; }
-		public int[] Friends { get; set; }
+		public RequestFlag FriendStatus { get; set; } // if sent pending then the logged in user sent request to mail
+													  // if received pending then the logged in user received the request and is awaiting decision to accept or deny
 	}
 }

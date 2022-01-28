@@ -1,16 +1,16 @@
 <div class="glass">
 	<ngx-spinner> </ngx-spinner>
-	<div class="profile-completion-dashboard">
-		<div class="page-heading">Complete Your Profile</div>
-		<div class="verify-contact">
-			<form
-				id="registerCompleteForm"
-				[formGroup]="registerCompleteForm"
-				#completeRegister
-				class="complete-register-form"
-				autocomplete="off"
-				(ngSubmit)="SaveChanges()"
-			>
+	<div class="page-heading">Complete Your Profile</div>
+	<form
+		id="registerCompleteForm"
+		[formGroup]="registerCompleteForm"
+		#completeRegister
+		class="complete-register-form"
+		autocomplete="off"
+		(ngSubmit)="SaveChanges()"
+	>
+		<div class="profile-completion-dashboard">
+			<div class="dboard-col-1">
 				<div class="form-control-group gender">
 					<div class="gender-wrapper">
 						<label for="gender">GENDER</label>
@@ -37,7 +37,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="form-control-group">
+				<div class="form-control-group two-factor">
 					<label for="">TWO-FACTOR AUTHENICATION</label>
 					<p>
 						Protect your account with an extra layer of security.
@@ -46,6 +46,7 @@
 						phone in order to sign in.
 					</p>
 					<button
+						type="button"
 						class="two-fa-btn enable"
 						*ngIf="!member?.twoFactorEnabled"
 						(click)="triggerModal(twofa)"
@@ -53,6 +54,7 @@
 						Enable Two-Factor Auth
 					</button>
 					<button
+						type="button"
 						class="two-fa-btn disable"
 						*ngIf="member?.twoFactorEnabled"
 					>
@@ -91,7 +93,7 @@
 						</div>
 					</ng-template>
 				</div>
-				<div class="form-control-group">
+				<div class="form-control-group sms-auth">
 					<label for="">SMS BACKUP AUTHENICATION</label>
 					<p>
 						Add your phone as backup 2FA method in case you lose
@@ -104,7 +106,11 @@
 							formControlName="phoneNumber"
 						/>
 					</div>
-					<button class="sms-btn" (click)="triggerModal(smsauth)">
+					<button
+						type="button"
+						class="sms-btn"
+						(click)="triggerModal(smsauth)"
+					>
 						Enable SMS Authentication
 					</button>
 					<ng-template #smsauth let-modal>
@@ -137,10 +143,8 @@
 						</div>
 					</ng-template>
 				</div>
-			</form>
-		</div>
-		<div class="profile-picture">
-			<div class="form-control-group">
+			</div>
+			<div class="form-control-group dboard-col-2">
 				<label for="profile-dp">PROFILE PICTURE</label>
 				<div class="img-div">
 					<div class="img-wrapper">
@@ -161,6 +165,7 @@
 						(img)="onImageChanged($event, photoEditor)"
 					></app-file-upload>
 					<button
+						type="button"
 						class="upload-btn remove"
 						*ngIf="member?.photoUrl"
 						(click)="removeImage()"
@@ -203,6 +208,7 @@
 						<div class="modal-footer">
 							<div class="save-btn-wrapper">
 								<button
+									type="button"
 									class="save-img-btn"
 									(click)="intializeUpload()"
 								>
@@ -213,48 +219,22 @@
 						</div>
 					</ng-template>
 				</div>
-			</div>
-			<div class="form-control-group" id="gallery-form">
+
 				<div class="gallery">
 					<label for="" class="font-weight-bold">Gallery</label>
-					<!-- <div class="grandparent">
-						<div class="gallery-row">
+					<div class="gallery-inside">
+						<ng-container
+							*ngFor="let a of ImageList$ | async | slice"
+						>
 							<app-gallery-image
-								*ngFor="let a of ImageList$ | async"
 								[photo]="a"
 								(OldPhoto)="SetOldPhoto($event)"
 							></app-gallery-image>
-							<div class="gallery-link">
-								<span>See more...</span>
-							</div>
-						</div>
-					</div> -->
-					<div class="gallery-wrapper-wrapper">
-						<div class="gallery-inside">
-							<div
-								class="gallery__column"
-								*ngFor="let n of [0, 1, 2]"
-							>
-								<ng-container
-									*ngFor="
-										let a of ImageList$
-											| async
-											| slice: 3 * n:3 * n + 3
-									"
-								>
-									<app-gallery-image
-										[photo]="a"
-										(OldPhoto)="SetOldPhoto($event)"
-									></app-gallery-image>
-								</ng-container>
-							</div>
-						</div>
+						</ng-container>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="save-changes">
-			<form [formGroup]="registerCompleteForm">
+			<div class="dboard-col-3">
 				<div class="form-control-group">
 					<label for="status">Status</label>
 					<div class="status-input">
@@ -334,9 +314,10 @@
 						>
 					</button>
 				</div>
-			</form>
+			</div>
+			<!-- {{ this.registerCompleteForm.value | json }} -->
 		</div>
-	</div>
+	</form>
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
 		<path
 			fill="#2288fa"
@@ -344,6 +325,5 @@
 			d="M0,256L80,234.7C160,213,320,171,480,170.7C640,171,800,213,960,240C1120,267,1280,277,1360,282.7L1440,288L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
 		></path>
 	</svg>
+	<!-- {{ registerCompleteForm.value | json }} -->
 </div>
-<!-- {{ registerCompleteForm.value | json }} -->
-{{ this.registerCompleteForm.value | json }}

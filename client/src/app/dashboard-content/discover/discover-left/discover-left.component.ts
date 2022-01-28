@@ -4,23 +4,32 @@ import { FriendRequestComponent } from './friend-request/friend-request.componen
 import { UserParams } from '../../../_models/userParams';
 import { Friend } from 'src/app/_models/Friend';
 import { FriendsParams } from '../../../_models/friendsParams';
+import { Member } from 'src/app/_models/member';
+import { Observable } from 'rxjs';
 @Component({
 	selector: 'app-discover-left',
 	templateUrl: './discover-left.component.html',
 	styleUrls: ['./discover-left.component.css'],
 })
 export class DiscoverLeftComponent implements OnInit {
-	Friends: Friend[];
-	userParams: FriendsParams;
+	Friends$: Observable<Friend[]>;
+	friendsParams: FriendsParams;
+	userParams: UserParams;
 	constructor(private memberService: MembersService) {
-		this.userParams = this.memberService.GetFriendsParams();
+		this.friendsParams = this.memberService.GetFriendsParams();
 	}
 	ngOnInit(): void {
 		this.ReloadList();
 	}
 	ReloadList() {
-		this.memberService.GetUserRequests(this.userParams).subscribe((x) => {
-			this.Friends = x.result;
+		this.Friends$ = this.memberService.friends$;
+		this.memberService
+			.GetUserRequests(this.friendsParams)
+			.subscribe(() => {});
+	}
+	UpdateRequest(username) {
+		this.memberService.AcceptUserRequest(username).subscribe((x) => {
+			this.ReloadList();
 		});
 	}
 }

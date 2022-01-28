@@ -47,7 +47,8 @@ namespace API.Controllers
 			{
 				ReqSenderUserId = senderUserId,
 				ReqReceiverUserId = receiverUser.Id,
-				Id = id++
+				Id = id++,
+				RequestStatus = RequestFlag.SentPending
 			};
 			senderUser.FriendsAdded.Add(userFriend);
 
@@ -55,12 +56,39 @@ namespace API.Controllers
 			{
 				ReqSenderUserId = receiverUser.Id,
 				ReqReceiverUserId = senderUserId,
-				Id = id++
+				Id = id++,
+				RequestStatus = RequestFlag.ReceivedPending
 			};
 			senderUser.FriendsOf.Add(userFriend);
 			if (await _unitOfWork.Complete()) return Ok();
 
 			return BadRequest("Failed to send the request");
+		}
+
+		[HttpDelete("delete-request/{username}")]
+		public async Task<ActionResult> DeleteRequest(string username)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			var senderUserId = user.Id;
+			var receiverUser = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+			if (receiverUser == null) return NotFound(); //theres no user sender in db
+
+			var request = await _unitOfWork.FriendsRepository.GetUserFriend(senderUserId, receiverUser.Id);
+			if (request == null) return NotFound();
+			var requestReverse = await _unitOfWork.FriendsRepository.GetUserFriend(receiverUser.Id, senderUserId);
+			// if (request.RequestStatus == RequestFlag.Accepted) return BadRequest("You are already friends!");
+			// if (request.Id > requestReverse.Id)
+			// {
+			// 	if (requestReverse.ReqSenderUserId == user.Id) return BadRequest("You cannot cancel request from their part");
+			// }
+			// if (request.ReqSenderUserId == user.Id) return BadRequest("You cannot accept request from their part");
+			// request.RequestStatus = RequestFlag.Accepted;
+			// requestReverse.RequestStatus = RequestFlag.Accepted;
+			_unitOfWork.FriendsRepository.Delete(request);
+			_unitOfWork.FriendsRepository.Delete(requestReverse);
+			if (await _unitOfWork.Complete()) return NoContent();
+
+			return BadRequest("Failed to update request");
 		}
 
 		[HttpPut("received/{username}/accept")]

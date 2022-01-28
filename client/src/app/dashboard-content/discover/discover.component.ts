@@ -8,6 +8,7 @@ import { UserParams } from '../../_models/userParams';
 import { AccountService } from '../../_services/account.service';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/_models/user';
+import { Friend } from 'src/app/_models/Friend';
 
 @Component({
 	selector: 'app-discover',
@@ -17,19 +18,24 @@ import { User } from 'src/app/_models/user';
 export class DiscoverComponent implements OnInit {
 	user: User;
 	users: Member[];
+	Friends$: Observable<Friend[]>;
+	ReceivedRequests: Friend[];
 	pagination: IPagination;
 	userParams: UserParams;
 	genderList = [
 		{ display: 'Male', value: 'Male' },
 		{ display: 'Female', value: 'Female' },
-		{ display: 'All', value: 'Not Specified' },
+		{ display: 'All', value: '' },
 	];
 
 	constructor(private memberService: MembersService) {
 		this.userParams = this.memberService.GetUserParams();
 	}
 	ngOnInit(): void {
-		this.loadMembers();
+		this.Friends$ = this.memberService.friends$;
+		this.Friends$.subscribe((x) => {
+			this.loadMembers();
+		});
 	}
 
 	loadMembers() {
@@ -49,6 +55,11 @@ export class DiscoverComponent implements OnInit {
 
 	resetFilters() {
 		this.userParams = this.memberService.ResetUserParams();
+		this.loadMembers();
+	}
+
+	updateRequest(username) {
+		this.memberService.AcceptUserRequest(username).subscribe((x) => {});
 		this.loadMembers();
 	}
 }

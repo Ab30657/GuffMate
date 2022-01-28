@@ -1,13 +1,12 @@
 .glass {
 	background: white;
-	min-height: 90vh;
+	min-height: 100vh;
 	width: 100%;
 	background: linear-gradient(
 		to right bottom,
 		rgba(255, 255, 255, 0.7),
 		rgba(255, 255, 255, 0.3)
 	);
-	border-radius: 2rem;
 	z-index: 3;
 	backdrop-filter: blur(2rem);
 	display: flex;
@@ -27,13 +26,18 @@
 	justify-content: flex-start;
 	text-align: center;
 	height: 100%;
-	padding: 1rem 0;
 }
 .dashboard {
-	flex: 2 0 0;
+	width: 500px;
+}
+
+@media screen and (max-width: 1000px) {
+	.dashboard {
+		width: 150px;
+	}
 }
 .card-wrapper {
-	flex: 1;
+	padding: 1rem 0;
 }
 .pro {
 	background: linear-gradient(to right top, #31f564, #2288fa);
@@ -63,7 +67,7 @@
 		rgba(255, 255, 255, 0.7),
 		rgba(255, 255, 255, 0.3)
 	);
-	border-radius: 2rem;
+	border-radius: 0.5rem;
 	height: 100%;
 	position: relative;
 }

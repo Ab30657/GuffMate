@@ -1,13 +1,14 @@
 export interface Friend {
-	name: string;
-	Status: RequestStatus;
-	gender: string;
-	photoUrl: string;
+	status: number;
 	username: string;
+	name: string;
+	photoUrl: string;
+	gender: string;
 }
 export enum RequestStatus {
-	None,
-	Accepted,
-	Rejected,
-	Blocked,
+	SentPending = 0,
+	ReceivedPending = 1,
+	Accepted = 2,
+	Rejected = 3,
+	None = 4,
 }

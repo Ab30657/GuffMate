@@ -1,13 +1,100 @@
 <div class="content">
 	<div class="chat-title">
 		<div class="msg-user-dp">
-			<img src="./assets/profileboy.png" alt="" />
+			<img
+				[class.is-online]="
+					(presence.onlineUsers$ | async).includes(
+						chatMember?.username
+					)
+				"
+				[src]="
+					!this.chatMember?.photoUrl &&
+					this.chatMember?.gender == 'Female'
+						? './assets/profilegirl.png'
+						: './assets/profileboy.png'
+				"
+				alt=""
+			/>
 		</div>
-		<div class="heading">Tony Stark</div>
+		<div class="heading">{{ chatMember?.name }}</div>
 		<div class="seen-status">3 hours ago</div>
 	</div>
 	<div class="messages" id="chat">
-		<div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
+		<div class="loading">
+			<ngx-spinner
+				[fullScreen]="false"
+				bdColor="rgba(255,255,255,0.6)"
+				type="square-jelly-box"
+			>
+				<h3>Wait a f*cking second</h3>
+			</ngx-spinner>
+		</div>
+		<ng-container
+			*ngIf="(messageService.messageThread$ | async)?.length > 0"
+		>
+			<div
+				*ngFor="let message of messageService.messageThread$ | async"
+				class="message-line"
+			>
+				<div
+					class="agent-face"
+					*ngIf="message.senderUsername == chatMember?.username"
+				>
+					<img
+						class="agent circle"
+						[src]="
+							!this.chatMember.photoUrl &&
+							this.chatMember.gender == 'Female'
+								? './assets/profilegirl.png'
+								: './assets/profileboy.png'
+						"
+					/>
+				</div>
+				<div class="message-wrapper">
+					<div
+						class="message"
+						[ngClass]="
+							message.senderUsername == chatMember?.username
+								? 'receiver-msg'
+								: 'sender-msg'
+						"
+					>
+						{{ message.content }}
+						<div
+							class="message-time"
+							[style]="
+								message.senderUsername !== chatMember?.username
+									? 'left: 1.25rem;	color: #ddd;'
+									: 'right:1.25rem; color:#555'
+							"
+						>
+							{{ message.messageSent | date: "shortTime" }}
+						</div>
+						<div
+							*ngIf="
+								message.senderUsername !== chatMember?.username
+							"
+							class="message-read"
+							[style]="'right:0.5rem; color:#ddd'"
+						>
+							<i
+								class="fa"
+								[ngClass]="
+									!message.dateRead
+										? 'fa-check-circle-o'
+										: 'fa-check-circle'
+								"
+							></i>
+							<i
+								class="fa fa-check-circle"
+								*ngIf="message.dateRead"
+							></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</ng-container>
+		<!-- <div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
 		<div class="message stark">Kid, where'd you come from?</div>
 		<div class="message parker">Field trip! 🤣</div>
 		<div class="message parker">
@@ -15,12 +102,24 @@
 		</div>
 		<div class="message stark">
 			Uh, he's from space, he came here to steal a necklace from a wizard.
-		</div>
+		</div> -->
 	</div>
-	<div class="input">
+	<form
+		#messageForm="ngForm"
+		(ngSubmit)="sendMessage()"
+		autocomplete="off"
+		class="type-message-bar"
+	>
 		<i class="fa fa-camera"></i><i class="fa fa-smile-o"></i
-		><input placeholder="Type your message here!" type="text" /><i
-			class="fa fa-microphone"
-		></i>
-	</div>
+		><i class="fa fa-microphone"></i
+		><input
+			name="messageContent"
+			required
+			[(ngModel)]="messageContent"
+			placeholder="Type your message here!"
+			type="text"
+		/><button type="submit" [disabled]="!messageForm.valid">
+			<i class="fa fa-paper-plane"></i>
+		</button>
+	</form>
 </div>

@@ -5,6 +5,7 @@ import { User } from '../_models/user';
 import { map } from 'rxjs/operators';
 import { ReplaySubject } from 'rxjs';
 import { Router } from '@angular/router';
+import { PresenceService } from './presence.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -12,9 +13,15 @@ import { Router } from '@angular/router';
 export class AccountService {
 	fullRegisterComplete;
 	baseUrl = environment.apiUrl;
+	memberCache = new Map();
+	friendCache = new Map();
 	private currentUserSource = new ReplaySubject<User>(1);
 	currentUser$ = this.currentUserSource.asObservable();
-	constructor(private http: HttpClient, private router: Router) {}
+	constructor(
+		private http: HttpClient,
+		private presence: PresenceService,
+		private router: Router
+	) {}
 	isFullRegisterComplete() {
 		return this.fullRegisterComplete;
 	}
@@ -23,8 +30,12 @@ export class AccountService {
 			map((response: User) => {
 				const user = response;
 				if (user) {
+					// console.log(user);
 					localStorage.setItem('user', JSON.stringify(user));
+					this.memberCache = new Map();
+					this.friendCache = new Map();
 					this.currentUserSource.next(user);
+					this.presence.createHubConnection(user);
 				}
 			})
 		);
@@ -36,6 +47,7 @@ export class AccountService {
 				if (user) {
 					localStorage.setItem('user', JSON.stringify(user));
 					this.currentUserSource.next(user);
+					this.presence.createHubConnection(user);
 				}
 			})
 		);
@@ -45,7 +57,10 @@ export class AccountService {
 		this.currentUserSource.next(user);
 	}
 	logout() {
+		this.presence.stopHubConnection();
 		localStorage.removeItem('user');
+		this.memberCache = null;
+		this.friendCache = null;
 		this.currentUserSource.next(null);
 		this.router.navigateByUrl('/login');
 	}

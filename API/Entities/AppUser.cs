@@ -23,5 +23,8 @@ namespace API.Entities
 		public ICollection<UserFriend> FriendsAdded { get; set; }
 		public ICollection<UserFriend> FriendsOf { get; set; }
 
+		public ICollection<Message> MessagesSent { get; set; }
+		public ICollection<Message> MessagesReceived { get; set; }
+
 	}
 }
