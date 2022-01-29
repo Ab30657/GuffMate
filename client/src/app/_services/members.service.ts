@@ -42,9 +42,11 @@ export class MembersService {
 			this.baseUrl + 'friends?predicate=accepted'
 		);
 	}
+
 	updateFriendList(data) {
 		this.friendSource.next(data);
 	}
+
 	SendRequest(username: string) {
 		return this.http.post(
 			this.baseUrl + 'friends/send-request/' + username,
@@ -114,6 +116,7 @@ export class MembersService {
 			map((x) => {
 				if (x != undefined) {
 					this.friends = x.result;
+					console.log(x);
 					this.friendSource.next(Object.assign([], this.friends));
 				}
 			})

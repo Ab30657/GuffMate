@@ -46,7 +46,6 @@ export class MessagesComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.route.params.subscribe((x) => {
-			console.log(x.username);
 			let username = x.username;
 			this.memberService.GetUser(username).subscribe((x) => {
 				this.chatMember = x;
