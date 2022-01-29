@@ -23,6 +23,9 @@ export class MessageService {
 	private isTypingSource = new ReplaySubject<boolean>(1);
 	isTyping$ = this.isTypingSource.asObservable();
 
+	private latestMessageSource = new BehaviorSubject<Message>(null);
+	latestMessage$ = this.latestMessageSource.asObservable();
+
 	constructor(private http: HttpClient, private busyService: BusyService) {}
 
 	createHubConnection(user: User, otherUsername: string) {
@@ -41,6 +44,7 @@ export class MessageService {
 			this.messageThread$.pipe(take(1)).subscribe((messages) => {
 				this.messageThreadSource.next([...messages, message]);
 			});
+			this.latestMessageSource.next(message);
 		});
 
 		this.hubConnection.on('TypingNewMessage', (isTyping) => {

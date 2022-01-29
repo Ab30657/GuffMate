@@ -5,7 +5,8 @@ export interface Friend {
 	name: string;
 	photoUrl: string;
 	gender: string;
-	latestMessage: Message;
+	latestMessage: string;
+	latestMessageSent: Date;
 }
 export enum RequestStatus {
 	SentPending = 0,

@@ -50,7 +50,6 @@ export class PresenceService {
 		});
 
 		this.hubConnection.on('NewMessageReceived', (message) => {
-			console.log('reached here');
 			//design a notification pop up
 			this.latestMessageSource.next(message);
 		});

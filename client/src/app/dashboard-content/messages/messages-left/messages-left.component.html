@@ -31,14 +31,16 @@
 				<span class="msg-user-title">{{ chat.name }}</span>
 			</div>
 			<span class="card-latest-msg">{{
-				this.chat?.latestMessage?.content
+				(this.messageService.latestMessage$ | async)?.content ||
+					this.chat?.latestMessage
 			}}</span>
 
 			<div class="filler"></div>
 		</div>
 		<div class="chat-time">
 			<span>{{
-				this.chat?.latestMessage?.messageSent | date: "shortTime"
+				(this.messageService.latestMessage$ | async)?.messageSent ||
+					this.chat?.latestMessageSent | date: "shortTime"
 			}}</span>
 		</div>
 	</div>

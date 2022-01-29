@@ -27,15 +27,17 @@ export class MessagesLeftComponent implements OnInit {
 	ngOnInit(): void {
 		this.membersService.getFriends().subscribe((x) => {
 			this.friends = x;
+			console.log(this.friends);
 			this.chatMember = this.route.snapshot.paramMap.get('username');
 			this.presence.latestMessage$.subscribe((msg) => {
+				console.log(msg);
 				if (msg != null) {
 					console.log('reached');
 					this.friends.find(
 						(a) =>
 							msg.senderUsername == a.username ||
 							msg.recipientUsername == a.username
-					).latestMessage = { ...msg };
+					).latestMessage = msg.content;
 					this.friends = [...this.friends];
 				}
 			});
