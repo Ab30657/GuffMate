@@ -4,6 +4,9 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { Message } from '../_models/message';
+import { MembersService } from './members.service';
+import { Friend } from '../_models/Friend';
 
 @Injectable({
 	providedIn: 'root',
@@ -13,6 +16,8 @@ export class PresenceService {
 	private hubConnection: HubConnection;
 	private onlineUsersSource = new BehaviorSubject<string[]>([]);
 	onlineUsers$ = this.onlineUsersSource.asObservable();
+	private latestMessageSource = new BehaviorSubject<Message>(null);
+	latestMessage$ = this.latestMessageSource.asObservable();
 	constructor() {}
 
 	createHubConnection(user: User) {
@@ -42,6 +47,12 @@ export class PresenceService {
 
 		this.hubConnection.on('GetOnlineUsers', (usernames: string[]) => {
 			this.onlineUsersSource.next(usernames);
+		});
+
+		this.hubConnection.on('NewMessageReceived', (message) => {
+			console.log('reached here');
+			//design a notification pop up
+			this.latestMessageSource.next(message);
 		});
 	}
 

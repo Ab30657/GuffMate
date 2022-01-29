@@ -46,12 +46,13 @@ export class MessagesComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.route.params.subscribe((x) => {
-			let username = this.route.snapshot.paramMap.get('username');
+			let username = x.username;
 			this.memberService.GetUser(username).subscribe((x) => {
 				this.chatMember = x;
 			});
 			this.messageService.createHubConnection(this.user, username);
 		});
+		this.messageService.messageThread$.subscribe((x) => console.log(x));
 	}
 
 	loadMessages() {
@@ -67,7 +68,9 @@ export class MessagesComponent implements OnInit {
 	// 	this.pageNumber = event.page;
 	// 	this.loadMessages();
 	// }
-
+	typingMessage(isTyping: boolean) {
+		this.messageService.typingMessage(isTyping, this.chatMember.username);
+	}
 	sendMessage() {
 		this.messageService
 			.sendMessage(this.chatMember.username, this.messageContent)

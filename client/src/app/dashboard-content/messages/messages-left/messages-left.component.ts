@@ -20,12 +20,25 @@ export class MessagesLeftComponent implements OnInit {
 		private route: ActivatedRoute,
 		private router: Router,
 		public presence: PresenceService
-	) {}
+	) {
+		router.routeReuseStrategy.shouldReuseRoute = () => false;
+	}
 
 	ngOnInit(): void {
 		this.membersService.getFriends().subscribe((x) => {
 			this.friends = x;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
+			this.presence.latestMessage$.subscribe((msg) => {
+				if (msg != null) {
+					console.log('reached');
+					this.friends.find(
+						(a) =>
+							msg.senderUsername == a.username ||
+							msg.recipientUsername == a.username
+					).latestMessage = { ...msg };
+					this.friends = [...this.friends];
+				}
+			});
 			if (this.friends.length !== 0) {
 				if (this.chatMember == '') {
 					this.router.navigateByUrl(

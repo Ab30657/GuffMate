@@ -30,7 +30,10 @@
 			</ngx-spinner>
 		</div>
 		<ng-container
-			*ngIf="(messageService.messageThread$ | async)?.length > 0"
+			*ngIf="
+				this.chatMember &&
+				(messageService.messageThread$ | async)?.length > 0
+			"
 		>
 			<div
 				*ngFor="let message of messageService.messageThread$ | async"
@@ -93,6 +96,33 @@
 					</div>
 				</div>
 			</div>
+			<div
+				class="message-line typing-indicator"
+				*ngIf="messageService.isTyping$ | async"
+			>
+				<div class="agent-face">
+					<img
+						class="agent circle"
+						[src]="
+							!this.chatMember.photoUrl &&
+							this.chatMember.gender == 'Female'
+								? './assets/profilegirl.png'
+								: './assets/profileboy.png'
+						"
+					/>
+				</div>
+				<div class="message-wrapper">
+					<div class="message receiver-msg">
+						<div class="ticontainer">
+							<div class="tiblock">
+								<div class="tidot"></div>
+								<div class="tidot"></div>
+								<div class="tidot"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</ng-container>
 		<!-- <div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
 		<div class="message stark">Kid, where'd you come from?</div>
@@ -113,6 +143,8 @@
 		<i class="fa fa-camera"></i><i class="fa fa-smile-o"></i
 		><i class="fa fa-microphone"></i
 		><input
+			(focus)="typingMessage(true)"
+			(blur)="typingMessage(false)"
 			name="messageContent"
 			required
 			[(ngModel)]="messageContent"

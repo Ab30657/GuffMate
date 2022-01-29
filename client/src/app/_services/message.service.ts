@@ -20,6 +20,9 @@ export class MessageService {
 
 	private messageThreadSource = new BehaviorSubject<Message[]>([]);
 	messageThread$ = this.messageThreadSource.asObservable();
+	private isTypingSource = new ReplaySubject<boolean>(1);
+	isTyping$ = this.isTypingSource.asObservable();
+
 	constructor(private http: HttpClient, private busyService: BusyService) {}
 
 	createHubConnection(user: User, otherUsername: string) {
@@ -39,12 +42,20 @@ export class MessageService {
 				this.messageThreadSource.next([...messages, message]);
 			});
 		});
-	}
 
+		this.hubConnection.on('TypingNewMessage', (isTyping) => {
+			this.isTypingSource.next(isTyping);
+		});
+	}
 	stopHubConnection() {
 		if (this.hubConnection) {
 			this.hubConnection.stop();
 		}
+	}
+	typingMessage(isTyping: boolean, otherUsername: string) {
+		return this.hubConnection
+			.invoke('EnteringMessage', otherUsername, isTyping)
+			.catch((x) => console.log(x));
 	}
 	getMessages(pageNumber, pageSize, container) {
 		let params = getPaginationHeaders(pageNumber, pageSize);

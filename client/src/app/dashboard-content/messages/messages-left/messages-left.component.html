@@ -30,10 +30,16 @@
 			<div class="card-msg-user">
 				<span class="msg-user-title">{{ chat.name }}</span>
 			</div>
-			<span class="card-latest-msg">This is a test message...</span>
+			<span class="card-latest-msg">{{
+				this.chat?.latestMessage?.content
+			}}</span>
 
 			<div class="filler"></div>
 		</div>
-		<div class="chat-time"><span>9:10</span></div>
+		<div class="chat-time">
+			<span>{{
+				this.chat?.latestMessage?.messageSent | date: "shortTime"
+			}}</span>
+		</div>
 	</div>
 </div>
