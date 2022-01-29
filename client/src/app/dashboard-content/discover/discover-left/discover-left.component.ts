@@ -17,21 +17,26 @@ export class DiscoverLeftComponent implements OnInit {
 	Friends$: Observable<Friend[]>;
 	friendsParams: FriendsParams;
 	userParams: UserParams;
-	constructor(private memberService: MembersService) {
+	constructor(public memberService: MembersService) {
 		this.friendsParams = this.memberService.GetFriendsParams();
 	}
 	ngOnInit(): void {
 		this.ReloadList();
 	}
 	ReloadList() {
-		this.Friends$ = this.memberService.friends$;
+		// this.Friends$ = this.memberService.friends$;
+		// this.memberService
+		// 	.GetUserRequests(this.friendsParams)
+		// 	.subscribe(() => {});
 		this.memberService
 			.GetUserRequests(this.friendsParams)
-			.subscribe(() => {});
+			.subscribe((a) =>
+				this.memberService.friends$.subscribe((x) => console.log(x))
+			);
 	}
 	UpdateRequest(username) {
 		this.memberService.AcceptUserRequest(username).subscribe((x) => {
-			this.ReloadList();
+			// this.ReloadList();
 		});
 	}
 }
