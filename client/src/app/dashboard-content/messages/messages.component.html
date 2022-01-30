@@ -124,15 +124,6 @@
 				</div>
 			</div>
 		</ng-container>
-		<!-- <div class="message parker">Hey, man! What's up, Mr Stark? 👋</div>
-		<div class="message stark">Kid, where'd you come from?</div>
-		<div class="message parker">Field trip! 🤣</div>
-		<div class="message parker">
-			Uh, what is this guy's problem, Mr. Stark? 🤔
-		</div>
-		<div class="message stark">
-			Uh, he's from space, he came here to steal a necklace from a wizard.
-		</div> -->
 	</div>
 	<form
 		#messageForm="ngForm"
@@ -140,9 +131,32 @@
 		autocomplete="off"
 		class="type-message-bar"
 	>
-		<i class="fa fa-camera"></i><i class="fa fa-smile-o"></i
-		><i class="fa fa-microphone"></i
-		><input
+		<button type="button" class="text-tools">
+			<i class="fa fa-camera"></i>
+		</button>
+		<button type="button" class="text-tools">
+			<emoji-mart
+				[style]="{
+					position: 'absolute',
+					bottom: '40px',
+					left: '-50px',
+					zIndex: '100'
+				}"
+				class="emoji-mart"
+				set="apple"
+				*ngIf="isEmojiPickerVisible"
+				(emojiSelect)="addEmoji($event)"
+				title=""
+			></emoji-mart>
+			<i
+				(click)="isEmojiPickerVisible = !isEmojiPickerVisible"
+				class="fa fa-smile-o"
+			></i>
+		</button>
+		<button type="button" class="text-tools">
+			<i class="fa fa-microphone"></i>
+		</button>
+		<input
 			(focus)="typingMessage(true)"
 			(blur)="typingMessage(false)"
 			name="messageContent"
@@ -150,7 +164,11 @@
 			[(ngModel)]="messageContent"
 			placeholder="Type your message here!"
 			type="text"
-		/><button type="submit" [disabled]="!messageForm.valid">
+		/><button
+			class="send-btn"
+			type="submit"
+			[disabled]="!messageForm.valid"
+		>
 			<i class="fa fa-paper-plane"></i>
 		</button>
 	</form>

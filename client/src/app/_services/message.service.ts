@@ -8,6 +8,7 @@ import { User } from '../_models/user';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { BusyService } from './busy.service';
+import { Group } from '../_models/group';
 
 @Injectable({
 	providedIn: 'root',
@@ -49,6 +50,19 @@ export class MessageService {
 
 		this.hubConnection.on('TypingNewMessage', (isTyping) => {
 			this.isTypingSource.next(isTyping);
+		});
+
+		this.hubConnection.on('UpdatedGroup', (group: Group) => {
+			if (group.connections.some((x) => x.username === otherUsername)) {
+				this.messageThread$.pipe(take(1)).subscribe((x) => {
+					x.forEach((a) => {
+						if (!a.dateRead) {
+							a.dateRead = new Date(Date.now());
+						}
+					});
+					this.messageThreadSource.next([...x]);
+				});
+			}
 		});
 	}
 	stopHubConnection() {

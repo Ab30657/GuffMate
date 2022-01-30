@@ -72,12 +72,14 @@
 	justify-content: center;
 	padding: 0.5rem 1rem;
 }
-.type-message-bar i {
+.type-message-bar .text-tools {
 	font-size: 1.5rem;
 	margin-right: 1rem;
-	color: black;
 	cursor: pointer;
 	transition: color 200ms;
+	position: relative;
+	background: transparent;
+	border: none;
 }
 
 .type-message-bar input {
@@ -149,29 +151,30 @@
 	position: relative;
 }
 
-.type-message-bar button {
+.type-message-bar .send-btn {
 	background: none;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border: none;
 	color: #7371fc;
+	cursor: pointer;
 }
 
-.type-message-bar button:hover {
+.type-message-bar .send-btn:hover {
 	color: #cdc1ff;
 	transform: scale(1.1);
 }
 
-.type-message-bar button > i {
+.type-message-bar .send-btn > i {
 	margin-right: 0;
 }
 
-.type-message-bar i {
+.type-message-bar .text-tools {
 	color: #7371fc;
 }
 
-.type-message-bar i:hover {
+.type-message-bar .text-tools i:hover {
 	color: #cdc1ff;
 	transform: scale(1.1);
 }

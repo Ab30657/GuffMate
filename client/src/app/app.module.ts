@@ -31,6 +31,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TimelineEventComponent } from './user-profile/timeline-event/timeline-event.component';
+import { ToastrModule } from 'ngx-toastr';
+import { FfbToastrComponent } from './components/ffb-toastr/ffb-toastr.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -51,7 +55,8 @@ import { TimelineEventComponent } from './user-profile/timeline-event/timeline-e
 		FileUploadComponent,
 		GalleryImagePipe,
 		UserProfileComponent,
-  TimelineEventComponent,
+		TimelineEventComponent,
+		FfbToastrComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -66,7 +71,13 @@ import { TimelineEventComponent } from './user-profile/timeline-event/timeline-e
 		NgbModule,
 		PaginationModule.forRoot(),
 		ButtonsModule.forRoot(),
+		ToastrModule.forRoot({
+			positionClass: 'toast-bottom-right',
+			timeOut: 10000,
+		}),
+		PickerModule,
 	],
+	entryComponents: [FfbToastrComponent],
 	providers: [
 		{
 			provide: HTTP_INTERCEPTORS,

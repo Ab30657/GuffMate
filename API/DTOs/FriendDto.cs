@@ -11,7 +11,7 @@ namespace API.DTOs
 		public string Gender { get; set; }
 		public string PhotoUrl { get; set; }
 		public string LatestMessage { get; set; }
-		public DateTime LatestMessageSent { get; set; }
+		public DateTime? LatestMessageSent { get; set; }
 
 	}
 }

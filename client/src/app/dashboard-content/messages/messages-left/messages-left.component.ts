@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MembersService } from '../../../_services/members.service';
 import { Friend } from '../../../_models/Friend';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,7 +11,7 @@ import { MessageService } from '../../../_services/message.service';
 	templateUrl: './messages-left.component.html',
 	styleUrls: ['./messages-left.component.css'],
 })
-export class MessagesLeftComponent implements OnInit {
+export class MessagesLeftComponent implements OnInit, OnDestroy {
 	friends: Friend[];
 	chatMember: string;
 	constructor(
@@ -22,6 +22,9 @@ export class MessagesLeftComponent implements OnInit {
 		public presence: PresenceService
 	) {
 		router.routeReuseStrategy.shouldReuseRoute = () => false;
+	}
+	ngOnDestroy(): void {
+		this.messageService.stopHubConnection();
 	}
 
 	ngOnInit(): void {

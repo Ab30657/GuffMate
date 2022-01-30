@@ -6,7 +6,7 @@ import {
 	ViewChild,
 } from '@angular/core';
 import { MembersService } from '../../_services/members.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Member } from 'src/app/_models/member';
 import { Message } from 'src/app/_models/message';
 import { MessageService } from '../../_services/message.service';
@@ -16,14 +16,18 @@ import { PresenceService } from '../../_services/presence.service';
 import { AccountService } from '../../_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
+import { AfterViewInit } from '@angular/core';
 
 @Component({
 	selector: 'app-messages',
 	templateUrl: './messages.component.html',
 	styleUrls: ['./messages.component.css'],
 })
-export class MessagesComponent implements OnInit {
+export class MessagesComponent implements OnInit, OnDestroy {
 	@ViewChild('messageForm') messageForm: NgForm;
+
+	public isEmojiPickerVisible: boolean;
+
 	chatMember: Member;
 	messages: Message[];
 	pageNumber = 1;
@@ -32,16 +36,21 @@ export class MessagesComponent implements OnInit {
 	pagination: IPagination;
 	messageContent: string;
 	user: User;
+	ScrollContainer: HTMLElement;
 	constructor(
 		private memberService: MembersService,
 		private route: ActivatedRoute,
 		public messageService: MessageService,
 		public presence: PresenceService,
-		private accountService: AccountService
+		private accountService: AccountService,
+		private router: Router
 	) {
 		this.accountService.currentUser$
 			.pipe(take(1))
 			.subscribe((x) => (this.user = x));
+	}
+	ngOnDestroy(): void {
+		this.messageService.stopHubConnection();
 	}
 
 	ngOnInit(): void {
@@ -52,7 +61,6 @@ export class MessagesComponent implements OnInit {
 			});
 			this.messageService.createHubConnection(this.user, username);
 		});
-		this.messageService.messageThread$.subscribe((x) => console.log(x));
 	}
 
 	loadMessages() {
@@ -77,5 +85,12 @@ export class MessagesComponent implements OnInit {
 			.then(() => {
 				this.messageForm.reset();
 			});
+	}
+
+	addEmoji(event) {
+		this.messageContent == null
+			? (this.messageContent = event.emoji.native)
+			: (this.messageContent += event.emoji.native);
+		event.event$.stopPropagation();
 	}
 }
