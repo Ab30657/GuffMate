@@ -28,19 +28,38 @@
 		<!-- <div class="badge">15</div> -->
 		<div class="chat-content">
 			<div class="card-msg-user">
-				<span class="msg-user-title">{{ chat.name }}</span>
+				<span
+					class="msg-user-title"
+					[ngStyle]="
+						this.chat?.latestMessage?.DateRead == null
+							? { fontWeight: '900' }
+							: 'normal'
+					"
+					>{{ chat.name }}</span
+				>
 			</div>
-			<span class="card-latest-msg">{{
-				(this.messageService.latestMessage$ | async)?.content ||
-					this.chat?.latestMessage
-			}}</span>
+			<span
+				class="card-latest-msg"
+				[ngStyle]="
+					this.chat?.latestMessage?.dateRead == null
+						? { fontWeight: '900', color: 'red' }
+						: { fontWeight: 'normal' }
+				"
+				>{{ this.chat?.latestMessage?.content }}</span
+			>
 
 			<div class="filler"></div>
 		</div>
-		<div class="chat-time">
+		<div
+			class="chat-time"
+			[ngStyle]="
+				this.chat?.latestMessage?.dateRead == null
+					? { fontWeight: '900', color: 'red' }
+					: { fontWeight: 'normal', color: 'gray' }
+			"
+		>
 			<span>{{
-				(this.messageService.latestMessage$ | async)?.messageSent ||
-					this.chat?.latestMessageSent | date: "shortTime"
+				this.chat?.latestMessage?.messageSent | date: "shortTime"
 			}}</span>
 		</div>
 	</div>

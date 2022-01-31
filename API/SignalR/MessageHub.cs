@@ -28,15 +28,18 @@ namespace API.SignalR
 		{
 			var httpContext = Context.GetHttpContext();
 			var otherUser = httpContext.Request.Query["user"].ToString();
-			var groupName = GetGroupName(Context.User.GetUsername(), otherUser);
-			await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-			var group = await AddToGroup(groupName);
+			if (otherUser != "")
+			{
+				var groupName = GetGroupName(Context.User.GetUsername(), otherUser);
+				await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+				var group = await AddToGroup(groupName);
 
-			await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
+				await Clients.Group(groupName).SendAsync("UpdatedGroup", group);
 
-			var messages = await _unitOfWork.MessageRepository.GetMessageThread(Context.User.GetUsername(), otherUser);
-			await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
-
+				var messages = await _unitOfWork.MessageRepository.GetMessageThread(Context.User.GetUsername(), otherUser);
+				await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
+				// await Clients.Caller.SendAsync("UpdateLatestMessages", lMessages);
+			}
 		}
 
 		public override async Task OnDisconnectedAsync(Exception ex)
@@ -97,7 +100,6 @@ namespace API.SignalR
 			var stringCompare = string.CompareOrdinal(caller, other) < 0;
 			return stringCompare ? $"{caller}-{other}" : $"{other}-{caller}";
 		}
-
 		private async Task<Group> AddToGroup(string groupName)
 		{
 			var group = await _unitOfWork.MessageRepository.GetMessageGroup(groupName);

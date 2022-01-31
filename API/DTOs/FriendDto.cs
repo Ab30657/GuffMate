@@ -10,8 +10,7 @@ namespace API.DTOs
 		public RequestFlag Status { get; set; }
 		public string Gender { get; set; }
 		public string PhotoUrl { get; set; }
-		public string LatestMessage { get; set; }
-		public DateTime? LatestMessageSent { get; set; }
+		public MessageDto LatestMessage { get; set; }
 
 	}
 }

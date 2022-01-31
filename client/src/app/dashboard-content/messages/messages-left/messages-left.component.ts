@@ -5,6 +5,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ThisReceiver } from '@angular/compiler';
 import { PresenceService } from '../../../_services/presence.service';
 import { MessageService } from '../../../_services/message.service';
+import { take } from 'rxjs/operators';
+import { AccountService } from 'src/app/_services/account.service';
+import { User } from 'src/app/_models/user';
+import { Message } from 'src/app/_models/message';
 
 @Component({
 	selector: 'app-messages-left',
@@ -13,38 +17,44 @@ import { MessageService } from '../../../_services/message.service';
 })
 export class MessagesLeftComponent implements OnInit, OnDestroy {
 	friends: Friend[];
+	user: User;
 	chatMember: string;
 	constructor(
 		private membersService: MembersService,
 		private messageService: MessageService,
 		private route: ActivatedRoute,
 		private router: Router,
-		public presence: PresenceService
+		public presence: PresenceService,
+		private accountService: AccountService
 	) {
 		router.routeReuseStrategy.shouldReuseRoute = () => false;
+		this.accountService.currentUser$
+			.pipe(take(1))
+			.subscribe((x) => (this.user = x));
 	}
 	ngOnDestroy(): void {
 		this.messageService.stopHubConnection();
 	}
 
 	ngOnInit(): void {
-		this.membersService.getFriends().subscribe((x) => {
-			this.friends = x;
-			console.log(this.friends);
+		this.messageService.getLatestMessages().subscribe();
+		this.membersService.getFriends().subscribe((t) => {
+			this.friends = t;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
-			this.presence.latestMessage$.subscribe((msg) => {
-				console.log(msg);
-				if (msg != null) {
-					console.log('reached');
-					this.friends.find(
-						(a) =>
-							msg.senderUsername == a.username ||
-							msg.recipientUsername == a.username
-					).latestMessage = msg.content;
-					this.friends = [...this.friends];
-				}
-			});
 			if (this.friends.length !== 0) {
+				this.messageService.latestMessages$.subscribe((a) => {
+					a.forEach((x) => {
+						this.friends.find(
+							(chatUser) =>
+								(x.senderUsername == chatUser.username &&
+									x.recipientUsername ==
+										this.user.username) ||
+								(x.senderUsername == this.user.username &&
+									x.recipientUsername == chatUser.username)
+						).latestMessage = { ...x };
+					});
+					this.friends = [...this.friends];
+				});
 				if (this.chatMember == '') {
 					this.router.navigateByUrl(
 						'/messages/' + this.friends[0].username
@@ -56,6 +66,7 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 
 	changeRoute(username: string) {
 		this.router.navigate(['messages', username]);
+		this.messageService.stopHubConnection();
 		this.chatMember = username;
 	}
 }

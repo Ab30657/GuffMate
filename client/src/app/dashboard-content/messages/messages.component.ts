@@ -60,6 +60,13 @@ export class MessagesComponent implements OnInit, OnDestroy {
 				this.chatMember = x;
 			});
 			this.messageService.createHubConnection(this.user, username);
+			// this.messageService.latestMessages$.subscribe((x) => {
+			// 	x.find(
+			// 		(a) =>
+			// 			a.senderUsername == this.chatMember.username ||
+			// 			a.recipientUsername == this.chatMember.username
+			// 	).dateRead = new Date(Date.now());
+			// });
 		});
 	}
 
@@ -83,6 +90,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 		this.messageService
 			.sendMessage(this.chatMember.username, this.messageContent)
 			.then(() => {
+				this.isEmojiPickerVisible = false;
 				this.messageForm.reset();
 			});
 	}

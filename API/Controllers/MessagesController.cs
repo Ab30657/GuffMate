@@ -64,5 +64,19 @@ namespace API.Controllers
 			var currentUsername = (await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value)).UserName;
 			return Ok(await _unitOfWork.MessageRepository.GetMessageThread(currentUsername, username));
 		}
+
+		[HttpGet("thread/latest")]
+		public async Task<ActionResult<IEnumerable<MessageDto>>> GetLatestMessages()
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			var list = new List<MessageDto>();
+			var friends = (await _unitOfWork.FriendsRepository.GetUserFriends(user.Id, new FriendsParams { predicate = "accepted" }));
+			foreach (var friend in friends)
+			{
+				list.Add(await _unitOfWork.MessageRepository.GetLatestMessage(user.UserName, friend.Username)); //adds null to the list if no messages
+			}
+			return list;
+
+		}
 	}
 }

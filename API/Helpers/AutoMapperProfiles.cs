@@ -21,11 +21,11 @@ namespace API.Helpers
 				.ForMember(x => x.Name, opt => opt.MapFrom(src => src.ReqReceiverUser.Name))
 				.ForMember(x => x.Gender, opt => opt.MapFrom(sourceMember => sourceMember.ReqReceiverUser.Gender))
 				.ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ReqReceiverUser.Photos.FirstOrDefault(x => x.IsMain).Url))
-				.ForMember(x => x.Status, opt => opt.MapFrom(src => src.RequestStatus))
-				.ForMember(a => a.LatestMessage, opt => opt.MapFrom(src => src.ReqReceiverUser.MessagesSent.OrderBy(a => a.MessageSent).LastOrDefault().Id
-						> src.ReqReceiverUser.MessagesReceived.OrderBy(a => a.MessageSent).LastOrDefault().Id ? src.ReqReceiverUser.MessagesSent.OrderBy(a => a.MessageSent).LastOrDefault().Content : src.ReqReceiverUser.MessagesReceived.OrderBy(a => a.MessageSent).LastOrDefault().Content))
-				.ForMember(a => a.LatestMessageSent, opt => opt.MapFrom(src => src.ReqReceiverUser.MessagesSent.OrderBy(a => a.MessageSent).LastOrDefault().Id
-						> src.ReqReceiverUser.MessagesReceived.OrderBy(a => a.MessageSent).LastOrDefault().Id ? src.ReqReceiverUser.MessagesSent.OrderBy(a => a.MessageSent).LastOrDefault().MessageSent : src.ReqReceiverUser.MessagesReceived.OrderBy(a => a.MessageSent).LastOrDefault().MessageSent));
+				.ForMember(x => x.Status, opt => opt.MapFrom(src => src.RequestStatus));
+			// .ForMember(a => a.LatestMessage, opt => opt.MapFrom(src => src.ReqReceiverUser.MessagesSent.OrderBy(a => a.MessageSent).LastOrDefault().Id
+			// 		> src.ReqReceiverUser.MessagesReceived.OrderBy(a => a.MessageSent).LastOrDefault().Id ? src.ReqReceiverUser.MessagesSent.OrderBy(a => a.MessageSent).LastOrDefault() : src.ReqReceiverUser.MessagesReceived.OrderBy(a => a.MessageSent).LastOrDefault()));
+			// .ForMember(a => a.LatestMessageSent, opt => opt.MapFrom(src => src.ReqReceiverUser.MessagesSent.OrderBy(a => a.MessageSent).LastOrDefault().Id
+			// 		> src.ReqReceiverUser.MessagesReceived.OrderBy(a => a.MessageSent).LastOrDefault().Id ? src.ReqReceiverUser.MessagesSent.OrderBy(a => a.MessageSent).LastOrDefault().MessageSent : src.ReqReceiverUser.MessagesReceived.OrderBy(a => a.MessageSent).LastOrDefault().MessageSent));
 			CreateMap<Interest, InterestDto>();
 			CreateMap<RegisterDto, AppUser>();
 			CreateMap<ProfileCompleteDto, AppUser>();

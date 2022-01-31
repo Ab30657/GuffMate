@@ -6,9 +6,11 @@ import { Message } from '../_models/message';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { User } from '../_models/user';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { BusyService } from './busy.service';
 import { Group } from '../_models/group';
+import { PresenceService } from './presence.service';
+import { convertUpdateArguments } from '@angular/compiler/src/compiler_util/expression_converter';
 
 @Injectable({
 	providedIn: 'root',
@@ -24,8 +26,8 @@ export class MessageService {
 	private isTypingSource = new ReplaySubject<boolean>(1);
 	isTyping$ = this.isTypingSource.asObservable();
 
-	private latestMessageSource = new BehaviorSubject<Message>(null);
-	latestMessage$ = this.latestMessageSource.asObservable();
+	private latestMessagesSource = new BehaviorSubject<Message[]>([]);
+	latestMessages$ = this.latestMessagesSource.asObservable();
 
 	constructor(private http: HttpClient, private busyService: BusyService) {}
 
@@ -37,15 +39,31 @@ export class MessageService {
 			.withAutomaticReconnect()
 			.build();
 		this.hubConnection.start().catch((x) => console.log(x));
-		this.hubConnection.on('ReceiveMessageThread', (messages) => {
+		this.hubConnection.on('ReceiveMessageThread', (messages: Message[]) => {
 			this.messageThreadSource.next(messages);
+			if (messages != null && messages.length != 0) {
+				this.latestMessages$.pipe(take(1)).subscribe((msgs) => {
+					if (msgs != null && msgs.length != 0) {
+						let x = msgs.find(
+							(a) =>
+								a.senderUsername == otherUsername ||
+								a.senderUsername == otherUsername
+						);
+						if (x != null && x != undefined) {
+							x.dateRead = new Date(Date.now());
+							console.log([...msgs]);
+							this.latestMessagesSource.next([...msgs]);
+						}
+					}
+				});
+			}
 		});
 
-		this.hubConnection.on('NewMessage', (message) => {
+		this.hubConnection.on('NewMessage', (message: Message) => {
 			this.messageThread$.pipe(take(1)).subscribe((messages) => {
 				this.messageThreadSource.next([...messages, message]);
 			});
-			this.latestMessageSource.next(message);
+			this.updateLatestMessages(message);
 		});
 
 		this.hubConnection.on('TypingNewMessage', (isTyping) => {
@@ -63,6 +81,37 @@ export class MessageService {
 					this.messageThreadSource.next([...x]);
 				});
 			}
+		});
+		this.hubConnection.on('UpdateLatestMessages', (messages) => {
+			console.log(messages);
+			// this.latestMessages$.pipe(take(1)).subscribe((msgs) => {
+			// 	if (msgs != null && msgs.length != 0) {
+			// 		let x = msgs.find(
+			// 			(a) =>
+			// 				a.senderUsername == otherUsername ||
+			// 				a.senderUsername == otherUsername
+			// 		);
+			// 		if (x != null && x != undefined) {
+			// 			x.dateRead = new Date(Date.now());
+			// 			this.latestMessagesSource.next([...msgs]);
+			// 		}
+			// 	}
+			// });
+		});
+	}
+	updateLatestMessages(message: Message) {
+		this.latestMessages$.pipe(take(1)).subscribe((messages) => {
+			var msg = messages.find(
+				(x) =>
+					(x.senderUsername == message.senderUsername &&
+						x.recipientUsername == message.recipientUsername) ||
+					(x.senderUsername == message.recipientUsername &&
+						x.recipientUsername == message.senderUsername)
+			);
+			if (msg != null) {
+				messages.splice(messages.indexOf(msg), 1);
+			}
+			this.latestMessagesSource.next([...messages, message]);
 		});
 	}
 	stopHubConnection() {
@@ -85,10 +134,22 @@ export class MessageService {
 		);
 	}
 
-	getMessageThread(username: string) {
-		return this.http.get<Message[]>(
-			this.baseUrl + 'messages/thread/' + username
-		);
+	// getMessageThread(username: string) {
+	// 	return this.http.get<Message[]>(
+	// 		this.baseUrl + 'messages/thread/' + username
+	// 	);
+	// }
+
+	getLatestMessages() {
+		return this.http
+			.get<Message[]>(this.baseUrl + 'messages/thread/latest')
+			.pipe(
+				map((x) => {
+					x = x.filter((a) => a != null);
+					this.latestMessagesSource.next([...x]);
+					console.log(x);
+				})
+			);
 	}
 
 	sendMessage(username: string, content: string) {

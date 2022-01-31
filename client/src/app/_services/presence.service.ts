@@ -9,6 +9,7 @@ import { MembersService } from './members.service';
 import { Friend } from '../_models/Friend';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { MessageService } from './message.service';
 @Injectable({
 	providedIn: 'root',
 })
@@ -19,7 +20,11 @@ export class PresenceService {
 	onlineUsers$ = this.onlineUsersSource.asObservable();
 	private latestMessageSource = new BehaviorSubject<Message>(null);
 	latestMessage$ = this.latestMessageSource.asObservable();
-	constructor(private toastr: ToastrService, private router: Router) {}
+	constructor(
+		private toastr: ToastrService,
+		private router: Router,
+		private messageService: MessageService
+	) {}
 
 	createHubConnection(user: User) {
 		this.hubConnection = new HubConnectionBuilder()
@@ -54,6 +59,7 @@ export class PresenceService {
 			//design a notification pop up
 			console.log('here');
 			this.latestMessageSource.next(message);
+			this.messageService.updateLatestMessages(message);
 			this.toastr
 				.info(message.senderUsername + ': ' + message.content)
 				.onTap.pipe(take(1))

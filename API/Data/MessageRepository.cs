@@ -47,6 +47,11 @@ namespace API.Data
 			return await _context.Groups.Include(x => x.Connections).Where(c => c.Connections.Any(x => x.ConnectionId == connectionId)).FirstOrDefaultAsync();
 		}
 
+		public async Task<MessageDto> GetLatestMessage(string currentUsername, string recipientUsername)
+		{
+			return _mapper.Map<MessageDto>(await _context.Messages.Include(x => x.Sender).ThenInclude(x => x.Photos).Include(x => x.Recipient).ThenInclude(x => x.Photos).Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).OrderBy(x => x.MessageSent).LastOrDefaultAsync());
+		}
+
 		public async Task<Message> GetMessage(int id)
 		{
 			return await _context.Messages.FindAsync(id);
