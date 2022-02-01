@@ -82,21 +82,9 @@ export class MessageService {
 				});
 			}
 		});
-		this.hubConnection.on('UpdateLatestMessages', (messages) => {
-			console.log(messages);
-			// this.latestMessages$.pipe(take(1)).subscribe((msgs) => {
-			// 	if (msgs != null && msgs.length != 0) {
-			// 		let x = msgs.find(
-			// 			(a) =>
-			// 				a.senderUsername == otherUsername ||
-			// 				a.senderUsername == otherUsername
-			// 		);
-			// 		if (x != null && x != undefined) {
-			// 			x.dateRead = new Date(Date.now());
-			// 			this.latestMessagesSource.next([...msgs]);
-			// 		}
-			// 	}
-			// });
+		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
+			messages = messages.filter((x) => x != null);
+			this.latestMessagesSource.next([...messages]);
 		});
 	}
 	updateLatestMessages(message: Message) {
@@ -139,18 +127,6 @@ export class MessageService {
 	// 		this.baseUrl + 'messages/thread/' + username
 	// 	);
 	// }
-
-	getLatestMessages() {
-		return this.http
-			.get<Message[]>(this.baseUrl + 'messages/thread/latest')
-			.pipe(
-				map((x) => {
-					x = x.filter((a) => a != null);
-					this.latestMessagesSource.next([...x]);
-					console.log(x);
-				})
-			);
-	}
 
 	sendMessage(username: string, content: string) {
 		return this.hubConnection

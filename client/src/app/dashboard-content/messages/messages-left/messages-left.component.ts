@@ -27,7 +27,6 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 		public presence: PresenceService,
 		private accountService: AccountService
 	) {
-		router.routeReuseStrategy.shouldReuseRoute = () => false;
 		this.accountService.currentUser$
 			.pipe(take(1))
 			.subscribe((x) => (this.user = x));
@@ -37,7 +36,6 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		this.messageService.getLatestMessages().subscribe();
 		this.membersService.getFriends().subscribe((t) => {
 			this.friends = t;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
@@ -65,8 +63,8 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 	}
 
 	changeRoute(username: string) {
-		this.router.navigate(['messages', username]);
 		this.messageService.stopHubConnection();
+		this.router.navigate(['messages', username]);
 		this.chatMember = username;
 	}
 }

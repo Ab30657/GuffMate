@@ -52,6 +52,19 @@ namespace API.Data
 			return _mapper.Map<MessageDto>(await _context.Messages.Include(x => x.Sender).ThenInclude(x => x.Photos).Include(x => x.Recipient).ThenInclude(x => x.Photos).Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).OrderBy(x => x.MessageSent).LastOrDefaultAsync());
 		}
 
+		public async Task<IEnumerable<MessageDto>> GetLatestMessages(int userId)
+		{
+			var requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.Accepted);
+			// var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
+			var friends = await requests.Where(x => x.ReqSenderUserId == userId).Select(x => x.ReqReceiverUserId).ToListAsync();// userId is logged in user id
+			var messages = new List<MessageDto>();
+			foreach (var item in friends)
+			{
+				var msg = _mapper.Map<MessageDto>(await _context.Messages.Where(x => x.RecipientId == item && x.SenderId == userId || x.RecipientId == userId && x.SenderId == item).OrderBy(x => x.MessageSent).LastOrDefaultAsync());
+				messages.Add(msg);
+			}
+			return messages;
+		}
 		public async Task<Message> GetMessage(int id)
 		{
 			return await _context.Messages.FindAsync(id);
