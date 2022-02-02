@@ -56,17 +56,20 @@ export class MessagesComponent implements OnInit, OnDestroy {
 	ngOnInit(): void {
 		this.route.params.subscribe((x) => {
 			let username = x.username;
-			this.memberService.GetUser(username).subscribe((x) => {
-				this.chatMember = x;
-			});
-			this.messageService.createHubConnection(this.user, username);
-			// this.messageService.latestMessages$.subscribe((x) => {
-			// 	x.find(
-			// 		(a) =>
-			// 			a.senderUsername == this.chatMember.username ||
-			// 			a.recipientUsername == this.chatMember.username
-			// 	).dateRead = new Date(Date.now());
-			// });
+			if (username) {
+				this.memberService.GetUser(username).subscribe((x) => {
+					this.chatMember = x;
+					console.log(x);
+				});
+				this.messageService.createHubConnection(this.user, username);
+				// this.messageService.latestMessages$.subscribe((x) => {
+				// 	x.find(
+				// 		(a) =>
+				// 			a.senderUsername == this.chatMember.username ||
+				// 			a.recipientUsername == this.chatMember.username
+				// 	).dateRead = new Date(Date.now());
+				// });
+			}
 		});
 	}
 

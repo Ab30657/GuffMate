@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using API.Data;
 using API.Extensions;
+using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
@@ -10,8 +12,10 @@ namespace API.SignalR
 	public class PresenceHub : Hub
 	{
 		private readonly PresenceTracker _tracker;
-		public PresenceHub(PresenceTracker tracker)
+		private readonly IUnitOfWork _unitOfWork;
+		public PresenceHub(PresenceTracker tracker, IUnitOfWork unitOfWork)
 		{
+			_unitOfWork = unitOfWork;
 			_tracker = tracker;
 		}
 
@@ -23,8 +27,10 @@ namespace API.SignalR
 
 			var currentUsers = await _tracker.GetOnlineUsers();
 			await Clients.Caller.SendAsync("GetOnlineUsers", currentUsers);
-		}
+			// var lMessages = await _unitOfWork.MessageRepository.GetLatestMessages(Context.User.GetUserId());
+			// await Clients.Caller.SendAsync("UpdateLatestMessages", lMessages);
 
+		}
 		public override async Task OnDisconnectedAsync(Exception ex)
 		{
 			var isOffline = await _tracker.UserDisconnected(Context.User.GetUsername(), Context.ConnectionId);

@@ -42,7 +42,6 @@ namespace API.SignalR
 				await Clients.Caller.SendAsync("UpdateLatestMessages", lMessages);
 			}
 		}
-
 		public override async Task OnDisconnectedAsync(Exception ex)
 		{
 			var group = await RemoveFromMessageGroup();
@@ -88,6 +87,8 @@ namespace API.SignalR
 			if (await _unitOfWork.MessageRepository.SaveAllAsync())
 			{
 				await Clients.Group(groupName).SendAsync("NewMessage", _mapper.Map<MessageDto>(message));
+				var lMessages = await _unitOfWork.MessageRepository.GetLatestMessages(Context.User.GetUserId());
+				await Clients.Caller.SendAsync("UpdateLatestMessages", lMessages);
 			}
 		}
 

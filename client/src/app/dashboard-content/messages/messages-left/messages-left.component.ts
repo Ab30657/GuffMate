@@ -39,7 +39,14 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 		this.membersService.getFriends().subscribe((t) => {
 			this.friends = t;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
-			if (this.friends.length !== 0) {
+			console.log(this.chatMember);
+			if (this.chatMember == '') {
+				this.chatMember = this.friends[0].username;
+				this.router.navigateByUrl(
+					'/messages/' + this.friends[0].username
+				);
+			}
+			if (this.friends) {
 				this.messageService.latestMessages$.subscribe((a) => {
 					a.forEach((x) => {
 						this.friends.find(
@@ -50,14 +57,10 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 								(x.senderUsername == this.user.username &&
 									x.recipientUsername == chatUser.username)
 						).latestMessage = { ...x };
+						console.log(this.friends);
 					});
 					this.friends = [...this.friends];
 				});
-				if (this.chatMember == '') {
-					this.router.navigateByUrl(
-						'/messages/' + this.friends[0].username
-					);
-				}
 			}
 		});
 	}

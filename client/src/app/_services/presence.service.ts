@@ -18,7 +18,7 @@ export class PresenceService {
 	private hubConnection: HubConnection;
 	private onlineUsersSource = new BehaviorSubject<string[]>([]);
 	onlineUsers$ = this.onlineUsersSource.asObservable();
-	private latestMessageSource = new BehaviorSubject<Message>(null);
+	private latestMessageSource = new BehaviorSubject<boolean>(false);
 	latestMessage$ = this.latestMessageSource.asObservable();
 	constructor(
 		private toastr: ToastrService,
@@ -53,12 +53,17 @@ export class PresenceService {
 
 		this.hubConnection.on('GetOnlineUsers', (usernames: string[]) => {
 			this.onlineUsersSource.next(usernames);
+			this.messageService.latestMessages$.subscribe((x) => {
+				if (x) {
+					this.latestMessageSource.next(true);
+				} else {
+				}
+			});
 		});
 
 		this.hubConnection.on('NewMessageReceived', (message: Message) => {
 			//design a notification pop up
-			console.log('here');
-			this.latestMessageSource.next(message);
+			this.latestMessageSource.next(true);
 			this.messageService.updateLatestMessages(message);
 			this.toastr
 				.info(message.senderUsername + ': ' + message.content)

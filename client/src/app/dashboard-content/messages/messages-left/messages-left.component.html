@@ -11,10 +11,13 @@
 		<div class="msg-dp-wrapper">
 			<div class="msg-dp">
 				<img
+					class="rounded-circle"
+					style="height: 50px"
 					[src]="
-						chat.photoUrl || chat.gender === 'Male'
+						chat.photoUrl ||
+						(chat.gender === 'Male'
 							? '../assets/profileboy.png'
-							: '../assets/profilegirl.png'
+							: '../assets/profilegirl.png')
 					"
 				/>
 			</div>
@@ -41,9 +44,11 @@
 			<span
 				class="card-latest-msg"
 				[ngStyle]="
-					this.chat?.latestMessage?.dateRead == null
+					this.chat?.latestMessage?.dateRead == null &&
+					this.chat?.latestMessage?.senderUsername ==
+						this.chat?.username
 						? { fontWeight: '900', color: 'red' }
-						: { fontWeight: 'normal' }
+						: { fontWeight: 'normal', color: 'black' }
 				"
 				>{{ this.chat?.latestMessage?.content }}</span
 			>
@@ -53,7 +58,8 @@
 		<div
 			class="chat-time"
 			[ngStyle]="
-				this.chat?.latestMessage?.dateRead == null
+				this.chat?.latestMessage?.dateRead == null &&
+				this.chat?.latestMessage?.senderUsername == this.chat?.username
 					? { fontWeight: '900', color: 'red' }
 					: { fontWeight: 'normal', color: 'gray' }
 			"

@@ -4,10 +4,13 @@
 		<div class="req-dp">
 			<img
 				[src]="
-					request.photoUrl || request.gender == 'Female'
+					request.photoUrl ||
+					(request.gender == 'Female'
 						? './assets/profilegirl.png'
-						: './assets/profileboy.png'
+						: './assets/profileboy.png')
 				"
+				class="rounded-circle"
+				style="height: 50px"
 				alt=""
 			/>
 		</div>

@@ -8,15 +8,15 @@
 					)
 				"
 				[src]="
-					!this.chatMember?.photoUrl &&
-					this.chatMember?.gender == 'Female'
+					this.chatMember?.photoUrl ||
+					(this.chatMember?.gender == 'Female'
 						? './assets/profilegirl.png'
-						: './assets/profileboy.png'
+						: './assets/profileboy.png')
 				"
 				alt=""
 			/>
 		</div>
-		<div class="heading">{{ chatMember?.name }}</div>
+		<div class="heading">{{ chatMember?.username }}</div>
 		<div class="seen-status">3 hours ago</div>
 	</div>
 	<div class="messages" id="chat">
@@ -46,10 +46,10 @@
 					<img
 						class="agent circle"
 						[src]="
-							!this.chatMember.photoUrl &&
-							this.chatMember.gender == 'Female'
+							this.chatMember.photoUrl ||
+							(this.chatMember.gender == 'Female'
 								? './assets/profilegirl.png'
-								: './assets/profileboy.png'
+								: './assets/profileboy.png')
 						"
 					/>
 				</div>
@@ -104,10 +104,10 @@
 					<img
 						class="agent circle"
 						[src]="
-							!this.chatMember.photoUrl &&
-							this.chatMember.gender == 'Female'
+							this.chatMember.photoUrl ||
+							(this.chatMember.gender == 'Female'
 								? './assets/profilegirl.png'
-								: './assets/profileboy.png'
+								: './assets/profileboy.png')
 						"
 					/>
 				</div>
