@@ -88,6 +88,7 @@ export class MessageService {
 		});
 	}
 	updateLatestMessages(message: Message) {
+		console.log(message);
 		this.latestMessages$.pipe(take(1)).subscribe((messages) => {
 			var msg = messages.find(
 				(x) =>

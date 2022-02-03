@@ -27,8 +27,8 @@ namespace API.SignalR
 
 			var currentUsers = await _tracker.GetOnlineUsers();
 			await Clients.Caller.SendAsync("GetOnlineUsers", currentUsers);
-			// var lMessages = await _unitOfWork.MessageRepository.GetLatestMessages(Context.User.GetUserId());
-			// await Clients.Caller.SendAsync("UpdateLatestMessages", lMessages);
+			var lMessages = await _unitOfWork.MessageRepository.GetLatestMessages(Context.User.GetUserId());
+			await Clients.Caller.SendAsync("UpdateLatestMessages", lMessages);
 
 		}
 		public override async Task OnDisconnectedAsync(Exception ex)

@@ -17,7 +17,25 @@
 			/>
 		</div>
 		<div class="heading">{{ chatMember?.username }}</div>
-		<div class="seen-status">3 hours ago</div>
+		<div class="seen-status">
+			<ng-container
+				*ngIf="
+					(presence.onlineUsers$ | async).includes(
+						chatMember?.username
+					)
+				"
+				>Online Now</ng-container
+			>
+			<ng-container
+				*ngIf="
+					chatMember &&
+					!(presence.onlineUsers$ | async).includes(
+						chatMember?.username
+					)
+				"
+				>{{ chatMember?.lastActive | timeago }}
+			</ng-container>
+		</div>
 	</div>
 	<div class="messages" id="chat">
 		<div class="loading">

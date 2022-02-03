@@ -26,13 +26,20 @@ export class NavComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		// this.messageService.latestMessages$.subscribe((x) => {
-		// 	if (x) {
-		// 	}
+		this.messageService.latestMessages$.subscribe((x: Message[]) => {
+			console.log(x);
+			if (x) {
+				this.unreadMessages = x.some(
+					(x) =>
+						x.dateRead == null &&
+						x.senderUsername != this.user.username
+				);
+			}
+		});
+		// this.presence.latestMessage$.subscribe((x:Message[]) => {
+		// 	this.unreadMessages = x
+
 		// });
-		this.presence.latestMessage$.subscribe(
-			(x) => (this.unreadMessages = x)
-		);
 	}
 	logout() {
 		this.accountService.logout();

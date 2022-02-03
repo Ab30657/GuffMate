@@ -34,6 +34,7 @@ import { TimelineEventComponent } from './user-profile/timeline-event/timeline-e
 import { ToastrModule } from 'ngx-toastr';
 import { FfbToastrComponent } from './components/ffb-toastr/ffb-toastr.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { TimeagoModule } from 'ngx-timeago';
 
 @NgModule({
 	declarations: [
@@ -76,6 +77,7 @@ import { PickerModule } from '@ctrl/ngx-emoji-mart';
 			timeOut: 10000,
 		}),
 		PickerModule,
+		TimeagoModule.forRoot(),
 	],
 	entryComponents: [FfbToastrComponent],
 	providers: [

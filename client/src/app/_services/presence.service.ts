@@ -48,7 +48,6 @@ export class PresenceService {
 					...usernames.filter((x) => x !== username),
 				]);
 			});
-			console.log('gone');
 		});
 
 		this.hubConnection.on('GetOnlineUsers', (usernames: string[]) => {
@@ -73,6 +72,15 @@ export class PresenceService {
 						'/messages/' + message.senderUsername
 					);
 				});
+		});
+
+		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
+			console.log(messages);
+			messages.forEach((x) => {
+				if (x) {
+					this.messageService.updateLatestMessages(x);
+				}
+			});
 		});
 	}
 
