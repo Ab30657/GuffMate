@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardContentComponent } from './dashboard-content/dashboard-content.component';
-import { FriendRequestComponent } from './dashboard-content/discover/discover-left/friend-request/friend-request.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { FriendRequestComponent } from './homepage/discover/discover-left/friend-request/friend-request.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_guards/auth.guard';
-import { DiscoverComponent } from './dashboard-content/discover/discover.component';
-import { MessagesLeftComponent } from './dashboard-content/messages/messages-left/messages-left.component';
-import { MessagesComponent } from './dashboard-content/messages/messages.component';
+import { DiscoverComponent } from './homepage/discover/discover.component';
+import { MessagesLeftComponent } from './homepage/messages/messages-left/messages-left.component';
+import { MessagesComponent } from './homepage/messages/messages.component';
 import { combineAll } from 'rxjs/operators';
-import { SettingsLeftComponent } from './dashboard-content/settings/settings-left/settings-left.component';
-import { SettingsComponent } from './dashboard-content/settings/settings.component';
-import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
+import { SettingsLeftComponent } from './homepage/settings/settings-left/settings-left.component';
+import { SettingsComponent } from './homepage/settings/settings.component';
+import { DiscoverLeftComponent } from './homepage/discover/discover-left/discover-left.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dashboard-left.component';
+import { DashboardComponent } from './homepage/dashboard/dashboard.component';
 
 const routes: Routes = [
 	{
@@ -27,7 +29,7 @@ const routes: Routes = [
 	},
 	{
 		path: '',
-		component: DashboardContentComponent,
+		component: HomepageComponent,
 		canActivate: [AuthGuard],
 		data: { animationState: 'two' },
 		children: [
@@ -84,6 +86,23 @@ const routes: Routes = [
 					{
 						path: '',
 						component: SettingsComponent,
+						canActivate: [AuthGuard],
+						outlet: 'right',
+					},
+				],
+			},
+			{
+				path: 'dashboard',
+				children: [
+					{
+						path: '',
+						component: DashboardLeftComponent,
+						canActivate: [AuthGuard],
+						outlet: 'left',
+					},
+					{
+						path: '',
+						component: DashboardComponent,
 						canActivate: [AuthGuard],
 						outlet: 'right',
 					},

@@ -3,17 +3,31 @@
 		"UserName": "amar",
 		"Name": "Amar Budhathoki",
 		"DateOfBirth": "2001-07-08",
-		"KnownAs": "Moonchild",
+		"KnownAs": "Angel",
 		"Gender": "Male",
-		"Status": "..."
+		"Status": "In love",
+		"Email": "amar.budhathoki3065@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644024799/jbanom9aoxjc9hiaggbf.png",
+				"IsMain": true
+			}
+		]
 	},
 	{
 		"UserName": "khubs",
 		"Name": "Khusbu Bhushal",
 		"DateOfBirth": "2001-07-08",
-		"KnownAs": "Overthinker",
+		"KnownAs": "Butterfly",
 		"Gender": "Female",
-		"Status": "..."
+		"Status": "In love",
+		"Email": "khusbubhushal@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644038992/ggei9e4t2ylzxqdlcrjv.jpg",
+				"IsMain": true
+			}
+		]
 	},
 	{
 		"UserName": "pratik",
@@ -21,6 +35,13 @@
 		"DateOfBirth": "2001-07-08",
 		"KnownAs": "Genius",
 		"Gender": "Male",
-		"Status": "..."
+		"Status": "Just a friend!",
+		"Email": "pratik.silwal3@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
+				"IsMain": true
+			}
+		]
 	}
 ]

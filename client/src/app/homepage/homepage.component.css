@@ -19,7 +19,7 @@
 	height: 80px;
 	object-fit: cover;
 }
-.dashboard-content {
+.homepage-content {
 	margin-left: var(--nav-width);
 	display: flex;
 	flex-direction: column;
@@ -27,12 +27,12 @@
 	text-align: center;
 	height: 100%;
 }
-.dashboard {
+.homepage {
 	width: 500px;
 }
 
 @media screen and (max-width: 1000px) {
-	.dashboard {
+	.homepage {
 		width: 150px;
 	}
 }
@@ -61,7 +61,7 @@
 	font-size: 1.2rem;
 }
 
-.dashboard-wrapper {
+.homepage-wrapper {
 	background: linear-gradient(
 		to right bottom,
 		rgba(255, 255, 255, 0.7),
