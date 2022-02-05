@@ -93,7 +93,7 @@ namespace API.Controllers
 			}
 			PhotoDto p = new PhotoDto
 			{
-				Url = result.SecureUrl.AbsoluteUri
+				Url = result.SecureUrl.AbsoluteUri,
 			};
 			return p;
 

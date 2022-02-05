@@ -97,7 +97,12 @@ export class MessagesComponent implements OnInit, OnDestroy {
 			this.messageService.sendImage(this.msgFile).subscribe((x: any) => {
 				console.log(x);
 				this.messageService
-					.sendMessage(this.chatMember.username, x.url, this.isImage)
+					.sendMessage(
+						this.chatMember.username,
+						this.messageContent,
+						this.isImage,
+						x.url
+					)
 					.then(() => {
 						this.isEmojiPickerVisible = false;
 						this.messageForm.reset();
@@ -108,7 +113,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
 				.sendMessage(
 					this.chatMember.username,
 					this.messageContent,
-					this.isImage
+					this.isImage,
+					null
 				)
 				.then(() => {
 					this.isEmojiPickerVisible = false;

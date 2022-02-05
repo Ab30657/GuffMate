@@ -16,5 +16,6 @@ namespace API.DTOs
 		public DateTime? DateRead { get; set; }
 		public DateTime MessageSent { get; set; }
 		public bool isImage { get; set; }
+		public string ImageUrl { get; set; }
 	}
 }

@@ -6,7 +6,6 @@ namespace API.DTOs
 	{
 		public string RecipientUsername { get; set; }
 		public string Content { get; set; }
-
-		public bool isImage { get; set; }
+		public string ImageUrl { get; set; }
 	}
 }

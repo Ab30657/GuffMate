@@ -66,7 +66,11 @@ export class PresenceService {
 			this.latestMessageSource.next(true);
 			this.messageService.updateLatestMessages(message);
 			this.toastr
-				.info(message.senderUsername + ': ' + message.content)
+				.info(
+					message.senderUsername +
+						': ' +
+						(message.isImage ? 'Sent an image.' : message.content)
+				)
 				.onTap.pipe(take(1))
 				.subscribe(() => {
 					this.router.navigateByUrl(

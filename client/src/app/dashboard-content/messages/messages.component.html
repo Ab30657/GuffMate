@@ -125,7 +125,13 @@
 						"
 					>
 						<ng-template [ngIf]="message.isImage">
-							<img [src]="message.content" />
+							<figure>
+								<img
+									class="image-message"
+									[src]="message.imageUrl"
+								/>
+								<figcaption>{{ message.content }}</figcaption>
+							</figure>
 						</ng-template>
 						<ng-template [ngIf]="!message.isImage">{{
 							message.content
@@ -231,7 +237,7 @@
 		<button type="button" class="text-tools">
 			<i class="fa fa-microphone"></i>
 		</button>
-		<textarea
+		<input
 			(focus)="typingMessage(true)"
 			(blur)="typingMessage(false)"
 			name="messageContent"
@@ -240,7 +246,7 @@
 			placeholder="Type your message here!"
 			type="text"
 			rows="0"
-		></textarea>
+		/>
 		<button class="send-btn" type="submit" [disabled]="!messageForm.valid">
 			<i class="fa fa-paper-plane"></i>
 		</button>

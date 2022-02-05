@@ -129,12 +129,18 @@ export class MessageService {
 	// 	);
 	// }
 
-	sendMessage(username: string, content: string, isImage: boolean) {
+	sendMessage(
+		username: string,
+		content: string,
+		isImage: boolean,
+		imageUrl: string
+	) {
 		return this.hubConnection
 			.invoke('SendMessage', {
 				recipientUsername: username,
 				content,
 				isImage,
+				imageUrl,
 			})
 			.catch((error) => console.log(error));
 	}

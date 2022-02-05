@@ -16,6 +16,7 @@ namespace API.Entities
 		public bool SenderDeleted { get; set; }
 		public bool RecipientDeleted { get; set; }
 		public bool IsImage { get; set; }
-
+		public string ImageUrl { get; set; }
 	}
+
 }

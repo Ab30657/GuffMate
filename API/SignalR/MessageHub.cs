@@ -68,13 +68,15 @@ namespace API.SignalR
 				SenderUsername = sender.UserName,
 				RecipientUsername = recipient.UserName,
 				Content = createMessageDto.Content,
-				IsImage = createMessageDto.isImage
+				IsImage = (String.IsNullOrEmpty(createMessageDto.ImageUrl)) ? false : true,
+				ImageUrl = (String.IsNullOrEmpty(createMessageDto.ImageUrl)) ? "" : createMessageDto.ImageUrl
+
 			};
 			//ForImage message
-			if (createMessageDto.isImage)
-			{
-				message.Content = createMessageDto.Content;
-			}
+			// if (createMessageDto.ImageUrl != null)
+			// {
+			// 	message.ImageUrl = createMessageDto.ImageUrl;
+			// }
 
 			var groupName = GetGroupName(sender.UserName, recipient.UserName);
 			var group = await _unitOfWork.MessageRepository.GetMessageGroup(groupName);

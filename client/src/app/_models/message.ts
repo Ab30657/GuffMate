@@ -10,4 +10,5 @@ export interface Message {
 	dateRead?: Date;
 	messageSent: Date;
 	isImage: boolean;
+	imageUrl: string;
 }

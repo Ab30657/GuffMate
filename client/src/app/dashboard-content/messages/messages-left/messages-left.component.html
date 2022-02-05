@@ -51,6 +51,12 @@
 						: { fontWeight: 'normal', color: 'black' }
 				"
 				>{{
+					this.chat?.latestMessage?.senderUsername ==
+					this.user?.username
+						? "You: "
+						: (this.chatMember | titlecase) + ": "
+				}}
+				{{
 					this.chat?.latestMessage?.isImage
 						? "Sent an image."
 						: this.chat?.latestMessage?.content

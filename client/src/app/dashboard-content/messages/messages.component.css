@@ -49,7 +49,7 @@
 	padding: 0.75rem 1.25rem;
 	margin: 1rem 1rem 1rem 5.75rem;
 	background: #fff;
-	border-radius: 1.125rem 1.125rem 1.125rem 0;
+	border-radius: 0 1.125rem 1.125rem 1.125rem;
 	min-height: 2.25rem;
 	width: -webkit-fit-content;
 	width: -moz-fit-content;
@@ -62,7 +62,7 @@
 
 .content .messages .message.sender-msg {
 	margin: 1rem 1rem 1rem auto;
-	border-radius: 1.125rem 1.125rem 0 1.125rem;
+	border-radius: 1.125rem 0 1.125rem 1.125rem;
 	background: #333;
 	color: white;
 }
@@ -82,7 +82,7 @@
 	border: none;
 }
 
-.type-message-bar textarea {
+.type-message-bar input {
 	border: none;
 	background-image: none;
 	background-color: white;
@@ -102,8 +102,8 @@
 
 .agent-face {
 	position: absolute;
-	left: 0;
-	top: -15px;
+	left: 5px;
+	top: -50px;
 	right: 0;
 	width: 101px;
 	height: 50px;
@@ -288,4 +288,8 @@
 	position: relative;
 	overflow: hidden;
 	display: inline-block;
+}
+
+.image-message {
+	max-width: 200px;
 }
