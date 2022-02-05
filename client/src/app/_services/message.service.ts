@@ -84,11 +84,11 @@ export class MessageService {
 		});
 		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
 			messages = messages.filter((x) => x != null);
+			console.log(messages);
 			this.latestMessagesSource.next([...messages]);
 		});
 	}
 	updateLatestMessages(message: Message) {
-		console.log(message);
 		this.latestMessages$.pipe(take(1)).subscribe((messages) => {
 			var msg = messages.find(
 				(x) =>
@@ -129,12 +129,19 @@ export class MessageService {
 	// 	);
 	// }
 
-	sendMessage(username: string, content: string) {
+	sendMessage(username: string, content: string, isImage: boolean) {
 		return this.hubConnection
 			.invoke('SendMessage', {
 				recipientUsername: username,
 				content,
+				isImage,
 			})
 			.catch((error) => console.log(error));
+	}
+
+	sendImage(file: File) {
+		const formData = new FormData();
+		formData.append('file', file, file.name);
+		return this.http.post(this.baseUrl + 'messages/upload/', formData);
 	}
 }

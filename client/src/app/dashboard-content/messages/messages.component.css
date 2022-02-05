@@ -21,13 +21,13 @@
 	display: flex;
 	flex-direction: column;
 	position: relative;
-	padding-left: 5rem;
+	/* padding-left: 5rem; */
 	min-height: 5.5rem;
 	background: transparent;
 	border-top-right-radius: 2rem;
-	align-self: center;
+	/* align-self: center; */
 }
-.msg-user-dp {
+/* .msg-user-dp {
 	position: absolute;
 	left: 0;
 	padding: 0.5rem;
@@ -38,10 +38,10 @@
 }
 .seen-status {
 	padding-left: 0.5rem;
-}
+} */
 .messages {
 	overflow-y: auto;
-	height: 785px;
+	height: 750px;
 	position: relative;
 }
 .content .messages .message {
@@ -82,11 +82,11 @@
 	border: none;
 }
 
-.type-message-bar input {
+.type-message-bar textarea {
 	border: none;
 	background-image: none;
 	background-color: white;
-	padding: 0.5rem 1rem;
+	padding: 1rem 1rem;
 	margin-right: 1rem;
 	border-radius: 1.125rem;
 	flex-grow: 2;
@@ -94,6 +94,10 @@
 		0rem 1rem 1rem -1rem rgba(0, 0, 0, 0.2);
 	font-weight: 400;
 	letter-spacing: 0.025em;
+	line-height: 1;
+	overflow-x: hidden;
+	resize: none;
+	height: 3.1rem;
 }
 
 .agent-face {
@@ -232,4 +236,56 @@
 }
 .tidot:nth-child(3) {
 	animation-delay: 400ms;
+}
+
+.chat-header {
+	padding: 0 2.8rem;
+	display: flex;
+	align-items: center;
+	background-image: linear-gradient(to bottom, #7371fc, #a594f9);
+	color: #fff;
+	height: 7.5rem;
+}
+
+.chat-avatar {
+	border-radius: 50%;
+	border: 4px solid #fff;
+	box-sizing: border-box;
+	margin-right: 2rem;
+	width: 5.5rem;
+	height: 5.5rem;
+}
+
+.chat-username {
+	font-size: 1.25rem;
+	font-weight: 300;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.chat-username-label {
+	font-weight: 700;
+}
+
+.chat-status {
+	display: block;
+}
+
+.img-upload input {
+	font-size: 100px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+.img-upload:hover i {
+	color: #cdc1ff;
+	transform: scale(1.1);
+}
+
+.img-upload {
+	position: relative;
+	overflow: hidden;
+	display: inline-block;
 }

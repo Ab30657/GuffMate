@@ -62,6 +62,7 @@ export class PresenceService {
 
 		this.hubConnection.on('NewMessageReceived', (message: Message) => {
 			//design a notification pop up
+			console.log('here');
 			this.latestMessageSource.next(true);
 			this.messageService.updateLatestMessages(message);
 			this.toastr

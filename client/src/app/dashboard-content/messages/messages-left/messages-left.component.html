@@ -50,7 +50,11 @@
 						? { fontWeight: '900', color: 'red' }
 						: { fontWeight: 'normal', color: 'black' }
 				"
-				>{{ this.chat?.latestMessage?.content }}</span
+				>{{
+					this.chat?.latestMessage?.isImage
+						? "Sent an image."
+						: this.chat?.latestMessage?.content
+				}}</span
 			>
 
 			<div class="filler"></div>

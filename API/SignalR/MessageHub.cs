@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
@@ -16,8 +17,10 @@ namespace API.SignalR
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IHubContext<PresenceHub> _presenceHub;
 		private readonly PresenceTracker _tracker;
-		public MessageHub(IMapper mapper, IUnitOfWork unitOfWork, IHubContext<PresenceHub> presenceHub, PresenceTracker tracker)
+		private readonly IPhotoService _photoService;
+		public MessageHub(IMapper mapper, IUnitOfWork unitOfWork, IHubContext<PresenceHub> presenceHub, PresenceTracker tracker, IPhotoService photoService)
 		{
+			_photoService = photoService;
 			_tracker = tracker;
 			_presenceHub = presenceHub;
 			_unitOfWork = unitOfWork;
@@ -64,8 +67,14 @@ namespace API.SignalR
 				Recipient = recipient,
 				SenderUsername = sender.UserName,
 				RecipientUsername = recipient.UserName,
-				Content = createMessageDto.Content
+				Content = createMessageDto.Content,
+				IsImage = createMessageDto.isImage
 			};
+			//ForImage message
+			if (createMessageDto.isImage)
+			{
+				message.Content = createMessageDto.Content;
+			}
 
 			var groupName = GetGroupName(sender.UserName, recipient.UserName);
 			var group = await _unitOfWork.MessageRepository.GetMessageGroup(groupName);

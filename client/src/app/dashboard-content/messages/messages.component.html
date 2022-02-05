@@ -1,6 +1,6 @@
 <div class="content">
 	<div class="chat-title">
-		<div class="msg-user-dp">
+		<!-- <div class="msg-user-dp">
 			<img
 				[class.is-online]="
 					(presence.onlineUsers$ | async).includes(
@@ -35,7 +35,51 @@
 				"
 				>{{ chatMember?.lastActive | timeago }}
 			</ng-container>
-		</div>
+		</div> -->
+		<header class="chat-header">
+			<img
+				[class.is-online]="
+					(presence.onlineUsers$ | async).includes(
+						chatMember?.username
+					)
+				"
+				[src]="
+					this.chatMember?.photoUrl ||
+					(this.chatMember?.gender == 'Female'
+						? './assets/profilegirl.png'
+						: './assets/profileboy.png')
+				"
+				alt=""
+				class="chat-avatar"
+			/>
+			<div class="chat-header-info">
+				<h3 class="chat-username">
+					{{ chatMember?.name }}
+					<span class="chat-username-label"
+						>@{{ chatMember?.username }}</span
+					>
+				</h3>
+				<span class="chat-status">
+					<ng-container
+						*ngIf="
+							(presence.onlineUsers$ | async).includes(
+								chatMember?.username
+							)
+						"
+						>Online Now</ng-container
+					>
+					<ng-container
+						*ngIf="
+							chatMember &&
+							!(presence.onlineUsers$ | async).includes(
+								chatMember?.username
+							)
+						"
+						>{{ chatMember?.lastActive | timeago }}
+					</ng-container>
+				</span>
+			</div>
+		</header>
 	</div>
 	<div class="messages" id="chat">
 		<div class="loading">
@@ -44,7 +88,7 @@
 				bdColor="rgba(255,255,255,0.6)"
 				type="square-jelly-box"
 			>
-				<h3>Wait a f*cking second</h3>
+				<h3>Loading...</h3>
 			</ngx-spinner>
 		</div>
 		<ng-container
@@ -80,7 +124,12 @@
 								: 'sender-msg'
 						"
 					>
-						{{ message.content }}
+						<ng-template [ngIf]="message.isImage">
+							<img [src]="message.content" />
+						</ng-template>
+						<ng-template [ngIf]="!message.isImage">{{
+							message.content
+						}}</ng-template>
 						<div
 							class="message-time"
 							[style]="
@@ -149,8 +198,16 @@
 		autocomplete="off"
 		class="type-message-bar"
 	>
-		<button type="button" class="text-tools">
+		<button type="button" class="text-tools img-upload">
 			<i class="fa fa-camera"></i>
+			<input
+				type="file"
+				id="photo"
+				name="photo"
+				accept="image/*"
+				(change)="onFileSelected($event)"
+				#fileUpload
+			/>
 		</button>
 		<button type="button" class="text-tools">
 			<emoji-mart
@@ -174,7 +231,7 @@
 		<button type="button" class="text-tools">
 			<i class="fa fa-microphone"></i>
 		</button>
-		<input
+		<textarea
 			(focus)="typingMessage(true)"
 			(blur)="typingMessage(false)"
 			name="messageContent"
@@ -182,11 +239,9 @@
 			[(ngModel)]="messageContent"
 			placeholder="Type your message here!"
 			type="text"
-		/><button
-			class="send-btn"
-			type="submit"
-			[disabled]="!messageForm.valid"
-		>
+			rows="0"
+		></textarea>
+		<button class="send-btn" type="submit" [disabled]="!messageForm.valid">
 			<i class="fa fa-paper-plane"></i>
 		</button>
 	</form>

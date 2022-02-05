@@ -17,6 +17,7 @@ import { AccountService } from '../../_services/account.service';
 import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { AfterViewInit } from '@angular/core';
+import { Emoji } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
 	selector: 'app-messages',
@@ -37,6 +38,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
 	messageContent: string;
 	user: User;
 	ScrollContainer: HTMLElement;
+	isImage: boolean;
+	msgFile: File;
 	constructor(
 		private memberService: MembersService,
 		private route: ActivatedRoute,
@@ -90,18 +93,42 @@ export class MessagesComponent implements OnInit, OnDestroy {
 		this.messageService.typingMessage(isTyping, this.chatMember.username);
 	}
 	sendMessage() {
-		this.messageService
-			.sendMessage(this.chatMember.username, this.messageContent)
-			.then(() => {
-				this.isEmojiPickerVisible = false;
-				this.messageForm.reset();
+		if (this.msgFile) {
+			this.messageService.sendImage(this.msgFile).subscribe((x: any) => {
+				console.log(x);
+				this.messageService
+					.sendMessage(this.chatMember.username, x.url, this.isImage)
+					.then(() => {
+						this.isEmojiPickerVisible = false;
+						this.messageForm.reset();
+					});
 			});
+		} else {
+			this.messageService
+				.sendMessage(
+					this.chatMember.username,
+					this.messageContent,
+					this.isImage
+				)
+				.then(() => {
+					this.isEmojiPickerVisible = false;
+					this.messageForm.reset();
+				});
+		}
 	}
 
 	addEmoji(event) {
+		var emoji: Emoji;
 		this.messageContent == null
 			? (this.messageContent = event.emoji.native)
 			: (this.messageContent += event.emoji.native);
 		event.event$.stopPropagation();
+	}
+
+	onFileSelected(event) {
+		const file: File = event.target.files[0];
+		this.isImage = file ? true : false;
+		this.msgFile = file;
+		console.log(file);
 	}
 }

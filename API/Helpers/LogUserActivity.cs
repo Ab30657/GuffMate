@@ -14,9 +14,7 @@ namespace API.Helpers
 			var resultContext = await next();
 
 			if (!resultContext.HttpContext.User.Identity.IsAuthenticated) return;
-
 			var userId = int.Parse(resultContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
 			var unitOfWork = resultContext.HttpContext.RequestServices.GetService<IUnitOfWork>();
 			var user = await unitOfWork.UserRepository.GetUserByIdAsync(userId);
 			user.LastActive = DateTime.UtcNow;
