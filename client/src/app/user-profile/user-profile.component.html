@@ -32,16 +32,9 @@
 						<i class="fa fa-phone"></i>
 						<span>{{ this.member?.phoneNumber }}</span>
 					</div>
-					<div
-						*ngIf="this.member?.email || 1"
-						class="email contact-field"
-					>
+					<div *ngIf="this.member?.email" class="email contact-field">
 						<i class="fa fa-mail-forward"></i>
-						<span
-							>{{
-								this.member?.email
-							}}amar.budhathoki@outlook.com</span
-						>
+						<span>{{ this.member?.email }}</span>
 					</div>
 				</div>
 				<div class="profile-info-count">
