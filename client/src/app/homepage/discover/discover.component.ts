@@ -27,10 +27,17 @@ export class DiscoverComponent implements OnInit {
 		{ display: 'All', value: '' },
 	];
 
-	constructor(private memberService: MembersService) {
+	constructor(
+		private memberService: MembersService,
+		private accountService: AccountService
+	) {
 		this.userParams = this.memberService.GetUserParams();
+		this.accountService.currentUser$
+			.pipe(take(1))
+			.subscribe((x) => (this.user = x));
 	}
 	ngOnInit(): void {
+		this.memberService.createConnection(this.user);
 		this.memberService.friends$.subscribe((x) => {
 			this.loadMembers();
 		});

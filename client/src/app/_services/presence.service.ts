@@ -39,7 +39,6 @@ export class PresenceService {
 			this.onlineUsers$.pipe(take(1)).subscribe((users) => {
 				this.onlineUsersSource.next([...users, username]);
 			});
-			console.log('on');
 		});
 
 		this.hubConnection.on('UserIsOffline', (username) => {

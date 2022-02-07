@@ -27,7 +27,7 @@ export class UserCardsComponent implements OnInit {
 		if (!(this.member.friendStatus == 0)) {
 			this.memberService
 				.SendRequest(this.member.username)
-				.subscribe((x) => (this.member.friendStatus = 0));
+				.then(() => (this.member.friendStatus = 0));
 		} else {
 			this.memberService
 				.CancelRequest(this.member.username)

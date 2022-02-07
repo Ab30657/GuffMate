@@ -12,6 +12,7 @@ import { User } from '../_models/user';
 import { Friend, RequestStatus } from '../_models/Friend';
 import { FriendsParams } from '../_models/friendsParams';
 import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 
 @Injectable({
 	providedIn: 'root',
@@ -19,12 +20,14 @@ import { getPaginatedResult, getPaginationHeaders } from './paginationHelper';
 export class MembersService {
 	baseUrl = environment.apiUrl;
 	members: Member[] = [];
+	memberCache = new Map();
 	private friendSource = new BehaviorSubject<Friend[]>([]);
 	friends$ = this.friendSource.asObservable();
-	// friends: Friend[] = [];
 	user: User;
 	userParams: UserParams;
 	friendsParams: FriendsParams;
+	private hubConnection: HubConnection;
+	hubUrl = environment.hubUrl;
 	constructor(
 		private http: HttpClient,
 		private accountService: AccountService
@@ -34,7 +37,23 @@ export class MembersService {
 			this.userParams = new UserParams();
 			this.friendsParams = new FriendsParams();
 			this.GetUserRequests(this.friendsParams).subscribe((x) => {});
+
 			// console.log(this.user);
+		});
+	}
+	createConnection(user: User) {
+		this.hubConnection = new HubConnectionBuilder()
+			.withUrl(this.hubUrl + 'members', {
+				accessTokenFactory: () => user.token,
+			})
+			.withAutomaticReconnect()
+			.build();
+
+		this.hubConnection.start().catch((error) => console.log(error));
+		console.log(this.hubConnection);
+		this.hubConnection.on('NewFriendRequest', () => {});
+		this.hubConnection.on('GetAll', () => {
+			console.log('here');
 		});
 	}
 	getFriends() {
@@ -48,10 +67,13 @@ export class MembersService {
 	}
 
 	SendRequest(username: string) {
-		return this.http.post(
-			this.baseUrl + 'friends/send-request/' + username,
-			''
-		);
+		return this.hubConnection
+			.invoke('SendRequest', username)
+			.catch((error) => console.log(error));
+		// return this.http.post(
+		// 	this.baseUrl + 'friends/send-request/' + username,
+		// 	''
+		// );
 	}
 	CancelRequest(username: string) {
 		return this.http.delete(
@@ -75,6 +97,25 @@ export class MembersService {
 						console.log(x);
 						this.friendSource.next([...x]);
 					});
+					// console.log([...this.memberCache.values()]);
+					// let members = [...this.memberCache.values()].reduce(
+					// 	(arr, element) => arr.concat(element.result),
+					// 	[]
+					// );
+					// members.splice(
+					// 	members.indexOf((x) => x.username === username),
+					// 	1
+					// );
+					// this.GetUser(username).subscribe((x) => {
+					// 	let member: Member = x;
+					// 	member.friendStatus = 2;
+					// 	this.members.push(member);
+					// 	this.memberCache.set(
+					// 		Object.values(this.userParams).join('-'),
+					// 		members
+					// 	);
+					// 	console.log([...this.memberCache.values()]);
+					// });
 				})
 			);
 		// .pipe(
@@ -169,17 +210,14 @@ export class MembersService {
 		return this.friendsParams;
 	}
 	SetUserParams(params: UserParams) {
-		this.userParams = this.userParams;
+		this.userParams = params;
 	}
 	ResetUserParams() {
 		this.userParams = new UserParams();
 		return this.userParams;
 	}
 	GetUsers(userParams: UserParams) {
-		// if (this.members.length > 0) {
-		// 	return of(this.members);
-		// }
-		// var response = this.accountService.memberCache.get(
+		// var response = this.memberCache.get(
 		// 	Object.values(userParams).join('-')
 		// );
 		// if (response) {
@@ -199,18 +237,20 @@ export class MembersService {
 		).pipe(
 			map((response) => {
 				// console.log(response);
-				this.accountService.memberCache.set(
-					Object.values(userParams).join('-'),
-					response
-				);
+				// this.memberCache.set(
+				// 	Object.values(userParams).join('-'),
+				// 	response
+				// );
 				this.members = response.result;
 				return response;
 			})
 		);
 	}
 	GetUser(username: string) {
-		const member = this.members.find((x) => x.username === username);
-		if (member !== undefined) return of(member);
+		const member = [...this.memberCache.values()]
+			.reduce((arr, element) => arr.concat(element.result), [])
+			.find((member: Member) => member.username === username);
+		if (member) return of(member);
 		return this.http.get<Member>(this.baseUrl + 'users/' + username);
 	}
 

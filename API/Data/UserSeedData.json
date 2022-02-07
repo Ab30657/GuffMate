@@ -43,5 +43,125 @@
 				"IsMain": true
 			}
 		]
+	},
+	{
+		"UserName": "amar1",
+		"Name": "Amar Budhathoki",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Angel",
+		"Gender": "Male",
+		"Status": "In love",
+		"Email": "amar.budhathoki3065@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644024799/jbanom9aoxjc9hiaggbf.png",
+				"IsMain": true
+			}
+		]
+	},
+	{
+		"UserName": "pratik1",
+		"Name": "Pratik Silwal",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Genius",
+		"Gender": "Male",
+		"Status": "Just a friend!",
+		"Email": "pratik.silwal3@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
+				"IsMain": true
+			}
+		]
+	},
+	{
+		"UserName": "pratik2",
+		"Name": "Pratik Silwal",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Genius",
+		"Gender": "Male",
+		"Status": "Just a friend!",
+		"Email": "pratik.silwal3@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
+				"IsMain": true
+			}
+		]
+	},
+	{
+		"UserName": "pratik2",
+		"Name": "Pratik Silwal",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Genius",
+		"Gender": "Male",
+		"Status": "Just a friend!",
+		"Email": "pratik.silwal3@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
+				"IsMain": true
+			}
+		]
+	},
+	{
+		"UserName": "pratik15",
+		"Name": "Pratik Silwal",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Genius",
+		"Gender": "Male",
+		"Status": "Just a friend!",
+		"Email": "pratik.silwal3@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
+				"IsMain": true
+			}
+		]
+	},
+	{
+		"UserName": "pratik16",
+		"Name": "Pratik Silwal",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Genius",
+		"Gender": "Male",
+		"Status": "Just a friend!",
+		"Email": "pratik.silwal3@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
+				"IsMain": true
+			}
+		]
+	},
+	{
+		"UserName": "pratik17",
+		"Name": "Pratik Silwal",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Genius",
+		"Gender": "Male",
+		"Status": "Just a friend!",
+		"Email": "pratik.silwal3@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
+				"IsMain": true
+			}
+		]
+	},
+	{
+		"UserName": "pratik5",
+		"Name": "Pratik Silwal",
+		"DateOfBirth": "2001-07-08",
+		"KnownAs": "Genius",
+		"Gender": "Male",
+		"Status": "Just a friend!",
+		"Email": "pratik.silwal3@gmail.com",
+		"Photos": [
+			{
+				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
+				"IsMain": true
+			}
+		]
 	}
 ]
