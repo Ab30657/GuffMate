@@ -10,6 +10,7 @@ import { Friend } from '../_models/Friend';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { MessageService } from './message.service';
+import { FriendsService } from './friends.service';
 @Injectable({
 	providedIn: 'root',
 })
@@ -18,12 +19,14 @@ export class PresenceService {
 	private hubConnection: HubConnection;
 	private onlineUsersSource = new BehaviorSubject<string[]>([]);
 	onlineUsers$ = this.onlineUsersSource.asObservable();
-	private latestMessageSource = new BehaviorSubject<boolean>(false);
-	latestMessage$ = this.latestMessageSource.asObservable();
+	// private latestMessageSource = new BehaviorSubject<boolean>(false);
+	// latestMessage$ = this.latestMessageSource.asObservable();
+
 	constructor(
 		private toastr: ToastrService,
 		private router: Router,
-		private messageService: MessageService
+		private messageService: MessageService,
+		private friendsService: FriendsService
 	) {}
 
 	createHubConnection(user: User) {
@@ -53,7 +56,7 @@ export class PresenceService {
 			this.onlineUsersSource.next(usernames);
 			this.messageService.latestMessages$.subscribe((x) => {
 				if (x) {
-					this.latestMessageSource.next(true);
+					// this.latestMessageSource.next(true);
 				} else {
 				}
 			});
@@ -62,7 +65,7 @@ export class PresenceService {
 		this.hubConnection.on('NewMessageReceived', (message: Message) => {
 			//design a notification pop up
 			console.log('here');
-			this.latestMessageSource.next(true);
+			// this.latestMessageSource.next(true)			this.latestFriendRequest.next(data);;
 			this.messageService.updateLatestMessages(message);
 			this.toastr
 				.info(
@@ -86,9 +89,43 @@ export class PresenceService {
 				}
 			});
 		});
+
+		this.hubConnection.on('UpdateRequestList', (requests: Friend[]) => {
+			this.friendsService.updateFriendList(requests);
+		});
+
+		this.hubConnection.on('NewFriendRequest', (data: Friend) => {
+			console.log(data);
+			this.friendsService.friends$.pipe(take(1)).subscribe((x) => {
+				// x.splice(x.findIndex((a) => a.username == data.username));
+				console.log(x);
+				this.friendsService.updateFriendList([...x, data]);
+			});
+		});
+
+		this.hubConnection.on('DeletedRequest', (request) => {
+			this.friendsService.friends$.pipe(take(1)).subscribe((x) => {
+				x.splice(x.findIndex((a) => a.username == request.username));
+				this.friendsService.updateFriendList([...x]);
+			});
+		});
 	}
 
 	stopHubConnection() {
 		this.hubConnection.stop().catch((x) => console.log(x));
+	}
+	SendRequest(username: string) {
+		return this.hubConnection
+			.invoke('SendRequest', username)
+			.catch((error) => console.log(error));
+		// return this.http.post(
+		// 	this.baseUrl + 'friends/send-request/' + username,
+		// 	''
+		// );
+	}
+	CancelRequest(username: string) {
+		return this.hubConnection
+			.invoke('CancelRequest', username)
+			.catch((x) => console.log(x));
 	}
 }

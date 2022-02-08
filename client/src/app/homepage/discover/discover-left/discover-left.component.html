@@ -3,7 +3,7 @@
 </div>
 <div class="wrapper">
 	<app-friend-request
-		*ngFor="let item of this.memberService.friends$ | async"
+		*ngFor="let item of this.friendsService.friends$ | async"
 		[request]="item"
 		(RequestStatusChanged)="UpdateRequest($event)"
 	></app-friend-request>

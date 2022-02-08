@@ -9,6 +9,7 @@ import { take } from 'rxjs/operators';
 import { AccountService } from 'src/app/_services/account.service';
 import { User } from 'src/app/_models/user';
 import { Message } from 'src/app/_models/message';
+import { FriendsService } from '../../../_services/friends.service';
 
 @Component({
 	selector: 'app-messages-left',
@@ -25,7 +26,8 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 		private route: ActivatedRoute,
 		private router: Router,
 		public presence: PresenceService,
-		private accountService: AccountService
+		private accountService: AccountService,
+		private friendsService: FriendsService
 	) {
 		this.accountService.currentUser$
 			.pipe(take(1))
@@ -36,7 +38,7 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit(): void {
-		this.membersService.getFriends().subscribe((t) => {
+		this.friendsService.getFriends().subscribe((t) => {
 			this.friends = t;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
 			console.log(this.chatMember);

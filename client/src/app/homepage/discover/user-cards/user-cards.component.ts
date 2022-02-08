@@ -25,15 +25,13 @@ export class UserCardsComponent implements OnInit {
 		// 	this.sent = true;
 		// });
 		if (!(this.member.friendStatus == 0)) {
-			this.memberService
+			this.presence
 				.SendRequest(this.member.username)
 				.then(() => (this.member.friendStatus = 0));
 		} else {
-			this.memberService
-				.CancelRequest(this.member.username)
-				.subscribe((x) => {
-					this.member.friendStatus = 4;
-				});
+			this.presence.CancelRequest(this.member.username).then((x) => {
+				this.member.friendStatus = 4;
+			});
 		}
 	}
 	AcceptRequest() {

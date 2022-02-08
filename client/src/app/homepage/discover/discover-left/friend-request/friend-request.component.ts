@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Friend } from 'src/app/_models/Friend';
 import { Member } from 'src/app/_models/member';
 import { MembersService } from '../../../../_services/members.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-friend-request',
@@ -12,7 +13,9 @@ export class FriendRequestComponent implements OnInit {
 	@Input() request: Friend;
 	@Output() RequestStatusChanged = new EventEmitter();
 	isActive: boolean = false;
-	constructor(private memberService: MembersService) {}
+	constructor(private memberService: MembersService, private router: Router) {
+		this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+	}
 
 	ngOnInit(): void {}
 	requestClick() {

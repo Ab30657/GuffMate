@@ -29,7 +29,7 @@ namespace API.Data
 		}
 		public async Task<UserFriend> GetUserFriend(int sender, int receiver)
 		{
-			return await _context.Friends.FindAsync(sender, receiver);
+			return await _context.Friends.Include(x => x.ReqReceiverUser.Photos).FirstOrDefaultAsync(x => x.ReqSenderUserId == sender && receiver == x.ReqReceiverUserId);
 		}
 		public async Task<int> GetFriendListCount()
 		{
@@ -60,7 +60,7 @@ namespace API.Data
 				foreach (var item in requests)
 				{
 					var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId); // find the opposite
-					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.ReceivedPending);// If reverse Id is greater then the receiver userId is the userId
+					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.ReceivedPending).Include(x => x.ReqReceiverUser).ThenInclude(x => x.Photos).Include(x => x.ReqSenderUser).ThenInclude(x => x.Photos);// If reverse Id is greater then the receiver userId is the userId
 				}
 			}
 			// if requests not fulfilled till now, no record in table for that user.

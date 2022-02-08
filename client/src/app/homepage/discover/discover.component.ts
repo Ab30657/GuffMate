@@ -9,6 +9,7 @@ import { AccountService } from '../../_services/account.service';
 import { take } from 'rxjs/operators';
 import { User } from 'src/app/_models/user';
 import { Friend } from 'src/app/_models/Friend';
+import { FriendsService } from 'src/app/_services/friends.service';
 
 @Component({
 	selector: 'app-discover',
@@ -28,6 +29,7 @@ export class DiscoverComponent implements OnInit {
 	];
 
 	constructor(
+		private friendsService: FriendsService,
 		private memberService: MembersService,
 		private accountService: AccountService
 	) {
@@ -37,8 +39,7 @@ export class DiscoverComponent implements OnInit {
 			.subscribe((x) => (this.user = x));
 	}
 	ngOnInit(): void {
-		this.memberService.createConnection(this.user);
-		this.memberService.friends$.subscribe((x) => {
+		this.friendsService.friends$.subscribe((x) => {
 			this.loadMembers();
 		});
 	}
@@ -63,7 +64,11 @@ export class DiscoverComponent implements OnInit {
 	}
 
 	updateRequest(username) {
-		this.memberService.AcceptUserRequest(username).subscribe((x) => {});
+		this.friendsService.AcceptUserRequest(username).subscribe((x) => {
+			let params = this.memberService.GetUserParams();
+			params.uptodate = false;
+			this.memberService.SetUserParams(params);
+		});
 		this.loadMembers();
 	}
 }
