@@ -38,6 +38,7 @@ import { TimeagoModule } from 'ngx-timeago';
 import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { DashboardComponent } from './homepage/dashboard/dashboard.component';
 import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dashboard-left.component';
+import { KhusComponent } from './_specials/khus/khus.component';
 
 @NgModule({
 	declarations: [
@@ -61,8 +62,9 @@ import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dash
 		UserProfileComponent,
 		TimelineEventComponent,
 		FfbToastrComponent,
-  DashboardComponent,
-  DashboardLeftComponent,
+		DashboardComponent,
+		DashboardLeftComponent,
+		KhusComponent,
 	],
 	imports: [
 		BrowserModule,

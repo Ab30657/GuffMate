@@ -77,17 +77,15 @@ namespace API.Data
 
 		public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
 		{
-			var query = _context.Messages.OrderByDescending(x => x.MessageSent).AsQueryable();
+			var query = _context.Messages.OrderByDescending(x => x.MessageSent).ProjectTo<MessageDto>(_mapper.ConfigurationProvider).AsQueryable();
 
 			query = messageParams.Container switch
 			{
-				"Inbox" => query.Where(x => x.Recipient.UserName == messageParams.Username),
-				"Outbox" => query.Where(x => x.Sender.UserName == messageParams.Username),
-				_ => query.Where(x => x.Recipient.UserName == messageParams.Username && x.DateRead == null)
+				"Inbox" => query.Where(x => x.RecipientUsername == messageParams.Username),
+				"Outbox" => query.Where(x => x.SenderUsername == messageParams.Username),
+				_ => query.Where(x => x.RecipientUsername == messageParams.Username && x.DateRead == null)
 			};
-
-			var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
-			return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+			return await PagedList<MessageDto>.CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
 		}
 
 		public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)

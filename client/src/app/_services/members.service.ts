@@ -109,4 +109,27 @@ export class MembersService {
 				})
 			);
 	}
+
+	sendEmailVerification() {
+		return this.http.get(this.baseUrl + 'users/verify-email');
+	}
+
+	checkEmailVerification(code) {
+		return this.http.put(this.baseUrl + 'users/verify-email/check', {
+			code,
+		});
+	}
+
+	// sendSmsVerification() {
+	// 	return this.http.get(this.baseUrl + 'users/verify-phone');
+	// }
+
+	// checkSmsVerification(code) {
+	// 	return this.http.post(this.baseUrl + 'users/verify-phone/check', {
+	// 		code,
+	// 	});
+	// }
+	removeEmailAuth() {
+		return this.http.put(this.baseUrl + 'users/verify-email/delete', {});
+	}
 }

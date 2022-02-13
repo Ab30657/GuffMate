@@ -21,6 +21,7 @@ export class FriendsService {
 
 	updateFriendList(data) {
 		this.friendSource.next(data);
+		this.friends$.subscribe((x: Friend[]) => {});
 	}
 
 	AcceptUserRequest(username: string) {

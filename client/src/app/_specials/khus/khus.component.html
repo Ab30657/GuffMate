@@ -1,0 +1,24 @@
+<div class="main-content">
+	<div class="bgoverlay">
+		<div class="container" [ngClass]="this.open ? 'open' : ''">
+			<span class="ico">
+				<span class="ico2"></span>
+				<span class="title" (click)="this.open = true">Click Me!</span>
+			</span>
+			<div class="endtext">
+				<span class="close" title="Restart" (click)="this.open = false"
+					><i class="fa fa-times"></i
+				></span>
+				<h1>I Love you, my butterfly</h1>
+				<h3>~Amar</h3>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container card-l">
+	<div class="card">
+		<div class="envelope"></div>
+		<h1>You are the <em>CSS</em> to my <em>HTML</em></h1>
+		<div class="heart"></div>
+	</div>
+</div>

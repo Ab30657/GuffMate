@@ -7,7 +7,6 @@ import { AuthGuard } from './_guards/auth.guard';
 import { DiscoverComponent } from './homepage/discover/discover.component';
 import { MessagesLeftComponent } from './homepage/messages/messages-left/messages-left.component';
 import { MessagesComponent } from './homepage/messages/messages.component';
-import { combineAll } from 'rxjs/operators';
 import { SettingsLeftComponent } from './homepage/settings/settings-left/settings-left.component';
 import { SettingsComponent } from './homepage/settings/settings.component';
 import { DiscoverLeftComponent } from './homepage/discover/discover-left/discover-left.component';
@@ -15,6 +14,7 @@ import { ProfileCompleteComponent } from './profile-complete/profile-complete.co
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dashboard-left.component';
 import { DashboardComponent } from './homepage/dashboard/dashboard.component';
+import { KhusComponent } from './_specials/khus/khus.component';
 
 const routes: Routes = [
 	{
@@ -74,23 +74,7 @@ const routes: Routes = [
 					},
 				],
 			},
-			{
-				path: 'settings',
-				children: [
-					{
-						path: '',
-						component: SettingsLeftComponent,
-						canActivate: [AuthGuard],
-						outlet: 'left',
-					},
-					{
-						path: '',
-						component: SettingsComponent,
-						canActivate: [AuthGuard],
-						outlet: 'right',
-					},
-				],
-			},
+
 			{
 				path: 'dashboard',
 				children: [
@@ -111,15 +95,41 @@ const routes: Routes = [
 		],
 	},
 	{
-		path: 'messages',
+		path: 'settings',
 		pathMatch: 'full',
-		redirectTo: 'messages/',
+		redirectTo: 'profilecompletion',
+		// children: [
+		// 	{
+		// 		path: '',
+		// 		component: SettingsLeftComponent,
+		// 		canActivate: [AuthGuard],
+		// 		outlet: 'left',
+		// 	},
+		// 	{
+		// 		path: '',
+		// 		component: SettingsComponent,
+		// 		canActivate: [AuthGuard],
+		// 		outlet: 'right',
+		// 	},
+		// ],
 	},
 	{
 		path: ':username',
 		pathMatch: 'full',
 		component: UserProfileComponent,
 		canActivate: [AuthGuard],
+	},
+	{
+		path: 'khus-specials',
+		pathMatch: 'full',
+		component: KhusComponent,
+		canActivate: [AuthGuard],
+		data: { animationState: 'one' },
+	},
+	{
+		path: 'messages',
+		pathMatch: 'full',
+		redirectTo: 'messages/',
 	},
 ];
 

@@ -16,8 +16,10 @@ namespace API.DTOs
 		public ICollection<PhotoDto> Photos { get; set; }
 		public ICollection<InterestDto> Interests { get; set; }
 		public string PhoneNumber { get; set; }
+		public bool PhoneNumberConfirmed { get; set; }
 		public bool TwoFactorEnabled { get; set; }
 		public string Email { get; set; }
+		public bool EmailConfirmed { get; set; }
 		public RequestFlag FriendStatus { get; set; } // if sent pending then the logged in user sent request to mail
 													  // if received pending then the logged in user received the request and is awaiting decision to accept or deny
 	}

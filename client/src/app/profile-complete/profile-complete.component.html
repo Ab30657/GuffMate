@@ -42,28 +42,28 @@
 					<p>
 						Protect your account with an extra layer of security.
 						Once configured, you'll be required to enter both your
-						password and an authentication code from your mobile
-						phone in order to sign in.
+						password and an authentication code sent to your email.
 					</p>
 					<button
 						type="button"
 						class="two-fa-btn enable"
-						*ngIf="!member?.twoFactorEnabled"
-						(click)="triggerModal(twofa)"
+						*ngIf="!member?.emailConfirmed"
+						(click)="sendEmail(); triggerModal(twofa)"
 					>
-						Enable Two-Factor Auth
+						Enable Email Authentication
 					</button>
 					<button
 						type="button"
 						class="two-fa-btn disable"
-						*ngIf="member?.twoFactorEnabled"
+						*ngIf="member?.emailConfirmed"
+						(click)="removeEmailAuth()"
 					>
-						Remove Two-Factor Auth
+						Remove Email Authentication
 					</button>
 					<ng-template #twofa let-modal>
 						<div class="modal-header">
 							<h4 class="modal-title" id="modal-basic-title">
-								Enable Two-Factor Auth
+								Enable Email Authentication
 							</h4>
 							<button
 								type="button"
@@ -76,13 +76,23 @@
 						</div>
 						<div class="modal-body">
 							<p>
-								Download Authy App in your mobile and then enter
-								the OTP.
+								An email has been sent to your personal email
+								address. Enter the code here to complete your
+								email authentication.
 							</p>
 							<br />
-							<input class="form-control w-100" />
+							<input #emailCode class="form-control w-100" />
 						</div>
 						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn text-success btn-success"
+								(click)="
+									checkEmailVerificationCode(emailCode.value)
+								"
+							>
+								Verify
+							</button>
 							<button
 								type="button"
 								class="btn text-danger btn-danger"
@@ -94,11 +104,11 @@
 					</ng-template>
 				</div>
 				<div class="form-control-group sms-auth">
-					<label for="">SMS BACKUP AUTHENICATION</label>
-					<p>
+					<label for="">Phone Number</label>
+					<!-- <p>
 						Add your phone as backup 2FA method in case you lose
 						your authentication app.
-					</p>
+					</p> -->
 					<div class="phone-number">
 						<input
 							type="text"
@@ -106,12 +116,20 @@
 							formControlName="phoneNumber"
 						/>
 					</div>
-					<button
+					<!-- <button
 						type="button"
 						class="sms-btn"
-						(click)="triggerModal(smsauth)"
+						*ngIf="!member?.phoneNumberConfirmed"
+						(click)="sendSms(); triggerModal(smsauth)"
 					>
 						Enable SMS Authentication
+					</button>
+					<button
+						type="button"
+						class="two-fa-btn disable"
+						*ngIf="member?.phoneNumberConfirmed"
+					>
+						Remove SMS Authentication
 					</button>
 					<ng-template #smsauth let-modal>
 						<div class="modal-header">
@@ -130,9 +148,16 @@
 						<div class="modal-body">
 							<p>Enter the OTP sent to your mobile phone.</p>
 							<br />
-							<input class="form-control w-100" />
+							<input class="form-control w-100" #smsCode />
 						</div>
 						<div class="modal-footer">
+							<button
+								type="button"
+								class="btn text-danger btn-success"
+								(click)="verifySMS(smsCode.value)"
+							>
+								Verify
+							</button>
 							<button
 								type="button"
 								class="btn text-danger btn-danger"
@@ -141,7 +166,7 @@
 								Close
 							</button>
 						</div>
-					</ng-template>
+					</ng-template> -->
 				</div>
 			</div>
 			<div class="form-control-group dboard-col-2">

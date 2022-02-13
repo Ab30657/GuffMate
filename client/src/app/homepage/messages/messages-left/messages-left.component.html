@@ -46,7 +46,11 @@
 						>{{ chat.name }}</span
 					>
 				</div>
+				<span class="card-latest-msg" *ngIf="!this.chat?.latestMessage">
+					Start a conversation.
+				</span>
 				<span
+					*ngIf="this.chat?.latestMessage"
 					class="card-latest-msg"
 					[ngStyle]="
 						this.chat?.latestMessage?.dateRead == null &&
@@ -55,11 +59,14 @@
 							? { fontWeight: '900', color: 'red' }
 							: { fontWeight: 'normal', color: 'black' }
 					"
-					>{{
+				>
+					{{
+						this.chat?.latestMessage &&
 						this.chat?.latestMessage?.senderUsername ==
-						this.user?.username
+							this.user?.username
 							? "You: "
-							: (this.chatMember | titlecase) + ": "
+							: (this.chat?.latestMessage?.senderUsername
+									| titlecase) + ": "
 					}}
 					{{
 						this.chat?.latestMessage?.isImage
