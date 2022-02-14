@@ -1,4 +1,5 @@
 import {
+	ChangeDetectionStrategy,
 	ChangeDetectorRef,
 	Component,
 	OnDestroy,
@@ -20,6 +21,7 @@ import { AfterViewInit } from '@angular/core';
 import { Emoji } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 
 @Component({
+	changeDetection: ChangeDetectionStrategy.OnPush,
 	selector: 'app-messages',
 	templateUrl: './messages.component.html',
 	styleUrls: ['./messages.component.css'],
@@ -41,6 +43,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 	isImage: boolean;
 	msgFile: File;
 	constructor(
+		private cdref: ChangeDetectorRef,
 		private memberService: MembersService,
 		private route: ActivatedRoute,
 		public messageService: MessageService,
@@ -55,7 +58,9 @@ export class MessagesComponent implements OnInit, OnDestroy {
 	ngOnDestroy(): void {
 		this.messageService.stopHubConnection();
 	}
-
+	ngAfterContentChecked() {
+		this.cdref.detectChanges();
+	}
 	ngOnInit(): void {
 		this.route.params.subscribe((x) => {
 			let username = x.username;
@@ -96,6 +101,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 		if (this.msgFile) {
 			this.messageService.sendImage(this.msgFile).subscribe((x: any) => {
 				console.log(x);
+
 				this.messageService
 					.sendMessage(
 						this.chatMember.username,
