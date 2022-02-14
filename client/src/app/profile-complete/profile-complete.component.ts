@@ -65,6 +65,7 @@ export class ProfileCompleteComponent implements OnInit {
 	}
 	loadMember() {
 		this.memberService.GetUser(this.user.username).subscribe((x) => {
+			console.log(x);
 			this.member = x;
 			this.registerCompleteForm.setValue({
 				gender: this.member.gender,
@@ -197,6 +198,41 @@ export class ProfileCompleteComponent implements OnInit {
 			this.ImageList$.next(
 				this.member.photos.filter((x) => !x.isMain).slice(0, 8)
 			);
+		});
+	}
+	sendEmail() {
+		this.memberService.sendEmailVerification().subscribe((x) => {
+			console.log('An email has been sent!');
+		});
+	}
+
+	checkEmailVerificationCode(code) {
+		console.log(code);
+		this.memberService.checkEmailVerification(code).subscribe((x) => {
+			if (x) {
+				this.member.emailConfirmed = true;
+			}
+		});
+	}
+	// sendSms() {
+	// 	var num = this.registerCompleteForm.value.phoneNumber;
+	// 	this.memberService.sendSmsVerification(num).subscribe((x) => {
+	// 		console.log('An sms has been sent');
+	// 	});
+	// }
+
+	// verifySms(code) {
+	// 	this.memberService.checkSmsVerification(code).subscribe((x) => {
+	// 		if (x) {
+	// 			this.member.phoneNumberConfirmed = true;
+	// 		}
+	// 	});
+	// }
+	removeEmailAuth() {
+		this.memberService.removeEmailAuth().subscribe((x) => {
+			if (x) {
+				this.member.emailConfirmed = false;
+			}
 		});
 	}
 }

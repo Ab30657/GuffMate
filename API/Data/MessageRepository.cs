@@ -42,6 +42,29 @@ namespace API.Data
 			return await _context.Connections.FindAsync(connectionId);
 		}
 
+		public async Task<Group> GetGroupForConnection(string connectionId)
+		{
+			return await _context.Groups.Include(x => x.Connections).Where(c => c.Connections.Any(x => x.ConnectionId == connectionId)).FirstOrDefaultAsync();
+		}
+
+		public async Task<MessageDto> GetLatestMessage(string currentUsername, string recipientUsername)
+		{
+			return _mapper.Map<MessageDto>(await _context.Messages.Include(x => x.Sender).ThenInclude(x => x.Photos).Include(x => x.Recipient).ThenInclude(x => x.Photos).Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).OrderBy(x => x.MessageSent).LastOrDefaultAsync());
+		}
+
+		public async Task<IEnumerable<MessageDto>> GetLatestMessages(int userId)
+		{
+			var requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.Accepted);
+			// var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
+			var friends = await requests.Where(x => x.ReqSenderUserId == userId).Select(x => x.ReqReceiverUserId).ToListAsync();// userId is logged in user id
+			var messages = new List<MessageDto>();
+			foreach (var item in friends)
+			{
+				var msg = _mapper.Map<MessageDto>(await _context.Messages.Where(x => x.RecipientId == item && x.SenderId == userId || x.RecipientId == userId && x.SenderId == item).OrderBy(x => x.MessageSent).LastOrDefaultAsync());
+				messages.Add(msg);
+			}
+			return messages;
+		}
 		public async Task<Message> GetMessage(int id)
 		{
 			return await _context.Messages.FindAsync(id);
@@ -54,24 +77,22 @@ namespace API.Data
 
 		public async Task<PagedList<MessageDto>> GetMessagesForUser(MessageParams messageParams)
 		{
-			var query = _context.Messages.OrderByDescending(x => x.MessageSent).AsQueryable();
+			var query = _context.Messages.OrderByDescending(x => x.MessageSent).ProjectTo<MessageDto>(_mapper.ConfigurationProvider).AsQueryable();
 
 			query = messageParams.Container switch
 			{
-				"Inbox" => query.Where(x => x.Recipient.UserName == messageParams.Username),
-				"Outbox" => query.Where(x => x.Sender.UserName == messageParams.Username),
-				_ => query.Where(x => x.Recipient.UserName == messageParams.Username && x.DateRead == null)
+				"Inbox" => query.Where(x => x.RecipientUsername == messageParams.Username),
+				"Outbox" => query.Where(x => x.SenderUsername == messageParams.Username),
+				_ => query.Where(x => x.RecipientUsername == messageParams.Username && x.DateRead == null)
 			};
-
-			var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
-			return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+			return await PagedList<MessageDto>.CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
 		}
 
 		public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
 		{
-			var messages = await _context.Messages.Include(x => x.Sender).ThenInclude(x => x.Photos).Include(x => x.Recipient).ThenInclude(x => x.Photos).Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).OrderBy(x => x.MessageSent).ToListAsync();
+			var messages = await _context.Messages.Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).OrderBy(x => x.MessageSent).ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 
-			var unread = messages.Where(x => x.DateRead == null && x.Recipient.UserName == currentUsername).ToList();
+			var unread = messages.Where(x => x.DateRead == null && x.RecipientUsername == currentUsername).ToList();
 
 			if (unread.Any())
 			{
@@ -82,7 +103,7 @@ namespace API.Data
 				await _context.SaveChangesAsync();
 			}
 
-			return _mapper.Map<IEnumerable<MessageDto>>(messages);
+			return messages;
 
 		}
 

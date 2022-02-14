@@ -46,7 +46,7 @@ i {
 	column-gap: 1.5rem;
 }
 .nav-logo {
-	padding-left: 1rem;
+	padding-left: 0.5rem;
 }
 .nav-link:hover,
 .nav-link.active {
@@ -58,7 +58,12 @@ i {
 	font-size: 1.25rem;
 	color: white !important;
 }
-
+.nav-link.active .dot,
+.nav-link:hover .dot {
+	background-color: rgb(255, 0, 0);
+	top: -5px;
+	right: -7px;
+}
 .link {
 	display: flex;
 	margin: 2rem 0rem;
@@ -76,4 +81,20 @@ i {
 	.dashboard-navbar:hover {
 		width: var(--nav-width);
 	}
+}
+.user-dp {
+	height: 40px;
+}
+
+.dot {
+	height: 12px;
+	width: 12px;
+	background-color: rgb(175, 45, 45);
+	border-radius: 50%;
+	position: absolute;
+	top: 0px;
+	right: -5px;
+}
+.icon-wrapper {
+	position: relative;
 }

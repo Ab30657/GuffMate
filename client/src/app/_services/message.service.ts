@@ -6,8 +6,11 @@ import { Message } from '../_models/message';
 import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { User } from '../_models/user';
 import { BehaviorSubject, ReplaySubject, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { BusyService } from './busy.service';
+import { Group } from '../_models/group';
+import { PresenceService } from './presence.service';
+import { convertUpdateArguments } from '@angular/compiler/src/compiler_util/expression_converter';
 
 @Injectable({
 	providedIn: 'root',
@@ -23,6 +26,9 @@ export class MessageService {
 	private isTypingSource = new ReplaySubject<boolean>(1);
 	isTyping$ = this.isTypingSource.asObservable();
 
+	private latestMessagesSource = new BehaviorSubject<Message[]>([]);
+	latestMessages$ = this.latestMessagesSource.asObservable();
+
 	constructor(private http: HttpClient, private busyService: BusyService) {}
 
 	createHubConnection(user: User, otherUsername: string) {
@@ -33,18 +39,68 @@ export class MessageService {
 			.withAutomaticReconnect()
 			.build();
 		this.hubConnection.start().catch((x) => console.log(x));
-		this.hubConnection.on('ReceiveMessageThread', (messages) => {
+		this.hubConnection.on('ReceiveMessageThread', (messages: Message[]) => {
 			this.messageThreadSource.next(messages);
+			if (messages != null && messages.length != 0) {
+				this.latestMessages$.pipe(take(1)).subscribe((msgs) => {
+					if (msgs != null && msgs.length != 0) {
+						let x = msgs.find(
+							(a) =>
+								a.senderUsername == otherUsername ||
+								a.senderUsername == otherUsername
+						);
+						if (x != null && x != undefined) {
+							x.dateRead = new Date(Date.now());
+							console.log([...msgs]);
+							this.latestMessagesSource.next([...msgs]);
+						}
+					}
+				});
+			}
 		});
 
-		this.hubConnection.on('NewMessage', (message) => {
+		this.hubConnection.on('NewMessage', (message: Message) => {
 			this.messageThread$.pipe(take(1)).subscribe((messages) => {
 				this.messageThreadSource.next([...messages, message]);
 			});
+			this.updateLatestMessages(message);
 		});
 
 		this.hubConnection.on('TypingNewMessage', (isTyping) => {
 			this.isTypingSource.next(isTyping);
+		});
+
+		this.hubConnection.on('UpdatedGroup', (group: Group) => {
+			if (group.connections.some((x) => x.username === otherUsername)) {
+				this.messageThread$.pipe(take(1)).subscribe((x) => {
+					x.forEach((a) => {
+						if (!a.dateRead) {
+							a.dateRead = new Date(Date.now());
+						}
+					});
+					this.messageThreadSource.next([...x]);
+				});
+			}
+		});
+		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
+			messages = messages.filter((x) => x != null);
+			console.log(messages);
+			this.latestMessagesSource.next([...messages]);
+		});
+	}
+	updateLatestMessages(message: Message) {
+		this.latestMessages$.pipe(take(1)).subscribe((messages) => {
+			var msg = messages.find(
+				(x) =>
+					(x.senderUsername == message.senderUsername &&
+						x.recipientUsername == message.recipientUsername) ||
+					(x.senderUsername == message.recipientUsername &&
+						x.recipientUsername == message.senderUsername)
+			);
+			if (msg != null) {
+				messages.splice(messages.indexOf(msg), 1);
+			}
+			this.latestMessagesSource.next([...messages, message]);
 		});
 	}
 	stopHubConnection() {
@@ -67,18 +123,31 @@ export class MessageService {
 		);
 	}
 
-	getMessageThread(username: string) {
-		return this.http.get<Message[]>(
-			this.baseUrl + 'messages/thread/' + username
-		);
-	}
+	// getMessageThread(username: string) {
+	// 	return this.http.get<Message[]>(
+	// 		this.baseUrl + 'messages/thread/' + username
+	// 	);
+	// }
 
-	sendMessage(username: string, content: string) {
+	sendMessage(
+		username: string,
+		content: string,
+		isImage: boolean,
+		imageUrl: string
+	) {
 		return this.hubConnection
 			.invoke('SendMessage', {
 				recipientUsername: username,
 				content,
+				isImage,
+				imageUrl,
 			})
 			.catch((error) => console.log(error));
+	}
+
+	sendImage(file: File) {
+		const formData = new FormData();
+		formData.append('file', file, file.name);
+		return this.http.post(this.baseUrl + 'messages/upload/', formData);
 	}
 }

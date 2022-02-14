@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardContentComponent } from './dashboard-content/dashboard-content.component';
-import { FriendRequestComponent } from './dashboard-content/discover/discover-left/friend-request/friend-request.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { FriendRequestComponent } from './homepage/discover/discover-left/friend-request/friend-request.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_guards/auth.guard';
-import { DiscoverComponent } from './dashboard-content/discover/discover.component';
-import { MessagesLeftComponent } from './dashboard-content/messages/messages-left/messages-left.component';
-import { MessagesComponent } from './dashboard-content/messages/messages.component';
-import { combineAll } from 'rxjs/operators';
-import { SettingsLeftComponent } from './dashboard-content/settings/settings-left/settings-left.component';
-import { SettingsComponent } from './dashboard-content/settings/settings.component';
-import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
+import { DiscoverComponent } from './homepage/discover/discover.component';
+import { MessagesLeftComponent } from './homepage/messages/messages-left/messages-left.component';
+import { MessagesComponent } from './homepage/messages/messages.component';
+import { SettingsLeftComponent } from './homepage/settings/settings-left/settings-left.component';
+import { SettingsComponent } from './homepage/settings/settings.component';
+import { DiscoverLeftComponent } from './homepage/discover/discover-left/discover-left.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dashboard-left.component';
+import { DashboardComponent } from './homepage/dashboard/dashboard.component';
+import { KhusComponent } from './_specials/khus/khus.component';
 
 const routes: Routes = [
 	{
@@ -27,7 +29,7 @@ const routes: Routes = [
 	},
 	{
 		path: '',
-		component: DashboardContentComponent,
+		component: HomepageComponent,
 		canActivate: [AuthGuard],
 		data: { animationState: 'two' },
 		children: [
@@ -72,24 +74,51 @@ const routes: Routes = [
 					},
 				],
 			},
+
 			{
-				path: 'settings',
+				path: 'dashboard',
 				children: [
 					{
 						path: '',
-						component: SettingsLeftComponent,
+						component: DashboardLeftComponent,
 						canActivate: [AuthGuard],
 						outlet: 'left',
 					},
 					{
 						path: '',
-						component: SettingsComponent,
+						component: DashboardComponent,
 						canActivate: [AuthGuard],
 						outlet: 'right',
 					},
 				],
 			},
 		],
+	},
+	{
+		path: 'settings',
+		pathMatch: 'full',
+		redirectTo: 'profilecompletion',
+		// children: [
+		// 	{
+		// 		path: '',
+		// 		component: SettingsLeftComponent,
+		// 		canActivate: [AuthGuard],
+		// 		outlet: 'left',
+		// 	},
+		// 	{
+		// 		path: '',
+		// 		component: SettingsComponent,
+		// 		canActivate: [AuthGuard],
+		// 		outlet: 'right',
+		// 	},
+		// ],
+	},
+	{
+		path: 'khus-specials',
+		pathMatch: 'full',
+		component: KhusComponent,
+		canActivate: [AuthGuard],
+		data: { animationState: 'one' },
 	},
 	{
 		path: 'messages',

@@ -88,4 +88,8 @@ export class UserProfileComponent implements OnInit {
 	routeBack() {
 		this.router.navigateByUrl('/discover');
 	}
+
+	goToMessages() {
+		this.router.navigateByUrl('/messages/' + this.member.username);
+	}
 }

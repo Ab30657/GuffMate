@@ -207,6 +207,12 @@ namespace API.Data.Migrations
                     b.Property<DateTime?>("DateRead")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsImage")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("MessageSent")
                         .HasColumnType("TEXT");
 

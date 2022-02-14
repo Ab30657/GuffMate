@@ -8,6 +8,7 @@ using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -17,8 +18,10 @@ namespace API.Controllers
 	{
 		private readonly IMapper _mapper;
 		private readonly IUnitOfWork _unitOfWork;
-		public MessagesController(IUnitOfWork unitOfWork, IMapper mapper)
+		private readonly IPhotoService _photoService;
+		public MessagesController(IUnitOfWork unitOfWork, IMapper mapper, IPhotoService photoService)
 		{
+			_photoService = photoService;
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
 
@@ -63,6 +66,37 @@ namespace API.Controllers
 		{
 			var currentUsername = (await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value)).UserName;
 			return Ok(await _unitOfWork.MessageRepository.GetMessageThread(currentUsername, username));
+		}
+
+		[HttpGet("thread/latest")]
+		public async Task<ActionResult<IEnumerable<MessageDto>>> GetLatestMessages()
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			var list = new List<MessageDto>();
+			var friends = (await _unitOfWork.FriendsRepository.GetUserFriends(user.Id, new FriendsParams { predicate = "accepted" }));
+			foreach (var friend in friends)
+			{
+				list.Add(await _unitOfWork.MessageRepository.GetLatestMessage(user.UserName, friend.Username)); //adds null to the list if no messages
+			}
+			return list;
+
+		}
+
+		[HttpPost("upload")]
+		public async Task<ActionResult<PhotoDto>> AddPhoto(IFormFile file)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			var result = await _photoService.AddPhotoAsync(file);
+			if (result.Error != null)
+			{
+				return BadRequest(result.Error.Message);
+			}
+			PhotoDto p = new PhotoDto
+			{
+				Url = result.SecureUrl.AbsoluteUri,
+			};
+			return p;
+
 		}
 	}
 }

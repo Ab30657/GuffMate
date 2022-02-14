@@ -1,0 +1,11 @@
+<div class="heading">
+	<i class="fa fa-user-plus"></i><span class="title"> Friend Requests</span>
+</div>
+<div class="wrapper">
+	<app-friend-request
+		*ngFor="let item of this.friendsService.friends$ | async"
+		[request]="item"
+		(RequestStatusChanged)="UpdateRequest($event)"
+	></app-friend-request>
+</div>
+<!-- Might have to remove this component useless piece of shit -->

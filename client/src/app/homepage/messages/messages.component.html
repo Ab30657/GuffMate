@@ -1,0 +1,237 @@
+<div class="content">
+	<ng-template [ngIf]="this.chatMember">
+		<div class="chat-title">
+			<header class="chat-header">
+				<img
+					[class.is-online]="
+						(presence.onlineUsers$ | async).includes(
+							chatMember?.username
+						)
+					"
+					[src]="
+						this.chatMember?.photoUrl ||
+						(this.chatMember?.gender == 'Female'
+							? './assets/profilegirl.png'
+							: './assets/profileboy.png')
+					"
+					alt=""
+					class="chat-avatar"
+				/>
+				<div class="chat-header-info">
+					<h3 class="chat-username">
+						{{ chatMember?.name }}
+						<span class="chat-username-label"
+							>@{{ chatMember?.username }}</span
+						>
+					</h3>
+					<span class="chat-status">
+						<ng-container
+							*ngIf="
+								(presence.onlineUsers$ | async).includes(
+									chatMember?.username
+								)
+							"
+							>Online Now</ng-container
+						>
+						<ng-container
+							*ngIf="
+								chatMember &&
+								!(presence.onlineUsers$ | async).includes(
+									chatMember?.username
+								)
+							"
+							>{{ chatMember?.lastActive | timeago }}
+						</ng-container>
+					</span>
+				</div>
+			</header>
+		</div>
+		<div
+			class="messages"
+			id="chat"
+			#scroller
+			[scrollTop]="scroller.scrollHeight"
+		>
+			<div class="loading">
+				<ngx-spinner
+					[fullScreen]="false"
+					bdColor="rgba(255,255,255,1)"
+					type="square-loader"
+				>
+					<h3></h3>
+				</ngx-spinner>
+			</div>
+			<ng-container
+				*ngIf="
+					this.chatMember &&
+					(messageService.messageThread$ | async)?.length > 0
+				"
+			>
+				<div
+					#scroller
+					[scrollTop]="scroller.height"
+					*ngFor="
+						let message of messageService.messageThread$ | async
+					"
+					class="message-line"
+				>
+					<div
+						class="agent-face"
+						*ngIf="message.senderUsername == chatMember?.username"
+					>
+						<img
+							class="agent circle"
+							[src]="
+								this.chatMember.photoUrl ||
+								(this.chatMember.gender == 'Female'
+									? './assets/profilegirl.png'
+									: './assets/profileboy.png')
+							"
+						/>
+					</div>
+					<div class="message-wrapper">
+						<div
+							class="message"
+							[ngClass]="
+								message.senderUsername != chatMember?.username
+									? 'sender-msg'
+									: 'receiver-msg'
+							"
+						>
+							<ng-template [ngIf]="message.isImage">
+								<figure>
+									<img
+										class="image-message"
+										[src]="message.imageUrl"
+									/>
+									<figcaption>
+										{{ message.content }}
+									</figcaption>
+								</figure>
+							</ng-template>
+							<ng-template [ngIf]="!message.isImage">{{
+								message.content
+							}}</ng-template>
+							<div
+								class="message-time"
+								[style]="
+									message.senderUsername !==
+									chatMember?.username
+										? 'left: 1.25rem;	color: #ddd;'
+										: 'right:1.25rem; color:#555'
+								"
+							>
+								{{ message.messageSent | date: "shortTime" }}
+							</div>
+							<div
+								*ngIf="
+									message.senderUsername !==
+									chatMember?.username
+								"
+								class="message-read"
+								[style]="'right:0.5rem; color:#ddd'"
+							>
+								<i
+									class="fa"
+									[ngClass]="
+										!message.dateRead
+											? 'fa-check-circle-o'
+											: 'fa-check-circle'
+									"
+								></i>
+								<i
+									class="fa fa-check-circle"
+									*ngIf="message.dateRead"
+								></i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div
+					class="message-line typing-indicator"
+					*ngIf="messageService.isTyping$ | async"
+				>
+					<div class="agent-face">
+						<img
+							class="agent circle"
+							[src]="
+								this.chatMember.photoUrl ||
+								(this.chatMember.gender == 'Female'
+									? './assets/profilegirl.png'
+									: './assets/profileboy.png')
+							"
+						/>
+					</div>
+					<div class="message-wrapper">
+						<div class="message receiver-msg">
+							<div class="ticontainer">
+								<div class="tiblock">
+									<div class="tidot"></div>
+									<div class="tidot"></div>
+									<div class="tidot"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</ng-container>
+		</div>
+		<form
+			#messageForm="ngForm"
+			(ngSubmit)="sendMessage()"
+			autocomplete="off"
+			class="type-message-bar"
+		>
+			<button type="button" class="text-tools img-upload">
+				<i class="fa fa-camera"></i>
+				<input
+					type="file"
+					id="photo"
+					name="photo"
+					accept="image/*"
+					(change)="onFileSelected($event)"
+					#fileUpload
+				/>
+			</button>
+			<button type="button" class="text-tools">
+				<emoji-mart
+					[style]="{
+						position: 'absolute',
+						bottom: '40px',
+						left: '-50px',
+						zIndex: '100'
+					}"
+					class="emoji-mart"
+					set="apple"
+					*ngIf="isEmojiPickerVisible"
+					(emojiSelect)="addEmoji($event)"
+					title=""
+				></emoji-mart>
+				<i
+					(click)="isEmojiPickerVisible = !isEmojiPickerVisible"
+					class="fa fa-smile-o"
+				></i>
+			</button>
+			<button type="button" class="text-tools">
+				<i class="fa fa-microphone"></i>
+			</button>
+			<input
+				(focus)="typingMessage(true)"
+				(blur)="typingMessage(false)"
+				name="messageContent"
+				required
+				[(ngModel)]="messageContent"
+				placeholder="Type your message here!"
+				type="text"
+				rows="0"
+			/>
+			<button
+				class="send-btn"
+				type="submit"
+				[disabled]="!messageForm.valid"
+			>
+				<i class="fa fa-paper-plane"></i>
+			</button>
+		</form>
+	</ng-template>
+</div>

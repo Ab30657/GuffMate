@@ -24,7 +24,6 @@ button {
 	max-height: 90vh;
 }
 .profile-body {
-	background-color: rgba(255, 255, 255, 0.5);
 	display: flex;
 	position: relative;
 	width: 100%;

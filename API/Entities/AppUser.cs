@@ -10,7 +10,7 @@ namespace API.Entities
 
 		public string Name { get; set; }
 
-		public DateTime LastActive { get; set; }
+		public DateTime LastActive { get; set; } = DateTime.Now;
 		public string Gender { get; set; }
 
 		public string Status { get; set; }
