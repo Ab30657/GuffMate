@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-login',
@@ -34,7 +35,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	constructor(
 		private accountService: AccountService,
 		private router: Router,
-		private fb: FormBuilder
+		private fb: FormBuilder,
+		private toastr: ToastrService
 	) {}
 
 	ngOnInit(): void {
@@ -54,6 +56,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
 				[Validators.required, this.matchValues('password')],
 			],
 		});
+		this.registerForm
+			.get('password')
+			.valueChanges.subscribe(() =>
+				this.registerForm.controls[
+					'confirmpassword'
+				].updateValueAndValidity()
+			);
 	}
 	matchValues(matchTo: string): ValidatorFn {
 		return (control: AbstractControl) => {
@@ -87,6 +96,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 				//load animations
 			},
 			(error) => {
+				this.toastr.error(error.error);
 				console.log(error);
 			}
 		);

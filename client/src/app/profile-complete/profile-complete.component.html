@@ -1,5 +1,12 @@
 <div class="glass">
-	<ngx-spinner> </ngx-spinner>
+	<ngx-spinner
+		bdColor="rgba(255,255,255,0.7)"
+		size="large"
+		color="#fff"
+		type="square-loader"
+	>
+		Configuring your profile... Hot Damn!
+	</ngx-spinner>
 	<div class="page-heading">Complete Your Profile</div>
 	<form
 		id="registerCompleteForm"
@@ -198,7 +205,15 @@
 						<i class="fa fa-lg fa-trash"></i>Delete Image
 					</button>
 					<ng-template #photoEditor let-modal>
-						<ngx-spinner></ngx-spinner>
+						<ngx-spinner
+							bdColor="rgba(255,255,255)"
+							size="large"
+							color="#fff"
+							type="square-loader"
+						>
+							We're trying to reach your photo, we've tiny
+							hands</ngx-spinner
+						>
 						<div class="modal-header">
 							<h4 class="modal-title" id="modal-basic-title">
 								Choose the part of the image you want as display

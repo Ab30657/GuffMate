@@ -1,7 +1,7 @@
 <div class="glass">
 	<div class="loader">
-		<ngx-spinner bdColor="rgba(51,51,51,0.1)">
-			<h3>Welcome</h3>
+		<ngx-spinner bdColor="rgba(255,255,255,0.5)">
+			<h3>Zwoop!</h3>
 		</ngx-spinner>
 	</div>
 	<div class="login-dashboard">
@@ -178,14 +178,34 @@
 									characters
 								</span>
 							</div>
+							<app-text-input
+								[formControl]="
+									registerForm.controls['confirmpassword']
+								"
+								[label]="'Confirm Password'"
+								[type]="'password'"
+							></app-text-input>
+							<div class="error">
+								<div
+									*ngIf="
+										registerForm.controls['password']
+											.touched &&
+										registerForm.controls['confirmpassword']
+											.touched
+									"
+								>
+									<span
+										*ngIf="
+											registerForm.controls[
+												'confirmpassword'
+											].errors?.isMatch
+										"
+										>Passwords do not match</span
+									>
+								</div>
+							</div>
 						</div>
-						<app-text-input
-							[formControl]="
-								registerForm.controls['confirmpassword']
-							"
-							[label]="'Confirm Password'"
-							[type]="'password'"
-						></app-text-input>
+
 						<div class="button-group">
 							<button
 								id="register-btn"

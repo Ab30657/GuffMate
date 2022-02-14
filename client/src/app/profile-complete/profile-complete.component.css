@@ -553,10 +553,11 @@ figure {
 .gallery-inside {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	/* height: 525px; */
+	height: 450px;
 	overflow-y: auto;
 	justify-items: center;
 	position: relative;
+	border: 5px solid rgba(0, 123, 255, 0.25);
 }
 @media screen and (max-width: 1200px) {
 	.gallery-inside {
