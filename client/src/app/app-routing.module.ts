@@ -121,15 +121,15 @@ const routes: Routes = [
 		data: { animationState: 'one' },
 	},
 	{
+		path: 'messages',
+		pathMatch: 'full',
+		redirectTo: 'messages/',
+	},
+	{
 		path: ':username',
 		pathMatch: 'full',
 		component: UserProfileComponent,
 		canActivate: [AuthGuard],
-	},
-	{
-		path: 'messages',
-		pathMatch: 'full',
-		redirectTo: 'messages/',
 	},
 ];
 

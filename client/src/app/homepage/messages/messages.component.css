@@ -47,9 +47,10 @@
 .content .messages .message {
 	box-sizing: border-box;
 	padding: 0.75rem 1.25rem;
-	margin: 1rem 1rem 1rem 5.75rem;
-	background: #fff;
-	border-radius: 0 1.125rem 1.125rem 1.125rem;
+	margin: 1rem 1rem 1rem auto;
+	border-radius: 1.125rem 0 1.125rem 1.125rem;
+	background: #333;
+	color: white;
 	min-height: 2.25rem;
 	width: -webkit-fit-content;
 	width: -moz-fit-content;
@@ -60,11 +61,11 @@
 	min-width: 100px;
 }
 
-.content .messages .message.sender-msg {
-	margin: 1rem 1rem 1rem auto;
-	border-radius: 1.125rem 0 1.125rem 1.125rem;
-	background: #333;
-	color: white;
+.content .messages .message.receiver-msg {
+	margin: 1rem 1rem 1rem 5.75rem;
+	background: #fff;
+	border-radius: 0 1.125rem 1.125rem 1.125rem;
+	color: black;
 }
 .type-message-bar {
 	display: flex;

@@ -46,7 +46,12 @@
 				</div>
 			</header>
 		</div>
-		<div class="messages" id="chat">
+		<div
+			class="messages"
+			id="chat"
+			#scroller
+			[scrollTop]="scroller.scrollHeight"
+		>
 			<div class="loading">
 				<ngx-spinner
 					[fullScreen]="false"
@@ -63,6 +68,8 @@
 				"
 			>
 				<div
+					#scroller
+					[scrollTop]="scroller.height"
 					*ngFor="
 						let message of messageService.messageThread$ | async
 					"
@@ -86,9 +93,9 @@
 						<div
 							class="message"
 							[ngClass]="
-								message.senderUsername == chatMember?.username
-									? 'receiver-msg'
-									: 'sender-msg'
+								message.senderUsername != chatMember?.username
+									? 'sender-msg'
+									: 'receiver-msg'
 							"
 						>
 							<ng-template [ngIf]="message.isImage">

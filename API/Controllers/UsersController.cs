@@ -36,12 +36,11 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
 		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 			userParams.CurrentUserName = User.FindFirst(ClaimTypes.Name)?.Value;
 			var users = await _unitOfWork.UserRepository.GetMembersAsync(userParams);
 			foreach (var item in users)
 			{
-				var request = (await _unitOfWork.FriendsRepository.GetUserFriend(user.Id, item.Id)); // Logged in user is the receiver
+				var request = (await _unitOfWork.FriendsRepository.GetUserFriend(User.GetUserId(), item.Id)); // Logged in user is the receiver
 				if (request == null) item.FriendStatus = RequestFlag.None;
 				if (request != null) item.FriendStatus = request.RequestStatus;
 			}
