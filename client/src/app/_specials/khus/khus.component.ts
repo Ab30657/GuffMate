@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AccountService } from '../../_services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-khus',
@@ -7,7 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class KhusComponent implements OnInit {
 	open: boolean;
-	constructor() {}
+	constructor(
+		private accountService: AccountService,
+		private router: Router
+	) {
+		this.accountService.currentUser$.pipe().subscribe((x) => {
+			if (x.username != 'khubs') {
+				this.router.navigateByUrl('/');
+			}
+		});
+	}
 
 	ngOnInit(): void {}
 }

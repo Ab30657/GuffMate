@@ -114,17 +114,17 @@ const routes: Routes = [
 		// ],
 	},
 	{
-		path: ':username',
-		pathMatch: 'full',
-		component: UserProfileComponent,
-		canActivate: [AuthGuard],
-	},
-	{
 		path: 'khus-specials',
 		pathMatch: 'full',
 		component: KhusComponent,
 		canActivate: [AuthGuard],
 		data: { animationState: 'one' },
+	},
+	{
+		path: ':username',
+		pathMatch: 'full',
+		component: UserProfileComponent,
+		canActivate: [AuthGuard],
 	},
 	{
 		path: 'messages',

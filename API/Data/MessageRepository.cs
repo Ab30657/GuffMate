@@ -90,9 +90,9 @@ namespace API.Data
 
 		public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
 		{
-			var messages = await _context.Messages.Include(x => x.Sender).ThenInclude(x => x.Photos).Include(x => x.Recipient).ThenInclude(x => x.Photos).Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).OrderBy(x => x.MessageSent).ToListAsync();
+			var messages = await _context.Messages.Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).OrderBy(x => x.MessageSent).ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 
-			var unread = messages.Where(x => x.DateRead == null && x.Recipient.UserName == currentUsername).ToList();
+			var unread = messages.Where(x => x.DateRead == null && x.RecipientUsername == currentUsername).ToList();
 
 			if (unread.Any())
 			{
@@ -103,7 +103,7 @@ namespace API.Data
 				await _context.SaveChangesAsync();
 			}
 
-			return _mapper.Map<IEnumerable<MessageDto>>(messages);
+			return messages;
 
 		}
 

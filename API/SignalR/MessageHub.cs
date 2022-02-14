@@ -41,6 +41,7 @@ namespace API.SignalR
 
 				var messages = await _unitOfWork.MessageRepository.GetMessageThread(Context.User.GetUsername(), otherUser);
 				var lMessages = await _unitOfWork.MessageRepository.GetLatestMessages(Context.User.GetUserId());
+				if (_unitOfWork.HasChanges()) await _unitOfWork.Complete();
 				await Clients.Caller.SendAsync("ReceiveMessageThread", messages);
 				await Clients.Caller.SendAsync("UpdateLatestMessages", lMessages);
 			}
