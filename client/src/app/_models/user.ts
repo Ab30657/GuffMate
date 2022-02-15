@@ -7,4 +7,5 @@ export interface User {
 	name: string;
 	gender: string;
 	friends: Friend[];
+	emailConfirmed: boolean;
 }

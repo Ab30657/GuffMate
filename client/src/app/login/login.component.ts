@@ -80,8 +80,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	}
 	login() {
 		this.accountService.login(this.model).subscribe(
-			(response) => {
-				this.router.navigateByUrl('/discover');
+			(user) => {
+				if (user.emailConfirmed) {
+					this.router.navigateByUrl('/email-auth-code');
+				}
+				{
+					this.router.navigateByUrl('/discover');
+				}
 			},
 			(error) => {
 				this.loginValidationErrors = error.error;

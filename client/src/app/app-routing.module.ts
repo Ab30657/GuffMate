@@ -125,6 +125,12 @@ const routes: Routes = [
 		pathMatch: 'full',
 		redirectTo: 'messages/',
 	},
+	// {
+	// 	path: 'email-auth-code',
+	// 	pathMatch: 'full',
+	// 	component:
+	// 	canActivate: [AuthGuard],
+	// },
 	{
 		path: ':username',
 		pathMatch: 'full',
