@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
 	ActivatedRouteSnapshot,
 	CanActivate,
-	CanDeactivate,
 	Router,
 	RouterStateSnapshot,
 	UrlTree,
@@ -14,7 +13,7 @@ import { AccountService } from '../_services/account.service';
 @Injectable({
 	providedIn: 'root',
 })
-export class AuthGuard implements CanActivate {
+export class LoginGuard implements CanActivate {
 	constructor(
 		private accountService: AccountService,
 		private router: Router
@@ -26,9 +25,9 @@ export class AuthGuard implements CanActivate {
 	): Observable<boolean> {
 		return this.accountService.currentUser$.pipe(
 			map((user) => {
-				if (user) return true;
-				this.router.navigateByUrl('/login');
-				//else YOU SHALL NOT PASS!
+				if (!user) return true;
+				this.router.navigateByUrl('');
+				//else YOU SHALL PASS!
 			})
 		);
 	}

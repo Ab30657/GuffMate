@@ -15,8 +15,15 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dashboard-left.component';
 import { DashboardComponent } from './homepage/dashboard/dashboard.component';
 import { KhusComponent } from './_specials/khus/khus.component';
+import { LoginGuard } from './_guards/login.guard';
 
 const routes: Routes = [
+	// {
+	// 	path: '',
+	// 	component: LoginComponent,
+	// 	canActivate: [LoginGuard],
+	// 	data: { animationState: 'one' },
+	// },
 	{
 		path: 'login',
 		component: LoginComponent,
@@ -131,12 +138,12 @@ const routes: Routes = [
 	// 	component:
 	// 	canActivate: [AuthGuard],
 	// },
-	{
-		path: ':username',
-		pathMatch: 'full',
-		component: UserProfileComponent,
-		canActivate: [AuthGuard],
-	},
+	// {
+	// 	path: ':username',
+	// 	pathMatch: 'full',
+	// 	component: UserProfileComponent,
+	// 	canActivate: [AuthGuard],
+	// },
 ];
 
 @NgModule({
