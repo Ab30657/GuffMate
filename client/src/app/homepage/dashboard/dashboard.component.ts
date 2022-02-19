@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
 		this.messageService.getMessages(1, 5, 'Inbox').subscribe((response) => {
 			this.messages = response.result;
 			this.loading = false;
-			console.log(this.messages);
+			// console.log(this.messages);
 		});
 	}
 }

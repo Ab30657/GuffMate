@@ -41,7 +41,7 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 		this.friendsService.getFriends().subscribe((t) => {
 			this.friends = t;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
-			console.log(this.chatMember);
+			// console.log(this.chatMember);
 			if (this.chatMember == '') {
 				this.chatMember = this.friends[0].username;
 				this.router.navigateByUrl(
@@ -59,7 +59,7 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 								(x.senderUsername == this.user.username &&
 									x.recipientUsername == chatUser.username)
 						).latestMessage = { ...x };
-						console.log(this.friends);
+						// console.log(this.friends);
 					});
 					this.friends = [...this.friends];
 				});

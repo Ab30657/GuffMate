@@ -51,7 +51,7 @@ export class MessageService {
 						);
 						if (x != null && x != undefined) {
 							x.dateRead = new Date(Date.now());
-							console.log([...msgs]);
+							// console.log([...msgs]);
 							this.latestMessagesSource.next([...msgs]);
 						}
 					}
@@ -84,7 +84,7 @@ export class MessageService {
 		});
 		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
 			messages = messages.filter((x) => x != null);
-			console.log(messages);
+			// console.log(messages);
 			this.latestMessagesSource.next([...messages]);
 		});
 	}

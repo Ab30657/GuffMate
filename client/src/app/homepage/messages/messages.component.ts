@@ -67,7 +67,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 			if (username) {
 				this.memberService.GetUser(username).subscribe((x) => {
 					this.chatMember = x;
-					console.log(x);
+					// console.log(x);
 				});
 				this.messageService.createHubConnection(this.user, username);
 				// this.messageService.latestMessages$.subscribe((x) => {
@@ -100,7 +100,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 	sendMessage() {
 		if (this.msgFile) {
 			this.messageService.sendImage(this.msgFile).subscribe((x: any) => {
-				console.log(x);
+				// console.log(x);
 
 				this.messageService
 					.sendMessage(
@@ -141,6 +141,6 @@ export class MessagesComponent implements OnInit, OnDestroy {
 		const file: File = event.target.files[0];
 		this.isImage = file ? true : false;
 		this.msgFile = file;
-		console.log(file);
+		// console.log(file);
 	}
 }

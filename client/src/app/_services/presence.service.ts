@@ -64,7 +64,7 @@ export class PresenceService {
 
 		this.hubConnection.on('NewMessageReceived', (message: Message) => {
 			//design a notification pop up
-			console.log('here');
+			// console.log('here');
 			// this.latestMessageSource.next(true)			this.latestFriendRequest.next(data);;
 			this.messageService.updateLatestMessages(message);
 			this.toastr
@@ -82,7 +82,7 @@ export class PresenceService {
 		});
 
 		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
-			console.log(messages);
+			// console.log(messages);
 			messages.forEach((x) => {
 				if (x) {
 					this.messageService.updateLatestMessages(x);
@@ -95,10 +95,10 @@ export class PresenceService {
 		});
 
 		this.hubConnection.on('NewFriendRequest', (data: Friend) => {
-			console.log(data);
+			// console.log(data);
 			this.friendsService.friends$.pipe(take(1)).subscribe((x) => {
 				// x.splice(x.findIndex((a) => a.username == data.username));
-				console.log(x);
+				// console.log(x);
 				this.friendsService.updateFriendList([...x, data]);
 			});
 		});
