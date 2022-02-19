@@ -32,6 +32,7 @@ export class MessageService {
 	constructor(private http: HttpClient, private busyService: BusyService) {}
 
 	createHubConnection(user: User, otherUsername: string) {
+		// this.busyService.busy();
 		this.hubConnection = new HubConnectionBuilder()
 			.withUrl(this.hubUrl + 'message?user=' + otherUsername, {
 				accessTokenFactory: () => user.token,
@@ -39,6 +40,7 @@ export class MessageService {
 			.withAutomaticReconnect()
 			.build();
 		this.hubConnection.start().catch((x) => console.log(x));
+		// .finally(() => this.busyService.idle);
 		this.hubConnection.on('ReceiveMessageThread', (messages: Message[]) => {
 			this.messageThreadSource.next(messages);
 			if (messages != null && messages.length != 0) {
@@ -105,6 +107,7 @@ export class MessageService {
 	}
 	stopHubConnection() {
 		if (this.hubConnection) {
+			this.messageThreadSource.next([]);
 			this.hubConnection.stop();
 		}
 	}
