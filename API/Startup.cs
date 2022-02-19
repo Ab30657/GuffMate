@@ -47,7 +47,7 @@ namespace API
 
 				string connStr;
 
-				// Depending on if in development or production, use either Heroku-provided
+				//a Depending on if in development or production, use either Heroku-provided
 				// connection string, or development connection string from env var.
 				if (env == "Development")
 				{
