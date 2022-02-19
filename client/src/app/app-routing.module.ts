@@ -138,12 +138,12 @@ const routes: Routes = [
 	// 	component:
 	// 	canActivate: [AuthGuard],
 	// },
-	// {
-	// 	path: ':username',
-	// 	pathMatch: 'full',
-	// 	component: UserProfileComponent,
-	// 	canActivate: [AuthGuard],
-	// },
+	{
+		path: ':username',
+		pathMatch: 'full',
+		component: UserProfileComponent,
+		canActivate: [AuthGuard],
+	},
 ];
 
 @NgModule({
