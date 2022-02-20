@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
 	ActivatedRouteSnapshot,
 	CanActivate,
-	CanDeactivate,
 	Router,
 	RouterStateSnapshot,
 	UrlTree,
@@ -19,15 +18,18 @@ export class AuthGuard implements CanActivate {
 		private accountService: AccountService,
 		private router: Router
 	) {}
-
 	canActivate(
 		route: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot
 	): Observable<boolean> {
 		return this.accountService.currentUser$.pipe(
 			map((user) => {
-				if (user) return true;
-				this.router.navigateByUrl('/login');
+				if (user) {
+					return true;
+				} else {
+					this.router.navigateByUrl('/login');
+					return false;
+				}
 				//else YOU SHALL NOT PASS!
 			})
 		);

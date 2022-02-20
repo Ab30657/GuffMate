@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomepageComponent } from './homepage/homepage.component';
-import { FriendRequestComponent } from './homepage/discover/discover-left/friend-request/friend-request.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { DiscoverComponent } from './homepage/discover/discover.component';
@@ -18,12 +17,6 @@ import { KhusComponent } from './_specials/khus/khus.component';
 import { LoginGuard } from './_guards/login.guard';
 
 const routes: Routes = [
-	// {
-	// 	path: '',
-	// 	component: LoginComponent,
-	// 	canActivate: [LoginGuard],
-	// 	data: { animationState: 'one' },
-	// },
 	{
 		path: 'login',
 		component: LoginComponent,
@@ -32,7 +25,7 @@ const routes: Routes = [
 	{
 		path: 'profilecompletion',
 		component: ProfileCompleteComponent,
-		canActivate: [AuthGuard],
+		canActivate: [LoginGuard],
 	},
 	{
 		path: '',
@@ -45,9 +38,9 @@ const routes: Routes = [
 				redirectTo: 'discover',
 				pathMatch: 'full',
 			},
-
 			{
 				path: 'discover',
+				canActivate: [AuthGuard],
 				children: [
 					{
 						path: '',
@@ -81,7 +74,23 @@ const routes: Routes = [
 					},
 				],
 			},
-
+			{
+				path: 'settings',
+				children: [
+					{
+						path: '',
+						component: SettingsLeftComponent,
+						canActivate: [AuthGuard],
+						outlet: 'left',
+					},
+					{
+						path: '',
+						component: SettingsComponent,
+						canActivate: [AuthGuard],
+						outlet: 'right',
+					},
+				],
+			},
 			{
 				path: 'dashboard',
 				children: [
@@ -102,52 +111,20 @@ const routes: Routes = [
 		],
 	},
 	{
-		path: 'settings',
-		pathMatch: 'full',
-		redirectTo: 'profilecompletion',
-		// children: [
-		// 	{
-		// 		path: '',
-		// 		component: SettingsLeftComponent,
-		// 		canActivate: [AuthGuard],
-		// 		outlet: 'left',
-		// 	},
-		// 	{
-		// 		path: '',
-		// 		component: SettingsComponent,
-		// 		canActivate: [AuthGuard],
-		// 		outlet: 'right',
-		// 	},
-		// ],
-	},
-	{
-		path: 'khus-specials',
-		pathMatch: 'full',
-		component: KhusComponent,
-		canActivate: [AuthGuard],
-		data: { animationState: 'one' },
-	},
-	{
 		path: 'messages',
 		pathMatch: 'full',
 		redirectTo: 'messages/',
 	},
-	// {
-	// 	path: 'email-auth-code',
-	// 	pathMatch: 'full',
-	// 	component:
-	// 	canActivate: [AuthGuard],
-	// },
+	{ path: '', redirectTo: 'discover', pathMatch: 'full' },
 	{
 		path: ':username',
 		pathMatch: 'full',
 		component: UserProfileComponent,
-		canActivate: [AuthGuard],
+		// canActivate: [AuthGuard],
 	},
 ];
-
 @NgModule({
-	imports: [RouterModule.forRoot(routes)],
+	imports: [RouterModule.forRoot(routes, { enableTracing: true })],
 	exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -25,8 +25,8 @@ export class LoginGuard implements CanActivate {
 	): Observable<boolean> {
 		return this.accountService.currentUser$.pipe(
 			map((user) => {
-				if (!user) return true;
-				this.router.navigateByUrl('');
+				if (user) return true;
+				this.router.navigate(['/login']);
 				//else YOU SHALL PASS!
 			})
 		);

@@ -36,7 +36,7 @@ export class AccountService {
 					this.friendCache = new Map();
 					this.currentUserSource.next(user);
 					this.presence.createHubConnection(user);
-					return user;
+					// return user;
 				}
 			})
 		);
