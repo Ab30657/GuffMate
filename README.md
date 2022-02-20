@@ -1,8 +1,6 @@
-# GuffMate
+# GuffMate - ### Social Media Platform
 
 ## Find people to share guff!
-
-### Social Media Platform
 
 A social media platform featuring all the good bits of Facebook, and Twitter, well not all, and not yet! This web application
 is built using Angular and .NET Core API. Plans to implement:
