@@ -15,7 +15,6 @@ Upcoming improvements:
 
 -   User image gallery
 -   CSS improvements, minimal design
--
 
 Project started as a hub for connecting all of your personal pages, social medias to that of your guff mates!
 [GuffMate](https://guffmate.herokuapp.com).
