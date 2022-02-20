@@ -30,15 +30,14 @@ export class PresenceService {
 	) {}
 
 	createHubConnection(user: User) {
-		if (user) {
-			this.hubConnection = new HubConnectionBuilder()
-				.withUrl(this.hubUrl + 'presence', {
-					accessTokenFactory: () => user.token,
-				})
-				.withAutomaticReconnect()
-				.build();
-			this.hubConnection.start().catch((error) => console.log(error));
-		}
+		this.hubConnection = new HubConnectionBuilder()
+			.withUrl(this.hubUrl + 'presence', {
+				accessTokenFactory: () => user.token,
+			})
+			.withAutomaticReconnect()
+			.build();
+		this.hubConnection.start().catch((error) => console.log(error));
+
 		this.hubConnection.on('UserIsOnline', (username) => {
 			this.onlineUsers$.pipe(take(1)).subscribe((users) => {
 				this.onlineUsersSource.next([...users, username]);
