@@ -1,4 +1,4 @@
-# GuffMate - ### Social Media Platform
+# GuffMate - Social Media Platform ###
 
 ## Find people to share guff!
 
