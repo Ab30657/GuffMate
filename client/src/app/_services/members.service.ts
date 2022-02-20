@@ -69,7 +69,7 @@ export class MembersService {
 			this.http
 		).pipe(
 			map((response) => {
-				console.log(response);
+				// console.log(response);
 				this.memberCache.set(
 					Object.values(userParams).join('-'),
 					response

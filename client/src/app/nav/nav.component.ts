@@ -27,7 +27,7 @@ export class NavComponent implements OnInit {
 
 	ngOnInit(): void {
 		this.messageService.latestMessages$.subscribe((x: Message[]) => {
-			console.log(x);
+			// console.log(x);
 			if (x) {
 				this.unreadMessages = x.some(
 					(x) =>

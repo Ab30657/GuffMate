@@ -7,7 +7,7 @@ import {
 	ValidatorFn,
 	Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	constructor(
 		private accountService: AccountService,
 		private router: Router,
+		private route: ActivatedRoute,
 		private fb: FormBuilder,
 		private toastr: ToastrService
 	) {}
@@ -78,10 +79,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		this.panel1 = document.querySelector('.tab_panel1');
 		this.panel2 = document.querySelector('.tab_panel2');
 	}
+
 	login() {
 		this.accountService.login(this.model).subscribe(
-			(response) => {
+			(user) => {
+				// if (user.emailConfirmed) {
+				// this.router.navigateByUrl('/email-auth-code');
+				// } else {
 				this.router.navigateByUrl('/discover');
+				// }
 			},
 			(error) => {
 				this.loginValidationErrors = error.error;
@@ -105,8 +111,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	getCurrentUser() {
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.loggedIn = !!user;
+		// console.log(this.loggedIn);
 		if (this.loggedIn) {
-			this.router.navigateByUrl('/discover');
+			this.router.navigateByUrl('/discover', {
+				replaceUrl: true,
+				state: { animationState: '' },
+			});
 		}
 	}
 	toggle() {

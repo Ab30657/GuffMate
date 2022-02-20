@@ -65,7 +65,7 @@ export class ProfileCompleteComponent implements OnInit {
 	}
 	loadMember() {
 		this.memberService.GetUser(this.user.username).subscribe((x) => {
-			console.log(x);
+			// console.log(x);
 			this.member = x;
 			this.registerCompleteForm.setValue({
 				gender: this.member.gender,
@@ -85,11 +85,11 @@ export class ProfileCompleteComponent implements OnInit {
 	SaveChanges() {
 		this.user.gender = this.registerCompleteForm.value.gender;
 		this.accountService.setCurrentUser(this.user);
-		console.log(this.interestList);
+		// console.log(this.interestList);
 		this.registerCompleteForm.controls['interests'].setValue(
 			this.interestList
 		);
-		console.log(this.interestList);
+		// console.log(this.interestList);
 		this.memberService.update(this.registerCompleteForm).subscribe(() => {
 			this.router.navigateByUrl('/discover');
 		});
@@ -202,12 +202,12 @@ export class ProfileCompleteComponent implements OnInit {
 	}
 	sendEmail() {
 		this.memberService.sendEmailVerification().subscribe((x) => {
-			console.log('An email has been sent!');
+			// console.log('An email has been sent!');
 		});
 	}
 
 	checkEmailVerificationCode(code) {
-		console.log(code);
+		// console.log(code);
 		this.memberService.checkEmailVerification(code).subscribe((x) => {
 			if (x) {
 				this.member.emailConfirmed = true;
