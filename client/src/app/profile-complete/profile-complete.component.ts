@@ -96,7 +96,9 @@ export class ProfileCompleteComponent implements OnInit {
 	}
 	//Interest addition and removal
 	addInterest() {
-		this.interestList.push(this.interest.trim());
+		if (!this.interestList.includes(this.interest.toLowerCase().trim())) {
+			this.interestList.push(this.interest.toLowerCase().trim());
+		}
 		this.interest = '';
 	}
 	removeInterest(interest) {
