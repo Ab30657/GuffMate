@@ -216,6 +216,8 @@ hr {
 	position: absolute;
 	padding: 0.7rem;
 	color: #2288fa;
+	right: 0;
+	top: 0;
 }
 
 .password-div > input,
@@ -312,13 +314,16 @@ hr {
 }
 .error {
 	color: red;
-	height: 20px;
+	min-height: 20px;
 	font-size: 0.8rem;
+}
+.error > span {
+	white-space: pre-wrap;
 }
 .password-wrapper {
 	position: relative;
-	display: flex;
-	justify-content: flex-end;
+	/* display: flex;
+	justify-content: flex-end; */
 }
 
 #register-btn[disabled]:hover {

@@ -50,8 +50,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
 			name: ['', Validators.required],
 			email: ['', [Validators.required, Validators.email]],
 			username: ['', Validators.required],
-
-			password: ['', [Validators.required, Validators.minLength(6)]],
+			password: [
+				'',
+				[Validators.required, Validators.minLength(6), this.isStrong()],
+			],
 			confirmpassword: [
 				'',
 				[Validators.required, this.matchValues('password')],
@@ -70,6 +72,19 @@ export class LoginComponent implements OnInit, AfterViewInit {
 			return control?.value === control?.parent?.controls[matchTo].value
 				? null
 				: { isMatch: true };
+		};
+	}
+	isStrong(): ValidatorFn {
+		return (control: AbstractControl) => {
+			let hasNumber = /\d/.test(control.value);
+			let hasUpper = /[A-Z]/.test(control.value);
+			let hasLower = /[a-z]/.test(control.value);
+			let hasUnique = /[!@#$%^&*(),.?\":{}|<>]/.test(control.value);
+			const valid = hasNumber && hasUpper && hasLower && hasUnique;
+			if (!valid) {
+				return { isStrong: true };
+			}
+			return null;
 		};
 	}
 	ngAfterViewInit(): void {
@@ -102,7 +117,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
 				//load animations
 			},
 			(error) => {
-				this.toastr.error(error.error);
+				console.log(Array.isArray(error.error));
+				this.toastr.error(
+					Array.isArray(error.error)
+						? error.error.map((x) => x.description).join('\n')
+						: error.error
+				);
 				console.log(error);
 			}
 		);
