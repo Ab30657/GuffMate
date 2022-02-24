@@ -162,3 +162,14 @@
 .online-presence.is-online {
 	background-color: #31f564;
 }
+
+.message-add {
+	padding: 2rem 0;
+}
+
+.message-empty {
+	padding: 6rem 2rem;
+}
+.message-empty img {
+	max-width: 80%;
+}

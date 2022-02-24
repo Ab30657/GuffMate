@@ -32,7 +32,7 @@ export class DiscoverLeftComponent implements OnInit {
 		// this.friendsParams = this.friendsService.GetFriendsParams();
 	}
 	ngOnInit(): void {
-		this.friendsService.friends$.subscribe();
+		this.friendsService.friends$.subscribe((x) => console.log(x));
 		this.ReloadList();
 	}
 	ReloadList() {

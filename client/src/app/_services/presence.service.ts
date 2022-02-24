@@ -91,6 +91,7 @@ export class PresenceService {
 		});
 
 		this.hubConnection.on('UpdateRequestList', (requests: Friend[]) => {
+			console.log('geot');
 			this.friendsService.updateFriendList(requests);
 		});
 

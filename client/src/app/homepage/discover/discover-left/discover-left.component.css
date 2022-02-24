@@ -12,6 +12,15 @@
 	min-width: 0;
 	width: 100%;
 }
+.wrapper-empty {
+	padding: 1rem 0;
+}
+.wrapper-empty div {
+	padding: 7rem 2rem;
+}
+.wrapper-empty img {
+	max-width: 80%;
+}
 .heading > i {
 	font-size: 1.75rem;
 	color: #7371fc;
