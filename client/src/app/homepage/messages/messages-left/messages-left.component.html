@@ -2,10 +2,12 @@
 	<i class="fa fa-mail-reply-all"></i><span class="title">Messages</span>
 </div>
 <ng-template [ngIf]="!friends || friends.length == 0">
-	Add people to start messaging them ;)
+	<div class="message-add">Add people to start messaging them ;)</div>
+	<div class="message-empty">
+		<img src="../../../../assets/messages.svg" />
+	</div>
 </ng-template>
-
-<ng-template [ngIf]="friends">
+<ng-template [ngIf]="friends && friends.length > 0">
 	<div class="cards">
 		<div
 			class="msg-card"

@@ -294,3 +294,31 @@
 .image-message {
 	max-width: 200px;
 }
+
+.no-friends svg {
+	max-width: 600px;
+	animation: float 6s ease-in-out infinite;
+}
+
+.no-friends {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+.no-friend-title {
+	font-size: 2rem;
+}
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
