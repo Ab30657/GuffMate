@@ -37,4 +37,10 @@
 		margin: 0;
 		margin-left: 10px;
 	}
+	.wrapper-empty {
+		padding: 0.2rem;
+	}
+	.wrapper-empty img {
+		display: none;
+	}
 }
