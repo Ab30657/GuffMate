@@ -41,23 +41,15 @@ namespace API.Data
 			if (userParams.predicate == "accepted")
 			{
 				requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.Accepted);
-				// var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
 				requests.Where(x => x.ReqSenderUserId == userId);// userId is logged in user id
 			}
 			if (userParams.predicate == "sent")
 			{
-				// var reqRev = _context.Friends.Where(x=> await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId);
-				// var req = await _context.Friends.FindAsync(item.ReqSenderUserId, item.ReqReceiverUserId);
 				requests = _context.Friends.Where(x => x.ReqSenderUserId == userId && x.RequestStatus == RequestFlag.SentPending);
-				// foreach (var item in requests)
-				// {//dummy comment
-				// 	var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId); // find the opposite
-				// 	requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.ReceivedPending);// If reverse Id is greater then the receiver userId is the userId
-				// }
 			}
 			if (userParams.predicate == "received")
 			{
-				foreach (var item in requests)
+				foreach (var item in requests.ToList())
 				{
 					var reqRev = await _context.Friends.FindAsync(item.ReqReceiverUserId, item.ReqSenderUserId); // find the opposite
 					requests = _context.Friends.Where(x => item.Id < reqRev.Id && x.ReqSenderUserId == reqRev.ReqSenderUserId && x.RequestStatus == RequestFlag.ReceivedPending).Include(x => x.ReqReceiverUser).ThenInclude(x => x.Photos).Include(x => x.ReqSenderUser).ThenInclude(x => x.Photos);// If reverse Id is greater then the receiver userId is the userId
