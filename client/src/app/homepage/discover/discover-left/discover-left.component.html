@@ -1,13 +1,16 @@
 <div class="heading">
 	<i class="fa fa-user-plus"></i><span class="title"> Friend Requests</span>
 </div>
-<div class="wrapper-empty" *ngIf="this.friendsService.friends$ | async">
+<div
+	class="wrapper-empty"
+	*ngIf="(this.friendsService.friends$ | async)?.length == 0"
+>
 	You have no friends requests as of now.
 	<div>
 		<img src="../../../../assets/add-friends.svg" />
 	</div>
 </div>
-<div class="wrapper">
+<div class="wrapper" *ngIf="(this.friendsService.friends$ | async)?.length > 0">
 	<app-friend-request
 		*ngFor="let item of this.friendsService.friends$ | async"
 		[request]="item"

@@ -18,7 +18,6 @@ import { MembersService } from '../../../_services/members.service';
 	styleUrls: ['./discover-left.component.css'],
 })
 export class DiscoverLeftComponent implements OnInit {
-	// Friends$: Observable<Friend[]>;
 	friendsParams: FriendsParams;
 	user: User;
 	constructor(
@@ -29,26 +28,12 @@ export class DiscoverLeftComponent implements OnInit {
 		this.accountService.currentUser$
 			.pipe(take(1))
 			.subscribe((x) => (this.user = x));
-		// this.friendsParams = this.friendsService.GetFriendsParams();
 	}
 	ngOnInit(): void {
 		this.friendsService.friends$.subscribe((x) => console.log(x));
-		this.ReloadList();
-	}
-	ReloadList() {
-		// this.Friends$ = this.friendsService.friends$;
-		// this.friendsService
-		// 	.GetUserRequests(this.friendsParams)
-		// 	.subscribe(() => {});
-		// this.friendsService
-		// 	.GetUserRequests(this.friendsParams)
-		// 	.subscribe((a) =>
-		// 		this.friendsService.friends$.subscribe((x) => console.log(x))
-		// 	);
 	}
 	UpdateRequest(username) {
 		this.friendsService.AcceptUserRequest(username).subscribe((x) => {
-			// this.ReloadList();
 			let params = this.memberService.GetUserParams();
 			params.uptodate = false;
 			this.memberService.SetUserParams(params);
