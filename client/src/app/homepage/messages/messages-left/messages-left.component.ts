@@ -61,7 +61,7 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 								(x.senderUsername == this.user.username &&
 									x.recipientUsername == chatUser.username)
 						).latestMessage = { ...x };
-						// console.log(this.friends);
+						console.log(x);
 					});
 					this.friends = [...this.friends];
 				});
