@@ -111,6 +111,12 @@ const routes: Routes = [
 		],
 	},
 	{
+		path: 'khus-specials',
+		pathMatch: 'full',
+		component: KhusComponent,
+		canActivate: [AuthGuard],
+	},
+	{
 		path: 'messages',
 		pathMatch: 'full',
 		redirectTo: 'messages/',

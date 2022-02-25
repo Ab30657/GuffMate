@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using AutoMapper;
@@ -90,20 +91,20 @@ namespace API.Data
 
 		public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
 		{
-			var messages = await _context.Messages.Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).OrderBy(x => x.MessageSent).ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
+			var messages = await _context.Messages.Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).MarkUnreadAsRead(currentUsername).OrderBy(x => x.MessageSent).ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 
-			var unread = messages.Where(x => x.DateRead == null && x.RecipientUsername == currentUsername).ToList();
+			// var unread = messages.Where(x => x.DateRead == null && x.RecipientUsername == currentUsername).ToList();
 
-			if (unread.Any())
-			{
-				foreach (var item in unread)
-				{
-					item.DateRead = DateTime.UtcNow;
-				}
-				await _context.SaveChangesAsync();
-			}
+			// if (unread.Any())
+			// {
+			// 	foreach (var item in unread)
+			// 	{
+			// 		item.DateRead = DateTime.UtcNow;
+			// 	}
+			// 	await _context.SaveChangesAsync();
+			// }
 
-			return messages;
+			return await Task.FromResult(messages);
 
 		}
 

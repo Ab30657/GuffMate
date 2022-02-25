@@ -53,7 +53,7 @@ export class MessageService {
 						);
 						if (x != null && x != undefined) {
 							x.dateRead = new Date(Date.now());
-							// console.log([...msgs]);
+							console.log([...msgs]);
 							this.latestMessagesSource.next([...msgs]);
 						}
 					}
@@ -75,22 +75,25 @@ export class MessageService {
 		this.hubConnection.on('UpdatedGroup', (group: Group) => {
 			if (group.connections.some((x) => x.username === otherUsername)) {
 				this.messageThread$.pipe(take(1)).subscribe((x) => {
-					x.forEach((a) => {
-						if (!a.dateRead) {
-							a.dateRead = new Date(Date.now());
-						}
-					});
-					this.messageThreadSource.next([...x]);
+					if (x) {
+						x.forEach((a) => {
+							if (!a.dateRead) {
+								a.dateRead = new Date(Date.now());
+							}
+						});
+						this.messageThreadSource.next([...x]);
+					}
 				});
 			}
 		});
 		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
 			messages = messages.filter((x) => x != null);
-			// console.log(messages);
+			console.log(messages);
 			this.latestMessagesSource.next([...messages]);
 		});
 	}
 	updateLatestMessages(message: Message) {
+		console.log(message);
 		this.latestMessages$.pipe(take(1)).subscribe((messages) => {
 			var msg = messages.find(
 				(x) =>
