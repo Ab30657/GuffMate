@@ -21,7 +21,6 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 	user: User;
 	chatMember: string;
 	constructor(
-		private membersService: MembersService,
 		private messageService: MessageService,
 		private route: ActivatedRoute,
 		private router: Router,
@@ -41,12 +40,15 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 		this.friendsService.getFriends().subscribe((t) => {
 			this.friends = t;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
-			// console.log(this.chatMember);
 			if (this.chatMember == '') {
-				this.chatMember = this.friends[0].username;
-				this.router.navigateByUrl(
-					'/messages/' + this.friends[0].username
-				);
+				this.chatMember = this.friends[0]
+					? this.friends[0].username
+					: '';
+				if (this.chatMember != '') {
+					this.router.navigateByUrl(
+						'/messages/' + this.friends[0].username
+					);
+				}
 			}
 			if (this.friends) {
 				this.messageService.latestMessages$.subscribe((a) => {
@@ -68,8 +70,10 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 	}
 
 	changeRoute(username: string) {
-		this.messageService.stopHubConnection();
-		this.router.navigate(['messages', username]);
-		this.chatMember = username;
+		if (username != this.chatMember) {
+			this.messageService.stopHubConnection();
+			this.router.navigate(['messages', username]);
+			this.chatMember = username;
+		}
 	}
 }

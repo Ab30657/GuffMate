@@ -1,5 +1,5 @@
 <div class="content">
-	<ng-template [ngIf]="this.chatMember">
+	<ng-container *ngIf="this.chatMember">
 		<div class="chat-title">
 			<header class="chat-header">
 				<img
@@ -233,8 +233,8 @@
 				<i class="fa fa-paper-plane"></i>
 			</button>
 		</form>
-	</ng-template>
-	<ng-template [ngIf]="!this.chatMember">
+	</ng-container>
+	<!-- <ng-container *ngIf="!this.chatMember">
 		<div class="no-friends">
 			<div class="no-friend-title">
 				Add people to start chatting with them!
@@ -434,5 +434,5 @@
 				</g>
 			</svg>
 		</div>
-	</ng-template>
+	</ng-container> -->
 </div>
