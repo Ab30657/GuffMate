@@ -19,6 +19,7 @@ import { User } from 'src/app/_models/user';
 import { take } from 'rxjs/operators';
 import { AfterViewInit } from '@angular/core';
 import { Emoji } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { FriendsService } from '../../_services/friends.service';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,8 +31,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 	@ViewChild('messageForm') messageForm: NgForm;
 
 	public isEmojiPickerVisible: boolean;
-
-	chatMember: Member;
+	chatMember: Member = null;
 	messages: Message[];
 	pageNumber = 1;
 	pageSize = 5;
@@ -42,6 +42,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
 	ScrollContainer: HTMLElement;
 	isImage: boolean;
 	msgFile: File;
+	loading: boolean;
+
 	constructor(
 		private cdref: ChangeDetectorRef,
 		private memberService: MembersService,
@@ -49,7 +51,7 @@ export class MessagesComponent implements OnInit, OnDestroy {
 		public messageService: MessageService,
 		public presence: PresenceService,
 		private accountService: AccountService,
-		private router: Router
+		public friendsService: FriendsService
 	) {
 		this.accountService.currentUser$
 			.pipe(take(1))
@@ -67,41 +69,18 @@ export class MessagesComponent implements OnInit, OnDestroy {
 			if (username) {
 				this.memberService.GetUser(username).subscribe((x) => {
 					this.chatMember = x;
-					// console.log(x);
 				});
 				this.messageService.createHubConnection(this.user, username);
-				// this.messageService.latestMessages$.subscribe((x) => {
-				// 	x.find(
-				// 		(a) =>
-				// 			a.senderUsername == this.chatMember.username ||
-				// 			a.recipientUsername == this.chatMember.username
-				// 	).dateRead = new Date(Date.now());
-				// });
 			}
 		});
 	}
 
-	loadMessages() {
-		//Get latest unread messages for all users present in the paginated list ------------Add feature later
-		// this.messageService
-		// 	.getMessageThread(this.chatMember.username)
-		// 	.subscribe((x) => {
-		// 		this.messages = x;
-		// 	});
-	}
-
-	// pageChanged(event: any) {
-	// 	this.pageNumber = event.page;
-	// 	this.loadMessages();
-	// }
 	typingMessage(isTyping: boolean) {
 		this.messageService.typingMessage(isTyping, this.chatMember.username);
 	}
 	sendMessage() {
 		if (this.msgFile) {
 			this.messageService.sendImage(this.msgFile).subscribe((x: any) => {
-				// console.log(x);
-
 				this.messageService
 					.sendMessage(
 						this.chatMember.username,
@@ -141,6 +120,5 @@ export class MessagesComponent implements OnInit, OnDestroy {
 		const file: File = event.target.files[0];
 		this.isImage = file ? true : false;
 		this.msgFile = file;
-		// console.log(file);
 	}
 }

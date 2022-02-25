@@ -21,7 +21,7 @@ export class MessageService {
 
 	private hubConnection: HubConnection;
 
-	private messageThreadSource = new BehaviorSubject<Message[]>([]);
+	private messageThreadSource = new BehaviorSubject<Message[]>(null);
 	messageThread$ = this.messageThreadSource.asObservable();
 	private isTypingSource = new ReplaySubject<boolean>(1);
 	isTyping$ = this.isTypingSource.asObservable();
