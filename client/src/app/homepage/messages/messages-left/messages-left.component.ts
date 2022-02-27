@@ -62,6 +62,7 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 								(x.senderUsername == this.user.username &&
 									x.recipientUsername == chatUser.username)
 						).latestMessage = { ...x };
+<<<<<<< HEAD
 						// console.log(x);
 						// console.log(
 						// 	this.friends.find(
@@ -74,6 +75,9 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 						// 					chatUser.username)
 						// 	)
 						// );
+=======
+						console.log(x);
+>>>>>>> main
 					});
 					this.friends = [...this.friends];
 					console.log(this.friends);
