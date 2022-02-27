@@ -14,10 +14,7 @@ export class FriendsService {
 	baseUrl = environment.apiUrl;
 	private friendSource = new BehaviorSubject<Friend[]>(null);
 	friends$ = this.friendSource.asObservable();
-	friendsParams: FriendsParams;
-	constructor(private http: HttpClient) {
-		this.friendsParams = new FriendsParams();
-	}
+	constructor(private http: HttpClient) {}
 
 	updateFriendList(data) {
 		this.friendSource.next(data);
@@ -34,7 +31,6 @@ export class FriendsService {
 							x.findIndex((a) => a.username == username),
 							1
 						);
-						console.log(x);
 						this.friendSource.next([...x]);
 					});
 				})
@@ -44,14 +40,6 @@ export class FriendsService {
 		return this.http.put(
 			this.baseUrl + 'friends/received/' + username + '/reject',
 			''
-		);
-	}
-	GetFriendsParams() {
-		return this.friendsParams;
-	}
-	getFriends() {
-		return this.http.get<Friend[]>(
-			this.baseUrl + 'friends?predicate=accepted'
 		);
 	}
 }

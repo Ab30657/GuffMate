@@ -15,18 +15,16 @@ export class DashboardComponent implements OnInit {
 	friends: number;
 	constructor(
 		public friendsService: FriendsService,
-		private memberService: MembersService,
 		public messageService: MessageService
 	) {}
 
 	ngOnInit(): void {
-		this.friendsService.getFriends().subscribe((x) => {
+		this.messageService.getFriends().subscribe((x) => {
 			this.friends = x.length;
 		});
 		this.messageService.getMessages(1, 5, 'Inbox').subscribe((response) => {
 			this.messages = response.result;
 			this.loading = false;
-			// console.log(this.messages);
 		});
 	}
 }

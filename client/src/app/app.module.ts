@@ -16,8 +16,6 @@ import { MessagesLeftComponent } from './homepage/messages/messages-left/message
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
-import { SettingsComponent } from './homepage/settings/settings.component';
-import { SettingsLeftComponent } from './homepage/settings/settings-left/settings-left.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
@@ -50,8 +48,6 @@ import { KhusComponent } from './_specials/khus/khus.component';
 		UserCardsComponent,
 		MessagesComponent,
 		MessagesLeftComponent,
-		SettingsComponent,
-		SettingsLeftComponent,
 		TextInputComponent,
 		ProfileCompleteComponent,
 		FriendRequestComponent,

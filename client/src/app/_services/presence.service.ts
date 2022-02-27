@@ -19,8 +19,6 @@ export class PresenceService {
 	private hubConnection: HubConnection;
 	private onlineUsersSource = new BehaviorSubject<string[]>([]);
 	onlineUsers$ = this.onlineUsersSource.asObservable();
-	// private latestMessageSource = new BehaviorSubject<boolean>(false);
-	// latestMessage$ = this.latestMessageSource.asObservable();
 
 	constructor(
 		private toastr: ToastrService,
@@ -83,15 +81,15 @@ export class PresenceService {
 
 		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
 			// console.log(messages);
-			messages.forEach((x) => {
-				if (x) {
-					this.messageService.updateLatestMessages(x);
-				}
-			});
+			// messages.forEach((x) => {
+			// 	if (x) {
+			// 		this.messageService.updateLatestMessages(x);
+			// 	}
+			// });
 		});
 
 		this.hubConnection.on('UpdateRequestList', (requests: Friend[]) => {
-			console.log('geot');
+			// console.log('geot');
 			this.friendsService.updateFriendList(requests);
 		});
 
@@ -114,6 +112,7 @@ export class PresenceService {
 
 	stopHubConnection() {
 		this.hubConnection.stop().catch((x) => console.log(x));
+		this.messageService.clearContents();
 	}
 	SendRequest(username: string) {
 		return this.hubConnection

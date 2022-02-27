@@ -24,7 +24,6 @@ export class MembersService {
 	memberCache = new Map();
 	user: User;
 	userParams: UserParams;
-	private hubConnection: HubConnection;
 	hubUrl = environment.hubUrl;
 	constructor(
 		private http: HttpClient,
@@ -33,7 +32,6 @@ export class MembersService {
 		this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
 			this.user = user;
 			this.userParams = new UserParams();
-			// console.log(this.user);
 		});
 	}
 
@@ -48,14 +46,6 @@ export class MembersService {
 		return this.userParams;
 	}
 	GetUsers(userParams: UserParams) {
-		// if (userParams.uptodate) {
-		// 	var response = this.memberCache.get(
-		// 		Object.values(userParams).join('-')
-		// 	);
-		// 	if (response) {
-		// 		return of(response);
-		// 	}
-		// }
 		let params = getPaginationHeaders(
 			userParams.pageNumber,
 			userParams.pageSize
@@ -69,7 +59,6 @@ export class MembersService {
 			this.http
 		).pipe(
 			map((response) => {
-				// console.log(response);
 				this.memberCache.set(
 					Object.values(userParams).join('-'),
 					response

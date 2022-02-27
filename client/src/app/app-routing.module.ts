@@ -6,8 +6,6 @@ import { AuthGuard } from './_guards/auth.guard';
 import { DiscoverComponent } from './homepage/discover/discover.component';
 import { MessagesLeftComponent } from './homepage/messages/messages-left/messages-left.component';
 import { MessagesComponent } from './homepage/messages/messages.component';
-import { SettingsLeftComponent } from './homepage/settings/settings-left/settings-left.component';
-import { SettingsComponent } from './homepage/settings/settings.component';
 import { DiscoverLeftComponent } from './homepage/discover/discover-left/discover-left.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -75,23 +73,6 @@ const routes: Routes = [
 				],
 			},
 			{
-				path: 'settings',
-				children: [
-					{
-						path: '',
-						component: SettingsLeftComponent,
-						canActivate: [AuthGuard],
-						outlet: 'left',
-					},
-					{
-						path: '',
-						component: SettingsComponent,
-						canActivate: [AuthGuard],
-						outlet: 'right',
-					},
-				],
-			},
-			{
 				path: 'dashboard',
 				children: [
 					{
@@ -114,6 +95,12 @@ const routes: Routes = [
 		path: 'khus-specials',
 		pathMatch: 'full',
 		component: KhusComponent,
+		canActivate: [AuthGuard],
+	},
+	{
+		path: 'settings',
+		pathMatch: 'full',
+		component: ProfileCompleteComponent,
 		canActivate: [AuthGuard],
 	},
 	{

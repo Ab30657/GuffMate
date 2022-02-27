@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 			},
 			(error) => {
 				this.toastr.error(error.error);
-				console.log(error);
+				// console.log(error);
 			}
 		);
 	}

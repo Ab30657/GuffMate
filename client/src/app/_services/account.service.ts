@@ -30,13 +30,11 @@ export class AccountService {
 			map((response: User) => {
 				const user = response;
 				if (user) {
-					// console.log(user);
 					localStorage.setItem('user', JSON.stringify(user));
 					this.memberCache = new Map();
 					this.friendCache = new Map();
 					this.currentUserSource.next(user);
 					this.presence.createHubConnection(user);
-					// return user;
 				}
 			})
 		);

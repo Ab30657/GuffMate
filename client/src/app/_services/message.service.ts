@@ -11,6 +11,8 @@ import { BusyService } from './busy.service';
 import { Group } from '../_models/group';
 import { PresenceService } from './presence.service';
 import { convertUpdateArguments } from '@angular/compiler/src/compiler_util/expression_converter';
+import { FriendsParams } from '../_models/friendsParams';
+import { Friend } from '../_models/Friend';
 
 @Injectable({
 	providedIn: 'root',
@@ -29,10 +31,13 @@ export class MessageService {
 	private latestMessagesSource = new BehaviorSubject<Message[]>([]);
 	latestMessages$ = this.latestMessagesSource.asObservable();
 
-	constructor(private http: HttpClient, private busyService: BusyService) {}
+	friendsParams: FriendsParams;
+
+	constructor(private http: HttpClient, private busyService: BusyService) {
+		this.friendsParams = new FriendsParams();
+	}
 
 	createHubConnection(user: User, otherUsername: string) {
-		// this.busyService.busy();
 		this.hubConnection = new HubConnectionBuilder()
 			.withUrl(this.hubUrl + 'message?user=' + otherUsername, {
 				accessTokenFactory: () => user.token,
@@ -40,7 +45,6 @@ export class MessageService {
 			.withAutomaticReconnect()
 			.build();
 		this.hubConnection.start().catch((x) => console.log(x));
-		// .finally(() => this.busyService.idle);
 		this.hubConnection.on('ReceiveMessageThread', (messages: Message[]) => {
 			this.messageThreadSource.next(messages);
 			if (messages != null && messages.length != 0) {
@@ -53,7 +57,6 @@ export class MessageService {
 						);
 						if (x != null && x != undefined) {
 							x.dateRead = new Date(Date.now());
-							console.log([...msgs]);
 							this.latestMessagesSource.next([...msgs]);
 						}
 					}
@@ -93,7 +96,6 @@ export class MessageService {
 		});
 	}
 	updateLatestMessages(message: Message) {
-		console.log(message);
 		this.latestMessages$.pipe(take(1)).subscribe((messages) => {
 			var msg = messages.find(
 				(x) =>
@@ -106,6 +108,7 @@ export class MessageService {
 				messages.splice(messages.indexOf(msg), 1);
 			}
 			this.latestMessagesSource.next([...messages, message]);
+			console.log(messages);
 		});
 	}
 	stopHubConnection() {
@@ -128,13 +131,6 @@ export class MessageService {
 			this.http
 		);
 	}
-
-	// getMessageThread(username: string) {
-	// 	return this.http.get<Message[]>(
-	// 		this.baseUrl + 'messages/thread/' + username
-	// 	);
-	// }
-
 	sendMessage(
 		username: string,
 		content: string,
@@ -155,5 +151,17 @@ export class MessageService {
 		const formData = new FormData();
 		formData.append('file', file, file.name);
 		return this.http.post(this.baseUrl + 'messages/upload/', formData);
+	}
+	GetFriendsParams() {
+		return this.friendsParams;
+	}
+	getFriends() {
+		return this.http.get<Friend[]>(
+			this.baseUrl + 'friends?predicate=accepted'
+		);
+	}
+
+	clearContents() {
+		this.latestMessagesSource.next([]);
 	}
 }
