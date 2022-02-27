@@ -1,3 +1,4 @@
+using System;
 using System.Security.Claims;
 using System.ComponentModel;
 using System.Collections.Generic;
@@ -23,8 +24,10 @@ namespace API.Controllers
 		private readonly IMapper _mapper;
 		private readonly IPhotoService _photoService;
 		private readonly IUnitOfWork _unitOfWork;
-		public UsersController(IUnitOfWork unitOfWork, IMapper mapper, IPhotoService photoService)
+		private readonly ITwilioService _twilioService;
+		public UsersController(IUnitOfWork unitOfWork, IMapper mapper, IPhotoService photoService, ITwilioService twilioService)
 		{
+			_twilioService = twilioService;
 			_unitOfWork = unitOfWork;
 			_photoService = photoService;
 			_mapper = mapper;
@@ -33,12 +36,11 @@ namespace API.Controllers
 		[HttpGet]
 		public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery] UserParams userParams)
 		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 			userParams.CurrentUserName = User.FindFirst(ClaimTypes.Name)?.Value;
 			var users = await _unitOfWork.UserRepository.GetMembersAsync(userParams);
 			foreach (var item in users)
 			{
-				var request = (await _unitOfWork.FriendsRepository.GetUserFriend(user.Id, item.Id)); // Logged in user is the receiver
+				var request = (await _unitOfWork.FriendsRepository.GetUserFriend(User.GetUserId(), item.Id)); // Logged in user is the receiver
 				if (request == null) item.FriendStatus = RequestFlag.None;
 				if (request != null) item.FriendStatus = request.RequestStatus;
 			}
@@ -169,6 +171,104 @@ namespace API.Controllers
 		private async Task<bool> InterestExists(string title)
 		{
 			return await _unitOfWork.InterestRepository.GetInterestByTitleAsync(title) != null;
+		}
+
+		[HttpGet("verify-email")]
+		public async Task<ActionResult> SendEmailVerfication()
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			if (user.EmailConfirmed) return BadRequest("Email is already confirmed");
+
+			_twilioService.CreateEmail(user.Email);
+			return Ok();
+
+		}
+
+		[HttpGet("verify-phone")]
+		public async Task<ActionResult> SendSmsCode()
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			if (user.PhoneNumberConfirmed) return BadRequest("Phone number is already confirmed");
+
+			_twilioService.CreateSms(user.PhoneNumber);
+			return Ok();
+		}
+
+		[HttpPost("verify-email/check")]
+		public async Task<ActionResult<bool>> VerifyEmail(AuthCodeDTO authDto)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			if (user.EmailConfirmed) return BadRequest("Email is already confirmed");
+			if (!string.IsNullOrEmpty(user.Email))
+			{
+				try
+				{
+					var status = await _twilioService.CheckEmailCode(user.Email, authDto.code);
+					if (status == "approved")
+					{
+						user.EmailConfirmed = true;
+						_unitOfWork.UserRepository.Update(user);
+						if (await _unitOfWork.Complete())
+						{
+							return await Task.FromResult(true);
+						}
+						return BadRequest("Error Saving Changes to your verification");
+					}
+					else
+					{
+						return await Task.FromResult(false);
+					}
+				}
+				catch (Exception ex)
+				{
+					return BadRequest("Could not verify the code");
+				}
+			}
+			return BadRequest("Couldn't get your email");
+
+		}
+
+		[HttpPut("verify-phone/check")]
+		public async Task<ActionResult> VerifySMSCode(AuthCodeDTO authDto)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			if (user.PhoneNumberConfirmed) return BadRequest("Phone is already confirmed");
+			if (string.IsNullOrEmpty(user.PhoneNumber))
+			{
+				try
+				{
+					var status = await _twilioService.CheckEmailCode(user.PhoneNumber, authDto.code);
+					if (status == "approved")
+					{
+						user.PhoneNumberConfirmed = true;
+						_unitOfWork.UserRepository.Update(user);
+						if (await _unitOfWork.Complete())
+						{
+							return NoContent();
+						}
+						return BadRequest("Error Saving Changes to your verification");
+					}
+				}
+				catch (Exception ex)
+				{
+					return BadRequest("Could not verify the code");
+				}
+			}
+			return BadRequest("Couldn't get your phone number");
+		}
+		[HttpPut("verify-email/delete")]
+		public async Task<ActionResult<bool>> RemoveEmailAuth()
+		{
+
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			user.EmailConfirmed = false;
+
+			_unitOfWork.UserRepository.Update(user);
+			if (await _unitOfWork.Complete())
+			{
+				return await Task.FromResult(true);
+			}
+			return BadRequest("Couldn't save changes");
 		}
 	}
 }

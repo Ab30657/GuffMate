@@ -1,3 +1,4 @@
+using System;
 using API.Entities;
 
 namespace API.DTOs
@@ -9,7 +10,7 @@ namespace API.DTOs
 		public RequestFlag Status { get; set; }
 		public string Gender { get; set; }
 		public string PhotoUrl { get; set; }
-		public Message LatestMessage { get; set; }
+		public MessageDto LatestMessage { get; set; }
 
 	}
 }

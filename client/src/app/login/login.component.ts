@@ -7,8 +7,9 @@ import {
 	ValidatorFn,
 	Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from '../_services/account.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
 	selector: 'app-login',
@@ -34,7 +35,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	constructor(
 		private accountService: AccountService,
 		private router: Router,
-		private fb: FormBuilder
+		private route: ActivatedRoute,
+		private fb: FormBuilder,
+		private toastr: ToastrService
 	) {}
 
 	ngOnInit(): void {
@@ -54,6 +57,13 @@ export class LoginComponent implements OnInit, AfterViewInit {
 				[Validators.required, this.matchValues('password')],
 			],
 		});
+		this.registerForm
+			.get('password')
+			.valueChanges.subscribe(() =>
+				this.registerForm.controls[
+					'confirmpassword'
+				].updateValueAndValidity()
+			);
 	}
 	matchValues(matchTo: string): ValidatorFn {
 		return (control: AbstractControl) => {
@@ -69,10 +79,15 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		this.panel1 = document.querySelector('.tab_panel1');
 		this.panel2 = document.querySelector('.tab_panel2');
 	}
+
 	login() {
 		this.accountService.login(this.model).subscribe(
-			(response) => {
+			(user) => {
+				// if (user.emailConfirmed) {
+				// this.router.navigateByUrl('/email-auth-code');
+				// } else {
 				this.router.navigateByUrl('/discover');
+				// }
 			},
 			(error) => {
 				this.loginValidationErrors = error.error;
@@ -87,7 +102,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 				//load animations
 			},
 			(error) => {
-				console.log(error);
+				this.toastr.error(error.error);
+				// console.log(error);
 			}
 		);
 	}
@@ -95,8 +111,12 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	getCurrentUser() {
 		let user = JSON.parse(localStorage.getItem('user'));
 		this.loggedIn = !!user;
+		// console.log(this.loggedIn);
 		if (this.loggedIn) {
-			this.router.navigateByUrl('/discover');
+			this.router.navigateByUrl('/discover', {
+				replaceUrl: true,
+				state: { animationState: '' },
+			});
 		}
 	}
 	toggle() {

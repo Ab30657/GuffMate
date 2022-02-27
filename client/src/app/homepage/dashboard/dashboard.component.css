@@ -1,0 +1,151 @@
+.dashboard-stats > .heading {
+	text-transform: uppercase;
+	font-size: 1.75rem;
+	font-weight: 400;
+}
+.dashboard-stats {
+	padding: 1rem 2rem;
+	overflow-y: auto;
+}
+.stats-wrapper {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+	align-items: center;
+	margin-top: 25px;
+	background: white;
+	padding: 1.5rem 1rem;
+	border-radius: 1rem;
+	margin-bottom: 2rem;
+}
+.stats-item {
+	padding: 10px 20px;
+	min-width: 120px;
+	position: relative;
+}
+.number {
+	font-weight: 700;
+	font-size: 1.5rem;
+	color: #0078d7;
+}
+.title {
+	font-weight: 500;
+}
+
+.heading {
+	font-size: 1.1rem;
+	font-weight: 700;
+	margin-bottom: 0.5rem;
+}
+
+.projects-list {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin: auto;
+	width: 1000px;
+	margin-bottom: 2rem;
+}
+
+.project-item {
+	min-height: 400px;
+	background: white;
+	border-radius: 1rem;
+	width: 300px;
+	height: 400px;
+	overflow: hidden;
+	color: white;
+	position: relative;
+}
+
+.message-item {
+	height: 60px;
+	width: 100%;
+	justify-content: space-around;
+	align-items: center;
+	display: flex;
+	padding: 0.75rem 1.5rem;
+}
+.sender {
+	flex: 0 0 200px;
+}
+.message {
+	flex: 1 1 auto;
+}
+.time {
+	flex: 0 0 200px;
+}
+.sender-dp {
+	flex: 0 0 80px;
+}
+.sender-dp > img {
+	border-radius: 50%;
+	height: 30px;
+	width: 30px;
+}
+.tools {
+	flex: 0 0 100px;
+}
+.inbox {
+	border-radius: 1rem;
+	background: white;
+	position: relative;
+	overflow: hidden;
+	min-height: 200px;
+}
+.inbox > .heading {
+	padding-left: 1rem;
+	padding-top: 0.5rem;
+}
+.icon {
+	position: absolute;
+	left: -30px;
+	font-size: 2.5rem;
+}
+
+.stats-item:hover {
+	transform: scale(1.1);
+}
+
+.project-item:hover {
+	transform: scale(1.05);
+	cursor: pointer;
+}
+
+.project-item > img {
+	height: fit-content;
+	max-width: 300px;
+	border-radius: 1rem;
+	z-index: -1;
+}
+.project-item > .heading {
+	position: absolute;
+	font-weight: 900;
+	font-size: 2rem;
+	top: 10px;
+	left: 10px;
+}
+.project-item > .body {
+	padding: 1rem;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}
+.tool-wrapper {
+	border-radius: 0.5rem;
+	background-color: red;
+	color: white;
+	text-align: center;
+	cursor: pointer;
+	width: 30px;
+	font-size: 1.2rem;
+}
+
+.tool-wrapper:hover {
+	background-color: #b80404;
+}
+
+.message-item:hover {
+	cursor: pointer;
+	background: #f2ebff;
+}

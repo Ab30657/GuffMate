@@ -12,8 +12,9 @@ export class BusyService {
 	busy() {
 		this.busyRequestCount++;
 		this.spinnerService.show(undefined, {
-			color: '#2288fa',
+			color: '#a594f9',
 			fullScreen: false,
+			type: 'square-loader',
 		});
 	}
 

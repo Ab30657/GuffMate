@@ -1,13 +1,25 @@
 <nav class="nav">
 	<div class="dashboard-navbar">
 		<a class="nav-logo">
-			<i class="fa fa-2x fa-joomla"></i>
-			<span class="nav-logo-name">Connectify</span>
+			<img
+				class="rounded-circle user-dp"
+				[src]="
+					this.user.photoUrl ||
+					(this.user.gender == 'Female'
+						? './assets/profilegirl.png'
+						: './assets/profileboy.png')
+				"
+			/>
+			<span class="nav-logo-name">GuffMate</span>
 		</a>
 
 		<div class="nav-list">
-			<a class="nav-link">
-				<i class="fa fa-th-large nav-icon" routerLink="/"></i>
+			<a
+				class="nav-link"
+				routerLink="/dashboard"
+				routerLinkActive="active"
+			>
+				<i class="fa fa-th-large nav-icon"></i>
 				<span class="nav-name">Dashboard</span>
 			</a>
 			<a
@@ -23,7 +35,10 @@
 				routerLink="/messages"
 				routerLinkActive="active"
 			>
-				<i class="fa fa-envelope nav-icon"></i>
+				<div class="icon-wrapper">
+					<i class="fa fa-envelope nav-icon"></i>
+					<span *ngIf="unreadMessages" class="dot"></span>
+				</div>
 				<span class="nav-name">Messages</span>
 			</a>
 

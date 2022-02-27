@@ -5,5 +5,6 @@ export class UserParams {
 	pageSize = 10;
 	orderBy = 'lastActive';
 	predicate = 'received';
+	uptodate = false;
 	constructor() {}
 }

@@ -3,25 +3,23 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardContentComponent } from './dashboard-content/dashboard-content.component';
+import { HomepageComponent } from './homepage/homepage.component';
 import { NavComponent } from './nav/nav.component';
 import { LoginComponent } from './login/login.component';
-import { DiscoverComponent } from './dashboard-content/discover/discover.component';
-import { UserCardsComponent } from './dashboard-content/discover/user-cards/user-cards.component';
+import { DiscoverComponent } from './homepage/discover/discover.component';
+import { UserCardsComponent } from './homepage/discover/user-cards/user-cards.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FriendRequestComponent } from './dashboard-content/discover/discover-left/friend-request/friend-request.component';
-import { MessagesComponent } from './dashboard-content/messages/messages.component';
-import { MessagesLeftComponent } from './dashboard-content/messages/messages-left/messages-left.component';
+import { FriendRequestComponent } from './homepage/discover/discover-left/friend-request/friend-request.component';
+import { MessagesComponent } from './homepage/messages/messages.component';
+import { MessagesLeftComponent } from './homepage/messages/messages-left/messages-left.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
-import { SettingsComponent } from './dashboard-content/settings/settings.component';
-import { SettingsLeftComponent } from './dashboard-content/settings/settings-left/settings-left.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { ProfileCompleteComponent } from './profile-complete/profile-complete.component';
-import { DiscoverLeftComponent } from './dashboard-content/discover/discover-left/discover-left.component';
+import { DiscoverLeftComponent } from './homepage/discover/discover-left/discover-left.component';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { GalleryImageComponent } from './gallery-image/gallery-image.component';
 import { FileUploadComponent } from './_forms/file-upload/file-upload.component';
@@ -31,18 +29,25 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { TimelineEventComponent } from './user-profile/timeline-event/timeline-event.component';
+import { ToastrModule } from 'ngx-toastr';
+import { FfbToastrComponent } from './components/ffb-toastr/ffb-toastr.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { TimeagoModule } from 'ngx-timeago';
+import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
+import { DashboardComponent } from './homepage/dashboard/dashboard.component';
+import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dashboard-left.component';
+import { KhusComponent } from './_specials/khus/khus.component';
+
 @NgModule({
 	declarations: [
 		AppComponent,
-		DashboardContentComponent,
+		HomepageComponent,
 		NavComponent,
 		LoginComponent,
 		DiscoverComponent,
 		UserCardsComponent,
 		MessagesComponent,
 		MessagesLeftComponent,
-		SettingsComponent,
-		SettingsLeftComponent,
 		TextInputComponent,
 		ProfileCompleteComponent,
 		FriendRequestComponent,
@@ -51,7 +56,11 @@ import { TimelineEventComponent } from './user-profile/timeline-event/timeline-e
 		FileUploadComponent,
 		GalleryImagePipe,
 		UserProfileComponent,
-  TimelineEventComponent,
+		TimelineEventComponent,
+		FfbToastrComponent,
+		DashboardComponent,
+		DashboardLeftComponent,
+		KhusComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -66,7 +75,14 @@ import { TimelineEventComponent } from './user-profile/timeline-event/timeline-e
 		NgbModule,
 		PaginationModule.forRoot(),
 		ButtonsModule.forRoot(),
+		ToastrModule.forRoot({
+			positionClass: 'toast-bottom-right',
+			timeOut: 10000,
+		}),
+		PickerModule,
+		TimeagoModule.forRoot(),
 	],
+	entryComponents: [FfbToastrComponent],
 	providers: [
 		{
 			provide: HTTP_INTERCEPTORS,

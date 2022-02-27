@@ -148,7 +148,7 @@ label {
 	width: 100%;
 }
 .form-control-group {
-	padding: 1rem 0.5rem;
+	padding: 1rem 0rem;
 }
 .form-control-group > label,
 .gender-wrapper > label {
@@ -157,6 +157,7 @@ label {
 }
 .dboard-col-2 > label {
 	padding: 1rem;
+	padding-top: 0;
 }
 .gender-wrapper {
 	position: absolute;
@@ -511,7 +512,7 @@ li > .deleted {
 }
 
 .gallery {
-	border-radius: 1rem;
+	/* border-radius: 1rem; */
 	height: 100%;
 }
 .gallery > label {
@@ -552,10 +553,11 @@ figure {
 .gallery-inside {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	height: 525px;
+	height: 450px;
 	overflow-y: auto;
 	justify-items: center;
 	position: relative;
+	border: 5px solid rgba(0, 123, 255, 0.25);
 }
 @media screen and (max-width: 1200px) {
 	.gallery-inside {
@@ -571,4 +573,11 @@ figure {
 	.gallery-inside {
 		grid-template-columns: 1fr;
 	}
+}
+
+.qr-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }

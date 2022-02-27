@@ -5,15 +5,19 @@ using System.Threading.Tasks;
 using API.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using API.Interfaces;
+using System.Linq;
 
 namespace API.Data
 {
 	public class Seed
 	{
-		public static async Task SeedUsers(UserManager<AppUser> userManager)
+		public static async Task SeedUsers(UserManager<AppUser> userManager, DataContext context)
 		{
 			if (await userManager.Users.AnyAsync())
 			{
+				context.Connections.RemoveRange(context.Connections);
+				context.SaveChanges();
 				return;
 			}
 

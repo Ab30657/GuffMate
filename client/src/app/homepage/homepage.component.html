@@ -1,0 +1,25 @@
+<div class="glass">
+	<div class="homepage">
+		<div class="homepage-wrapper">
+			<app-nav></app-nav>
+			<div class="homepage-content">
+				<!-- <div class="user">
+					<img src="./assets/profileboy.png" alt="" />
+					<h4>Teresa Nightingale</h4>
+					<p>Pro Member</p>
+				</div> -->
+				<div class="card-wrapper">
+					<!-- <app-messages-left></app-messages-left> -->
+					<router-outlet name="left"></router-outlet>
+				</div>
+				<!-- <div class="pro">
+					<h4>Download Desktop Client</h4>
+				</div> -->
+			</div>
+		</div>
+	</div>
+	<div class="content">
+		<router-outlet name="right"></router-outlet>
+		<!-- <app-messages></app-messages> -->
+	</div>
+</div>

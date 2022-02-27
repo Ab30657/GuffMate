@@ -13,6 +13,8 @@ export interface Member {
 	status: string;
 	phoneNumber: string;
 	twoFactorEnabled: boolean;
+	phoneNumberConfirmed: boolean;
+	emailConfirmed: boolean;
 	email: string;
 	friends: string[];
 	friendStatus: number; // SentPending = 0, // ReceivedPending = 1,// Accepted = 2,// Rejected = 3,// None = 4,
