@@ -38,7 +38,7 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 
 	ngOnInit(): void {
 		this.messageService.getFriends().subscribe((t) => {
-			console.log(t);
+			// console.log(t);
 			this.friends = t;
 			this.chatMember = this.route.snapshot.paramMap.get('username');
 			if (this.chatMember == '') {
@@ -62,25 +62,8 @@ export class MessagesLeftComponent implements OnInit, OnDestroy {
 								(x.senderUsername == this.user.username &&
 									x.recipientUsername == chatUser.username)
 						).latestMessage = { ...x };
-<<<<<<< HEAD
-						// console.log(x);
-						// console.log(
-						// 	this.friends.find(
-						// 		(chatUser) =>
-						// 			(x.senderUsername == chatUser.username &&
-						// 				x.recipientUsername ==
-						// 					this.user.username) ||
-						// 			(x.senderUsername == this.user.username &&
-						// 				x.recipientUsername ==
-						// 					chatUser.username)
-						// 	)
-						// );
-=======
-						console.log(x);
->>>>>>> main
 					});
 					this.friends = [...this.friends];
-					console.log(this.friends);
 				});
 			}
 		});
