@@ -98,15 +98,12 @@ const routes: Routes = [
 		canActivate: [AuthGuard],
 	},
 	{
-<<<<<<< HEAD
 		path: 'settings',
 		pathMatch: 'full',
 		component: ProfileCompleteComponent,
 		canActivate: [AuthGuard],
 	},
 	{
-=======
->>>>>>> 9c818f6a21613c6282439c76ffe1947d4241ddc9
 		path: 'messages',
 		pathMatch: 'full',
 		redirectTo: 'messages/',

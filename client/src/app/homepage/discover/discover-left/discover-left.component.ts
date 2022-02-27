@@ -30,11 +30,7 @@ export class DiscoverLeftComponent implements OnInit {
 			.subscribe((x) => (this.user = x));
 	}
 	ngOnInit(): void {
-<<<<<<< HEAD
 		this.friendsService.friends$.subscribe();
-=======
-		this.friendsService.friends$.subscribe((x) => console.log(x));
->>>>>>> 9c818f6a21613c6282439c76ffe1947d4241ddc9
 	}
 	UpdateRequest(username) {
 		this.friendsService.AcceptUserRequest(username).subscribe((x) => {
