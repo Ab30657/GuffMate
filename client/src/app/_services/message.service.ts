@@ -91,7 +91,7 @@ export class MessageService {
 		});
 		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
 			messages = messages.filter((x) => x != null);
-			console.log(messages);
+			// console.log(messages);
 			this.latestMessagesSource.next([...messages]);
 		});
 	}
@@ -109,7 +109,7 @@ export class MessageService {
 				messages.splice(messages.indexOf(msg), 1);
 			}
 			this.latestMessagesSource.next([...messages, message]);
-			console.log(messages);
+			// console.log(messages);
 		});
 	}
 	stopHubConnection() {
