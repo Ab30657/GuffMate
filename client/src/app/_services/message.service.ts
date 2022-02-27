@@ -57,6 +57,10 @@ export class MessageService {
 						);
 						if (x != null && x != undefined) {
 							x.dateRead = new Date(Date.now());
+<<<<<<< HEAD
+=======
+							console.log([...msgs]);
+>>>>>>> 9c818f6a21613c6282439c76ffe1947d4241ddc9
 							this.latestMessagesSource.next([...msgs]);
 						}
 					}
@@ -96,6 +100,7 @@ export class MessageService {
 		});
 	}
 	updateLatestMessages(message: Message) {
+		console.log(message);
 		this.latestMessages$.pipe(take(1)).subscribe((messages) => {
 			var msg = messages.find(
 				(x) =>
