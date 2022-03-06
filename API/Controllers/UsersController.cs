@@ -270,5 +270,34 @@ namespace API.Controllers
 			}
 			return BadRequest("Couldn't save changes");
 		}
+
+		[HttpPost("add-guff")]
+		public async Task<ActionResult<PhotoDto>> AddGuff(GuffDto guffDto)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+
+			var guff = new Guff
+			{
+				GuffContent = guffDto.GuffContent,
+			};
+
+			user.Guffs.Add(guff);
+
+			if (await _unitOfWork.Complete())
+			{
+				return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<GuffDto>(guff));
+			}
+			return BadRequest("Problem starting a new guff.");
+
+		}
+
+		[HttpGet("guffs")]
+		public async Task<ActionResult<IEnumerable<GuffDto>>> GetGuffs([FromQuery] GuffParams guffParams)
+		{
+			guffParams.CurrentUsername = User.FindFirst(ClaimTypes.Name)?.Value;
+			var guffs = await _unitOfWork.UserRepository.GetGuffsAsync(guffParams);
+			Response.AddPaginationHeader(guffs.CurrentPage, guffs.PageSize, guffs.TotalCount, guffs.TotalPages);
+			return Ok(guffs);
+		}
 	}
 }

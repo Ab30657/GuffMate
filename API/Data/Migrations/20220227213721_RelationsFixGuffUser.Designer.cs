@@ -3,15 +3,17 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220227213721_RelationsFixGuffUser")]
+    partial class RelationsFixGuffUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,7 +170,7 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("CommentPosted")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("CommentUserId")
+                    b.Property<int>("CommenterId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Content")
@@ -179,7 +181,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentUserId");
+                    b.HasIndex("CommenterId");
 
                     b.HasIndex("GuffId");
 
@@ -360,7 +362,7 @@ namespace API.Data.Migrations
 
                     b.HasIndex("GuffId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("UserLikePost");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -489,19 +491,19 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Comment", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "CommentUser")
-                        .WithMany("Comments")
-                        .HasForeignKey("CommentUserId")
+                    b.HasOne("API.Entities.AppUser", "Commenter")
+                        .WithMany("CommentsPosted")
+                        .HasForeignKey("CommenterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("API.Entities.Guff", "Guff")
-                        .WithMany("Comments")
+                        .WithMany("CommentUsers")
                         .HasForeignKey("GuffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CommentUser");
+                    b.Navigation("Commenter");
 
                     b.Navigation("Guff");
                 });
@@ -635,7 +637,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("CommentsPosted");
 
                     b.Navigation("FriendsAdded");
 
@@ -663,7 +665,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Guff", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("CommentUsers");
 
                     b.Navigation("LikedUsers");
                 });

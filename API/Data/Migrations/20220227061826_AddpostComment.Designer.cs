@@ -3,15 +3,17 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220227061826_AddpostComment")]
+    partial class AddpostComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,6 +76,9 @@ namespace API.Data.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("text");
 
+                    b.Property<int?>("GuffId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("LastActive")
                         .HasColumnType("timestamp without time zone");
 
@@ -117,6 +122,8 @@ namespace API.Data.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("GuffId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -168,7 +175,7 @@ namespace API.Data.Migrations
                     b.Property<DateTime>("CommentPosted")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<int>("CommentUserId")
+                    b.Property<int>("CommenterId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Content")
@@ -179,7 +186,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentUserId");
+                    b.HasIndex("CommenterId");
 
                     b.HasIndex("GuffId");
 
@@ -348,21 +355,6 @@ namespace API.Data.Migrations
                     b.ToTable("Friends");
                 });
 
-            modelBuilder.Entity("API.Entities.UserLikePost", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("GuffId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserId", "GuffId");
-
-                    b.HasIndex("GuffId");
-
-                    b.ToTable("Likes");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -449,6 +441,13 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("API.Entities.AppUser", b =>
+                {
+                    b.HasOne("API.Entities.Guff", null)
+                        .WithMany("LikedUsers")
+                        .HasForeignKey("GuffId");
+                });
+
             modelBuilder.Entity("API.Entities.AppUserInterest", b =>
                 {
                     b.HasOne("API.Entities.Interest", "Interest")
@@ -489,19 +488,19 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Comment", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", "CommentUser")
-                        .WithMany("Comments")
-                        .HasForeignKey("CommentUserId")
+                    b.HasOne("API.Entities.AppUser", "Commenter")
+                        .WithMany("CommentsPosted")
+                        .HasForeignKey("CommenterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("API.Entities.Guff", "Guff")
-                        .WithMany("Comments")
+                        .WithMany("CommentUsers")
                         .HasForeignKey("GuffId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CommentUser");
+                    b.Navigation("Commenter");
 
                     b.Navigation("Guff");
                 });
@@ -516,7 +515,7 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Guff", b =>
                 {
                     b.HasOne("API.Entities.AppUser", "User")
-                        .WithMany("Guffs")
+                        .WithMany("GuffsPosted")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -573,25 +572,6 @@ namespace API.Data.Migrations
                     b.Navigation("ReqSenderUser");
                 });
 
-            modelBuilder.Entity("API.Entities.UserLikePost", b =>
-                {
-                    b.HasOne("API.Entities.Guff", "Guff")
-                        .WithMany("LikedUsers")
-                        .HasForeignKey("GuffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.AppUser", "User")
-                        .WithMany("GuffsLiked")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Guff");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("API.Entities.AppRole", null)
@@ -635,15 +615,13 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("CommentsPosted");
 
                     b.Navigation("FriendsAdded");
 
                     b.Navigation("FriendsOf");
 
-                    b.Navigation("Guffs");
-
-                    b.Navigation("GuffsLiked");
+                    b.Navigation("GuffsPosted");
 
                     b.Navigation("MessagesReceived");
 
@@ -663,7 +641,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Guff", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("CommentUsers");
 
                     b.Navigation("LikedUsers");
                 });

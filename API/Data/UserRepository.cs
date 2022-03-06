@@ -21,6 +21,12 @@ namespace API.Data
 			_context = context;
 		}
 
+		public async Task<PagedList<GuffDto>> GetGuffsAsync(GuffParams guffParams)
+		{
+			var query = (await _context.Users.FirstOrDefaultAsync(x => x.UserName == guffParams.CurrentUsername)).Guffs.ProjectTo<GuffDto>(_mapper.ConfigurationProvider).AsQueryable();
+			return await PagedList<GuffDto>.CreateAsync(query, guffParams.PageNumber, guffParams.PageSize);
+		}
+
 		public async Task<MemberDto> GetMemberAsync(string username)
 		{
 			return await _context.Users.Where(x => x.UserName == username).ProjectTo<MemberDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
@@ -51,7 +57,7 @@ namespace API.Data
 
 		public async Task<AppUser> GetUserByUsernameAsync(string username)
 		{
-			return await _context.Users.Include(x => x.Photos).Include(x => x.UserInterests).SingleOrDefaultAsync(x => x.UserName == username);
+			return await _context.Users.Include(x => x.Photos).Include(x => x.UserInterests).Include(x => x.Guffs).SingleOrDefaultAsync(x => x.UserName == username);
 		}
 
 		public async Task<IEnumerable<AppUser>> GetUsersAsync()
