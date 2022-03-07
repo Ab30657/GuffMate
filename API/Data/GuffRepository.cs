@@ -21,7 +21,7 @@ namespace API.Data
 
 		public void AddComment(Comment comment)
 		{
-			throw new System.NotImplementedException();
+			_context.Comments.Add(comment);
 		}
 
 		public void AddGuff(Guff guff)
@@ -31,7 +31,7 @@ namespace API.Data
 
 		public void DeleteComment(Comment comment)
 		{
-			throw new System.NotImplementedException();
+			_context.Comments.Remove(comment);
 		}
 
 		public void DeleteGuff(Guff guff)
@@ -44,7 +44,7 @@ namespace API.Data
 			throw new System.NotImplementedException();
 		}
 
-		public async Task<Guff> GetGuff(int id)
+		public async Task<Guff> GetGuffAsync(int id)
 		{
 			return await _context.Guffs.FindAsync(id);
 		}
@@ -55,9 +55,14 @@ namespace API.Data
 			return await PagedList<GuffDto>.CreateAsync(query, guffParams.PageNumber, guffParams.PageSize);
 		}
 
-		public void LikeGuff(LikeDto like)
+		public async Task<UserLikeGuff> GetLikeAsync(int userId, int guffId)
 		{
-			throw new System.NotImplementedException();
+			return await _context.Likes.FindAsync(userId, guffId);
+		}
+
+		public void LikeGuff(UserLikeGuff like)
+		{
+			_context.Likes.Add(like);
 		}
 
 		public async Task<bool> SaveAllAsync()

@@ -299,5 +299,44 @@ namespace API.Controllers
 			Response.AddPaginationHeader(guffs.CurrentPage, guffs.PageSize, guffs.TotalCount, guffs.TotalPages);
 			return Ok(guffs);
 		}
+
+		[HttpPost("guffs/{id}/comments")]
+		public async Task<ActionResult<CommentDto>> AddComment(CommentDto commentDto, int id)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
+			var comment = new Comment
+			{
+				CommentUser = user,
+				CommentPosted = DateTime.UtcNow,
+				Content = commentDto.Content,
+				Guff = guff
+			};
+			_unitOfWork.GuffRepository.AddComment(comment);
+			if (await _unitOfWork.GuffRepository.SaveAllAsync())
+			{
+				return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
+			}
+			return BadRequest("Problem adding the comment.");
+		}
+
+		[HttpPost("guffs/{id}/like")]
+		public async Task<ActionResult<LikeDto>> AddLike(int id)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
+			if (await _unitOfWork.GuffRepository.GetLikeAsync(user.Id, id) != null) return BadRequest("Already liked the post!");
+			var like = new UserLikeGuff
+			{
+				Guff = guff,
+				User = user
+			};
+			_unitOfWork.GuffRepository.LikeGuff(like);
+			if (await _unitOfWork.GuffRepository.SaveAllAsync())
+			{
+				return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<LikeDto>(like));
+			}
+			return BadRequest("Problem liking the guff.");
+		}
 	}
 }

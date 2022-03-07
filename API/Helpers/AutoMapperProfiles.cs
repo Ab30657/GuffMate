@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System;
 using System.Runtime.InteropServices;
 using System.Reflection.Metadata.Ecma335;
@@ -20,7 +21,7 @@ namespace API.Helpers
 				.ForMember(x => x.Username, opt => opt.MapFrom(src => src.ReqReceiverUser.UserName))
 				.ForMember(x => x.Name, opt => opt.MapFrom(src => src.ReqReceiverUser.Name))
 				.ForMember(x => x.Gender, opt => opt.MapFrom(sourceMember => sourceMember.ReqReceiverUser.Gender))
-				.ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ReqReceiverUser.Photos.First(x => x.IsMain).Url))
+				.ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ReqReceiverUser.Photos.FirstOrDefault(x => x.IsMain).Url))
 				.ForMember(x => x.Status, opt => opt.MapFrom(src => src.RequestStatus));
 			CreateMap<Interest, InterestDto>();
 			CreateMap<RegisterDto, AppUser>();
@@ -29,7 +30,8 @@ namespace API.Helpers
 				.ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => src.Sender.Photos.FirstOrDefault(x => x.IsMain).Url))
 				.ForMember(dest => dest.RecipientPhotoUrl, opt => opt.MapFrom(src => src.Recipient.Photos.FirstOrDefault(x => x.IsMain).Url));
 			CreateMap<Guff, GuffDto>();
-			CreateMap<Comment, CommentDto>();
+			CreateMap<Comment, CommentDto>().ForMember(dest => dest.CommentUsername, opt => opt.MapFrom(src => src.CommentUser.UserName));
+			CreateMap<UserLikeGuff, LikeDto>().ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName)).ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.User.Photos.FirstOrDefault(x => x.IsMain).Url));
 		}
 	}
 }

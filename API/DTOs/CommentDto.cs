@@ -7,7 +7,7 @@ namespace API.DTOs
 
 		public string Content { get; set; }
 		public DateTime CommentPosted { get; set; }
-		public string CommenterUsername { get; set; }
-		public int CommenterId { get; set; }
+		public string CommentUsername { get; set; }
+		public int CommentUserId { get; set; }
 	}
 }

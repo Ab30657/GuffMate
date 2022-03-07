@@ -18,6 +18,7 @@ namespace API.Data
 		public DbSet<Connection> Connections { get; set; }
 		public DbSet<UserLikeGuff> Likes { get; set; }
 		public DbSet<Guff> Guffs { get; set; }
+		public DbSet<Comment> Comments { get; set; }
 		public DataContext(DbContextOptions options) : base(options)
 		{
 		}
@@ -49,6 +50,7 @@ namespace API.Data
 			builder.Entity<UserLikeGuff>().HasOne(x => x.Guff).WithMany(x => x.LikedUsers).HasForeignKey(x => x.GuffId).OnDelete(DeleteBehavior.Cascade);
 
 			builder.Entity<Guff>().HasOne(x => x.User).WithMany(x => x.Guffs).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+			builder.Entity<Comment>().HasOne(x => x.Guff).WithMany(x => x.Comments).HasForeignKey(x => x.GuffId).OnDelete(DeleteBehavior.Cascade);
 
 			builder.ApplyUtcDateTimeConverter();
 		}
