@@ -10,7 +10,7 @@ namespace API.Entities
 		public int Id { get; set; }
 		public DateTime DatePosted { get; set; } = DateTime.UtcNow;
 		public string GuffContent { get; set; }
-		public ICollection<UserLikePost> LikedUsers { get; set; }
+		public ICollection<UserLikeGuff> LikedUsers { get; set; }
 		public ICollection<Comment> Comments { get; set; }
 		public AppUser User { get; set; }
 		public int UserId { get; set; }

@@ -8,6 +8,7 @@ namespace API.Interfaces
 		IInterestRepository InterestRepository { get; }
 		IFriendsRepository FriendsRepository { get; }
 		IMessageRepository MessageRepository { get; }
+		IGuffRepository GuffRepository { get; }
 		Task<bool> Complete();
 		bool HasChanges();
 	}

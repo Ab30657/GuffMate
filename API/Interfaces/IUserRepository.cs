@@ -17,6 +17,5 @@ namespace API.Interfaces
 		void RemoveInterest(Interest interest, int userId);
 		Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams);
 		Task<MemberDto> GetMemberAsync(string username);
-		Task<PagedList<GuffDto>> GetGuffsAsync(GuffParams guffParams);
 	}
 }

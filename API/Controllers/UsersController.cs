@@ -278,12 +278,12 @@ namespace API.Controllers
 
 			var guff = new Guff
 			{
+				User = user,
 				GuffContent = guffDto.GuffContent,
 			};
 
-			user.Guffs.Add(guff);
-
-			if (await _unitOfWork.Complete())
+			_unitOfWork.GuffRepository.AddGuff(guff);
+			if (await _unitOfWork.GuffRepository.SaveAllAsync())
 			{
 				return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<GuffDto>(guff));
 			}
@@ -295,7 +295,7 @@ namespace API.Controllers
 		public async Task<ActionResult<IEnumerable<GuffDto>>> GetGuffs([FromQuery] GuffParams guffParams)
 		{
 			guffParams.CurrentUsername = User.FindFirst(ClaimTypes.Name)?.Value;
-			var guffs = await _unitOfWork.UserRepository.GetGuffsAsync(guffParams);
+			var guffs = await _unitOfWork.GuffRepository.GetGuffsAsync(guffParams);
 			Response.AddPaginationHeader(guffs.CurrentPage, guffs.PageSize, guffs.TotalCount, guffs.TotalPages);
 			return Ok(guffs);
 		}

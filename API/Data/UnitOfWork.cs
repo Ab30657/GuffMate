@@ -21,6 +21,7 @@ namespace API.Data
 		public IFriendsRepository FriendsRepository => new FriendsRepository(_context, _mapper);
 
 		public IMessageRepository MessageRepository => new MessageRepository(_context, _mapper);
+		public IGuffRepository GuffRepository => new GuffRepository(_context, _mapper);
 		public async Task<bool> Complete()
 		{
 			return await _context.SaveChangesAsync() > 0;
