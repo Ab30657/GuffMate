@@ -1,5 +1,5 @@
 <div class="timeline-time">
-	<span class="date">{{ (post.Date | date) || "today" }}</span>
+	<span class="date">{{ (post?.DatePosted | date) || "today" }}</span>
 	<span class="time">04:20</span>
 </div>
 <!-- end timeline-time -->
@@ -14,25 +14,26 @@
 		<span class="userimage"
 			><img
 				[src]="
-					!member.photoUrl && member.gender == 'Female'
+					member?.photoUrl ||
+					(member?.gender == 'Female'
 						? './assets/profilegirl.png'
-						: './assets/profileboy.png'
+						: './assets/profileboy.png')
 				"
 				alt=""
 		/></span>
 		<span class="username"
-			><a href="">{{ this.member.name }}</a> <small></small
+			><a href="">{{ this?.member.name }}</a> <small></small
 		></span>
 	</div>
 	<div class="timeline-content">
 		<p>
-			{{ post.Content }}
+			{{ post?.guffContent }}
 		</p>
 	</div>
 	<div class="timeline-likes">
 		<div class="stats-right">
-			<span class="stats-text">{{ post.Shares || 0 }} Shares</span>
-			<span class="stats-text">{{ post.Comments || 0 }} Comments</span>
+			<span class="stats-text">{{ post?.Shares || 0 }} Shares</span>
+			<span class="stats-text">{{ post?.Comments || 0 }} Comments</span>
 		</div>
 		<div class="stats">
 			<span class="fa-stack fa-fw stats-icon">
@@ -43,7 +44,7 @@
 				<i class="fa fa-circle fa-stack-2x text-primary"></i>
 				<i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
 			</span>
-			<span class="stats-total">{{ post.LikedUsers || 0 }}</span>
+			<span class="stats-total">{{ post?.Likes || 0 }}</span>
 		</div>
 	</div>
 	<div class="timeline-footer">

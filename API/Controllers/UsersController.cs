@@ -285,7 +285,7 @@ namespace API.Controllers
 			_unitOfWork.GuffRepository.AddGuff(guff);
 			if (await _unitOfWork.GuffRepository.SaveAllAsync())
 			{
-				return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<GuffDto>(guff));
+				return Ok(_mapper.Map<GuffDto>(guff));
 			}
 			return BadRequest("Problem starting a new guff.");
 
@@ -300,7 +300,7 @@ namespace API.Controllers
 			return Ok(guffs);
 		}
 
-		[HttpPost("guffs/{id}/comments")]
+		[HttpPost("guffs/{id}/comment")]
 		public async Task<ActionResult<CommentDto>> AddComment(CommentDto commentDto, int id)
 		{
 			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
@@ -315,7 +315,7 @@ namespace API.Controllers
 			_unitOfWork.GuffRepository.AddComment(comment);
 			if (await _unitOfWork.GuffRepository.SaveAllAsync())
 			{
-				return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<CommentDto>(comment));
+				return Ok(_mapper.Map<CommentDto>(comment));
 			}
 			return BadRequest("Problem adding the comment.");
 		}
@@ -334,7 +334,7 @@ namespace API.Controllers
 			_unitOfWork.GuffRepository.LikeGuff(like);
 			if (await _unitOfWork.GuffRepository.SaveAllAsync())
 			{
-				return CreatedAtRoute("GetUser", new { username = user.UserName }, _mapper.Map<LikeDto>(like));
+				return (_mapper.Map<LikeDto>(like));
 			}
 			return BadRequest("Problem liking the guff.");
 		}

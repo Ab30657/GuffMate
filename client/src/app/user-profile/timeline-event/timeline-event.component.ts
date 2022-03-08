@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Guff } from 'src/app/_models/guff';
 import { Member } from 'src/app/_models/member';
-import { TimeLineEvent } from 'src/app/_models/timelineEvent';
 import { MembersService } from '../../_services/members.service';
 
 @Component({
@@ -10,9 +10,11 @@ import { MembersService } from '../../_services/members.service';
 })
 export class TimelineEventComponent implements OnInit {
 	@Input() member: Member;
-	@Input() post: TimeLineEvent;
+	@Input() post: Guff;
 	commentShow: boolean = true;
 	constructor(private memberService: MembersService) {}
 
-	ngOnInit(): void {}
+	ngOnInit(): void {
+		console.log(this.post);
+	}
 }
