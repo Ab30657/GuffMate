@@ -4,6 +4,8 @@ import { Member } from '../_models/member';
 import { MembersService } from '../_services/members.service';
 import { Guff } from '../_models/guff';
 import { GuffService } from '../_services/guff.service';
+import { AccountService } from '../_services/account.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
 	selector: 'app-user-profile',
@@ -15,11 +17,13 @@ export class UserProfileComponent implements OnInit {
 	height: number = 400;
 	headerShrink: boolean = false;
 	guffs: Guff[];
+	guffContent: string;
 	constructor(
 		private memberService: MembersService,
 		private guffService: GuffService,
 		private route: ActivatedRoute,
-		private router: Router
+		private router: Router,
+		public accountService: AccountService
 	) {}
 
 	ngOnInit(): void {
@@ -44,5 +48,8 @@ export class UserProfileComponent implements OnInit {
 
 	goToMessages() {
 		this.router.navigateByUrl('/messages/' + this.member.username);
+	}
+	postAGuff() {
+		this.guffService.createGuff(this.guffContent);
 	}
 }

@@ -272,14 +272,14 @@ namespace API.Controllers
 		}
 
 		[HttpPost("add-guff")]
-		public async Task<ActionResult<PhotoDto>> AddGuff(GuffDto guffDto)
+		public async Task<ActionResult<GuffDto>> AddGuff(string guffContent)
 		{
 			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 
 			var guff = new Guff
 			{
 				User = user,
-				GuffContent = guffDto.GuffContent,
+				GuffContent = guffContent,
 			};
 
 			_unitOfWork.GuffRepository.AddGuff(guff);

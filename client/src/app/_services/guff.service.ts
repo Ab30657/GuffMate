@@ -25,8 +25,11 @@ export class GuffService {
 		});
 	}
 
-	createGuff(guff: Guff) {
-		this.http.post(this.baseUrl + 'users/add-guff', guff);
+	createGuff(guff) {
+		console.log(guff);
+		return this.http
+			.post(this.baseUrl + 'users/add-guff', guff)
+			.subscribe();
 	}
 
 	getGuffs() {

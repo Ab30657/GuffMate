@@ -114,7 +114,7 @@
 					></app-timeline-event>
 					<!-- end timeline-body -->
 				</li>
-				<li>
+				<li *ngIf="guffs?.length > 5">
 					<!-- begin timeline-icon -->
 					<div class="timeline-icon">
 						<a href="">&nbsp;</a>
@@ -123,6 +123,56 @@
 					<!-- begin timeline-body -->
 					<div class="timeline-body">Loading...</div>
 					<!-- begin timeline-body -->
+				</li>
+				<li
+					*ngIf="
+						member?.username ==
+						(this.accountService.currentUser$ | async)?.username
+					"
+				>
+					<div class="timeline-icon">
+						<a href="">&nbsp;</a>
+					</div>
+					<!-- end timeline-icon -->
+					<!-- begin timeline-body -->
+					<div class="timeline-body">
+						<div
+							class="timeline-comment-box"
+							[hidden]="commentShow"
+						>
+							<div class="user">
+								<img [src]="this.member?.photoUrl" />
+							</div>
+							<form>
+								<div class="input-group">
+									<textarea
+										name="guffContent"
+										[(ngModel)]="this.guffContent"
+										class="form-control rounded-corner"
+										placeholder="Start a new guff..."
+									></textarea>
+								</div>
+								<div class="timeline-footer">
+									<a
+										class="m-r-15 text-inverse-lighter toggle-comment-btn"
+										(click)="this.postAGuff()"
+										><i
+											class="fa fa-comments fa-fw fa-lg m-r-3"
+										></i>
+										Post</a
+									>
+									<a
+										class="m-r-15 text-inverse-lighter share-btn"
+										(click)="guffForm.reset()"
+										><i
+											class="fa fa-share fa-fw fa-lg m-r-3"
+										></i>
+										Discard</a
+									>
+								</div>
+							</form>
+						</div>
+					</div>
 				</li>
 			</ul>
 		</div>
