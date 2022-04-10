@@ -41,7 +41,7 @@ namespace API.Data
 
 		public void DeleteLike(UserLikeGuff like)
 		{
-			throw new System.NotImplementedException();
+			_context.Likes.Remove(like);
 		}
 
 		public async Task<Guff> GetGuffAsync(int id)
@@ -49,9 +49,9 @@ namespace API.Data
 			return await _context.Guffs.FindAsync(id);
 		}
 
-		public async Task<PagedList<GuffDto>> GetGuffsAsync(GuffParams guffParams)
+		public async Task<PagedList<GuffDto>> GetGuffsAsync(GuffParams guffParams, int userId)
 		{
-			var query = _context.Guffs.OrderByDescending(x => x.DatePosted).ProjectTo<GuffDto>(_mapper.ConfigurationProvider).AsQueryable();
+			var query = _context.Guffs.Where(x => x.UserId == userId).OrderByDescending(x => x.DatePosted).ProjectTo<GuffDto>(_mapper.ConfigurationProvider).AsQueryable();
 			return await PagedList<GuffDto>.CreateAsync(query, guffParams.PageNumber, guffParams.PageSize);
 		}
 

@@ -35,10 +35,12 @@ export class UserProfileComponent implements OnInit {
 			.GetUser(this.route.snapshot.paramMap.get('username'))
 			.subscribe((x) => {
 				this.member = x;
-				this.guffService.getGuffs().subscribe((x: Guff[]) => {
-					this.guffs = x;
-					console.log(this.guffs);
-				});
+				this.guffService
+					.getGuffs(this.member.username)
+					.subscribe((x: Guff[]) => {
+						this.guffs = x;
+						console.log(this.guffs);
+					});
 			});
 	}
 
@@ -50,6 +52,14 @@ export class UserProfileComponent implements OnInit {
 		this.router.navigateByUrl('/messages/' + this.member.username);
 	}
 	postAGuff() {
-		this.guffService.createGuff(this.guffContent);
+		let guff: Guff = {
+			guffContent: this.guffContent,
+			id: 0,
+			datePosted: new Date(),
+			comments: [],
+			likedUsers: [],
+			shares: [],
+		};
+		this.guffService.createGuff(guff).subscribe();
 	}
 }

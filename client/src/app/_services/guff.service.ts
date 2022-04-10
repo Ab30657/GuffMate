@@ -27,21 +27,30 @@ export class GuffService {
 
 	createGuff(guff) {
 		console.log(guff);
-		return this.http
-			.post(this.baseUrl + 'users/add-guff', guff)
-			.subscribe();
+		return this.http.post(this.baseUrl + 'users/add-guff', guff);
 	}
 
-	getGuffs() {
-		return this.http.get(this.baseUrl + 'users/guffs');
+	getGuffs(username) {
+		return this.http.get(this.baseUrl + 'users/' + username + '/guffs');
 	}
 
+	deleteGuff(guffId: number) {
+		return this.http.delete(this.baseUrl + 'users/guffs/delete/' + guffId);
+	}
 	addLike(guffId: number) {
-		this.http.post(this.baseUrl + 'users/guffs/' + guffId + '/like', {});
+		return this.http.post(
+			this.baseUrl + 'users/guffs/' + guffId + '/like',
+			{}
+		);
 	}
-
-	addComment(comment: Comment, guffId: number) {
-		this.http.post(
+	removeLike(guffId: number) {
+		return this.http.post(
+			this.baseUrl + 'users/guffs/' + guffId + '/like/delete',
+			{}
+		);
+	}
+	addComment(comment, guffId: number) {
+		return this.http.post(
 			this.baseUrl + 'users/guffs/' + guffId + '/comment',
 			comment
 		);

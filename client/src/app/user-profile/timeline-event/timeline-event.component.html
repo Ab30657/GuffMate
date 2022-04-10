@@ -1,5 +1,5 @@
 <div class="timeline-time">
-	<span class="date">{{ (post?.DatePosted | date) || "today" }}</span>
+	<span class="date">{{ (post?.datePosted | date) || "today" }}</span>
 	<span class="time">04:20</span>
 </div>
 <!-- end timeline-time -->
@@ -32,8 +32,10 @@
 	</div>
 	<div class="timeline-likes">
 		<div class="stats-right">
-			<span class="stats-text">{{ post?.Shares || 0 }} Shares</span>
-			<span class="stats-text">{{ post?.Comments || 0 }} Comments</span>
+			<span class="stats-text">{{ post?.shares?.length }} Shares</span>
+			<span class="stats-text"
+				>{{ post?.comments?.length }} Comments</span
+			>
 		</div>
 		<div class="stats">
 			<span class="fa-stack fa-fw stats-icon">
@@ -44,11 +46,14 @@
 				<i class="fa fa-circle fa-stack-2x text-primary"></i>
 				<i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
 			</span>
-			<span class="stats-total">{{ post?.Likes || 0 }}</span>
+			<span class="stats-total">{{ post?.likedUsers.length || 0 }}</span>
 		</div>
 	</div>
 	<div class="timeline-footer">
-		<a class="m-r-15 text-inverse-lighter like-btn"
+		<a
+			class="m-r-15 text-inverse-lighter like-btn"
+			(click)="likeGuff()"
+			[ngClass]="liked ? 'like-filled' : ''"
 			><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a
 		>
 		<a
@@ -59,29 +64,57 @@
 		<a class="m-r-15 text-inverse-lighter share-btn"
 			><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a
 		>
+		<a
+			*ngIf="
+				member.username ==
+				(accountService.currentUser$ | async)?.username
+			"
+			class="m-r-15 text-inverse-lighter delete-btn text-danger"
+			(click)="deleteGuff()"
+		>
+			<i class="fa fa-trash fa-fw fa-lg m-r-3"></i>Delete
+		</a>
 	</div>
 	<div class="timeline-comment-box" [hidden]="commentShow">
-		<div class="user">
-			<img [src]="this.member?.photoUrl" />
-		</div>
-		<div class="input">
-			<form action="">
-				<div class="input-group">
-					<input
-						type="text"
-						class="form-control rounded-corner"
-						placeholder="Write a comment..."
-					/>
-					<span class="input-group-append p-l-10">
-						<button
-							class="comment-btn btn f-s-12 rounded-corner"
-							type="button"
-						>
-							Comment
-						</button>
-					</span>
+		<div class="comment-line" *ngFor="let comment of post.comments">
+			<div class="user">
+				<img [src]="comment?.commentUserPhotoUrl" />
+			</div>
+			<div class="comment-body">
+				<div class="commenter-name font-weight-bold">
+					{{ comment.commentUsername }}
 				</div>
-			</form>
+				<div class="comment-content">
+					{{ comment.content }}
+				</div>
+			</div>
+		</div>
+		<div class="comment-line comment-input">
+			<div class="user">
+				<img [src]="this.member?.photoUrl" />
+			</div>
+			<div class="input">
+				<form #commentForm="ngForm" (ngSubmit)="comment(commentForm)">
+					<div class="input-group">
+						<input
+							type="text"
+							class="form-control rounded-corner"
+							placeholder="Write a comment..."
+							name="Content"
+							ngModel
+							required
+						/>
+						<span class="input-group-append p-l-10">
+							<button
+								class="comment-btn btn f-s-12 rounded-corner"
+								type="submit"
+							>
+								Comment
+							</button>
+						</span>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

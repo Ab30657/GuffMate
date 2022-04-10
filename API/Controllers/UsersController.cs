@@ -272,14 +272,14 @@ namespace API.Controllers
 		}
 
 		[HttpPost("add-guff")]
-		public async Task<ActionResult<GuffDto>> AddGuff(string guffContent)
+		public async Task<ActionResult<GuffDto>> AddGuff(GuffDto guffdto)
 		{
 			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
 
 			var guff = new Guff
 			{
 				User = user,
-				GuffContent = guffContent,
+				GuffContent = guffdto.GuffContent,
 			};
 
 			_unitOfWork.GuffRepository.AddGuff(guff);
@@ -291,11 +291,12 @@ namespace API.Controllers
 
 		}
 
-		[HttpGet("guffs")]
-		public async Task<ActionResult<IEnumerable<GuffDto>>> GetGuffs([FromQuery] GuffParams guffParams)
+		[HttpGet("{username}/guffs")]
+		public async Task<ActionResult<IEnumerable<GuffDto>>> GetGuffs([FromQuery] GuffParams guffParams, string username)
 		{
-			guffParams.CurrentUsername = User.FindFirst(ClaimTypes.Name)?.Value;
-			var guffs = await _unitOfWork.GuffRepository.GetGuffsAsync(guffParams);
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+			guffParams.CurrentUsername = username;
+			var guffs = await _unitOfWork.GuffRepository.GetGuffsAsync(guffParams, user.Id);
 			Response.AddPaginationHeader(guffs.CurrentPage, guffs.PageSize, guffs.TotalCount, guffs.TotalPages);
 			return Ok(guffs);
 		}
@@ -337,6 +338,39 @@ namespace API.Controllers
 				return (_mapper.Map<LikeDto>(like));
 			}
 			return BadRequest("Problem liking the guff.");
+		}
+
+		[HttpPost("guffs/{id}/like/delete")]
+		public async Task<ActionResult<LikeDto>> DeleteLike(int id)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
+			if (await _unitOfWork.GuffRepository.GetLikeAsync(user.Id, id) == null) return BadRequest("Already unliked the post!");
+			var like = await _unitOfWork.GuffRepository.GetLikeAsync(user.Id, id);
+
+			_unitOfWork.GuffRepository.DeleteLike(like);
+
+			if (await _unitOfWork.GuffRepository.SaveAllAsync())
+			{
+				return (_mapper.Map<LikeDto>(like));
+			}
+			return BadRequest("Problem deleting the like from guff.");
+		}
+
+		[HttpDelete("guffs/delete/{id}")]
+		public async Task<ActionResult> DeleteGuff(int id)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
+
+			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
+
+			_unitOfWork.GuffRepository.DeleteGuff(guff);
+
+			if (await _unitOfWork.Complete())
+			{
+				return NoContent();
+			}
+			return BadRequest("Error deleting your guff.");
 		}
 	}
 }

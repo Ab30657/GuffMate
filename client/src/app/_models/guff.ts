@@ -2,9 +2,10 @@ import { GuffComment } from './comment';
 import { Like } from './like';
 
 export interface Guff {
-	DatePosted: Date;
+	id: number;
+	datePosted: Date;
 	guffContent: string;
-	Comments: GuffComment[];
-	Likes: Like[];
-	Shares: any[];
+	comments: GuffComment[];
+	likedUsers: Like[];
+	shares: any[];
 }

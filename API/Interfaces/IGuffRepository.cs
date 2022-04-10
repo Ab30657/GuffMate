@@ -8,7 +8,7 @@ namespace API.Interfaces
 	public interface IGuffRepository
 	{
 
-		Task<PagedList<GuffDto>> GetGuffsAsync(GuffParams guffParams);
+		Task<PagedList<GuffDto>> GetGuffsAsync(GuffParams guffParams, int userId);
 		void AddGuff(Guff guff);
 		void DeleteGuff(Guff guff);
 		Task<Guff> GetGuffAsync(int id);

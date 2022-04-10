@@ -8,5 +8,6 @@ namespace API.DTOs
 		public DateTime CommentPosted { get; set; }
 		public string CommentUsername { get; set; }
 		public int CommentUserId { get; set; }
+		public string CommentUserPhotoUrl { get; set; }
 	}
 }

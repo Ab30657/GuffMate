@@ -136,10 +136,10 @@
 .timeline-footer a:not(.btn):hover {
 	transform: scale(1.1);
 }
+.timeline-footer .like-btn.like-filled,
 .timeline-footer .like-btn:hover {
 	color: #5851db;
 }
-
 .timeline-footer .toggle-comment-btn:hover {
 	color: #1d70cf;
 }
@@ -185,6 +185,7 @@
 	margin-left: -25px;
 	margin-right: -25px;
 	padding: 20px 25px;
+	margin-top: 0 !important;
 }
 
 .timeline-comment-box .user {
@@ -216,4 +217,27 @@
 	font-size: 21px;
 	font-weight: 300;
 	line-height: 1.4;
+}
+
+.comment-line {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-bottom: 10px;
+}
+
+.comment-line .user {
+	position: absolute;
+}
+.comment-line .comment-body {
+	margin-left: 50px;
+}
+
+.comment-content {
+	font-size: 0.8rem;
+}
+
+.commenter-name {
+	font-size: 12px;
 }
