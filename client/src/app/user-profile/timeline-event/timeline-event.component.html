@@ -1,6 +1,6 @@
 <div class="timeline-time">
-	<span class="date">{{ (post?.datePosted | date) || "today" }}</span>
-	<span class="time">04:20</span>
+	<span class="date">{{ (guff?.datePosted | date) || "today" }}</span>
+	<span class="time">{{ guff?.datePosted | date: "shortTime" }}</span>
 </div>
 <!-- end timeline-time -->
 <!-- begin timeline-icon -->
@@ -27,14 +27,14 @@
 	</div>
 	<div class="timeline-content">
 		<p>
-			{{ post?.guffContent }}
+			{{ guff?.guffContent }}
 		</p>
 	</div>
 	<div class="timeline-likes">
 		<div class="stats-right">
-			<span class="stats-text">{{ post?.shares?.length }} Shares</span>
+			<span class="stats-text">{{ guff?.shares?.length }} Shares</span>
 			<span class="stats-text"
-				>{{ post?.comments?.length }} Comments</span
+				>{{ guff?.comments?.length }} Comments</span
 			>
 		</div>
 		<div class="stats">
@@ -46,7 +46,7 @@
 				<i class="fa fa-circle fa-stack-2x text-primary"></i>
 				<i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
 			</span>
-			<span class="stats-total">{{ post?.likedUsers.length || 0 }}</span>
+			<span class="stats-total">{{ guff?.likedUsers.length || 0 }}</span>
 		</div>
 	</div>
 	<div class="timeline-footer">
@@ -76,7 +76,7 @@
 		</a>
 	</div>
 	<div class="timeline-comment-box" [hidden]="commentShow">
-		<div class="comment-line" *ngFor="let comment of post.comments">
+		<div class="comment-line" *ngFor="let comment of guff.comments">
 			<div class="user">
 				<img [src]="comment?.commentUserPhotoUrl" />
 			</div>
@@ -91,7 +91,9 @@
 		</div>
 		<div class="comment-line comment-input">
 			<div class="user">
-				<img [src]="this.member?.photoUrl" />
+				<img
+					[src]="(this.accountService.currentUser$ | async)?.photoUrl"
+				/>
 			</div>
 			<div class="input">
 				<form #commentForm="ngForm" (ngSubmit)="comment(commentForm)">

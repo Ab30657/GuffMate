@@ -28,9 +28,11 @@ button {
 	position: relative;
 	width: 100%;
 	overflow: auto;
+	min-height: 900px;
 }
 .profile-body > .body {
 	flex: 5 0 0;
+	overflow-y: auto;
 }
 .contact {
 	flex: 2 0 0;

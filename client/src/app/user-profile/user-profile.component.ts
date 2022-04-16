@@ -6,6 +6,8 @@ import { Guff } from '../_models/guff';
 import { GuffService } from '../_services/guff.service';
 import { AccountService } from '../_services/account.service';
 import { NgForm } from '@angular/forms';
+import { User } from '../_models/user';
+import { take } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-user-profile',
@@ -17,14 +19,19 @@ export class UserProfileComponent implements OnInit {
 	height: number = 400;
 	headerShrink: boolean = false;
 	guffs: Guff[];
-	guffContent: string;
+	Content: string;
+	user: User;
 	constructor(
 		private memberService: MembersService,
-		private guffService: GuffService,
+		public guffService: GuffService,
 		private route: ActivatedRoute,
 		private router: Router,
 		public accountService: AccountService
-	) {}
+	) {
+		this.accountService.currentUser$
+			.pipe(take(1))
+			.subscribe((x) => (this.user = x));
+	}
 
 	ngOnInit(): void {
 		this.loadMember();
@@ -35,12 +42,10 @@ export class UserProfileComponent implements OnInit {
 			.GetUser(this.route.snapshot.paramMap.get('username'))
 			.subscribe((x) => {
 				this.member = x;
-				this.guffService
-					.getGuffs(this.member.username)
-					.subscribe((x: Guff[]) => {
-						this.guffs = x;
-						console.log(this.guffs);
-					});
+				this.guffService.createHubConnection(
+					this.user,
+					this.member.username
+				);
 			});
 	}
 
@@ -52,14 +57,8 @@ export class UserProfileComponent implements OnInit {
 		this.router.navigateByUrl('/messages/' + this.member.username);
 	}
 	postAGuff() {
-		let guff: Guff = {
-			guffContent: this.guffContent,
-			id: 0,
-			datePosted: new Date(),
-			comments: [],
-			likedUsers: [],
-			shares: [],
-		};
-		this.guffService.createGuff(guff).subscribe();
+		this.guffService.createGuff({ Content: this.Content }).finally(() => {
+			this.Content = '';
+		});
 	}
 }

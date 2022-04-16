@@ -5,6 +5,7 @@ import { MembersService } from '../../_services/members.service';
 import { AccountService } from '../../_services/account.service';
 import { GuffService } from '../../_services/guff.service';
 import { GuffComment } from 'src/app/_models/comment';
+import { take } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-timeline-event',
@@ -13,7 +14,7 @@ import { GuffComment } from 'src/app/_models/comment';
 })
 export class TimelineEventComponent implements OnInit {
 	@Input() member: Member;
-	@Input() post: Guff;
+	@Input() guff: Guff;
 	liked = false;
 	newComment: string = '';
 	commentShow: boolean = true;
@@ -23,32 +24,31 @@ export class TimelineEventComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		console.log(this.post);
-		this.accountService.currentUser$.subscribe((user) => {
-			this.liked = this.post.likedUsers.some(
+		this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
+			this.liked = this.guff.likedUsers.some(
 				(x) => x.username == user.username
 			);
-			console.log(this.liked);
 		});
 	}
 
 	deleteGuff() {
-		this.guffService.deleteGuff(this.post.id).subscribe();
+		this.guffService.deleteGuff(this.guff.id).subscribe();
 	}
 	comment(commentForm) {
-		let comment: GuffComment = {
-			content: commentForm.value.Content,
-			commentPosted: new Date(),
-			commentUsername: '',
-			commentUserPhotoUrl: '',
-		};
-		// console.log(comment);
-		this.guffService.addComment(comment, this.post.id).subscribe();
+		if (commentForm.valid)
+			this.guffService
+				.createComment({
+					Content: commentForm.value.Content,
+					GuffId: this.guff.id,
+				})
+				.finally(() => {
+					commentForm.resetForm();
+				});
 	}
 	likeGuff() {
 		if (!this.liked) {
-			this.guffService.addLike(this.post.id).subscribe();
-		} else this.guffService.removeLike(this.post.id).subscribe();
+			this.guffService.likeGuff(this.guff.id);
+		} else this.guffService.unlikeGuff(this.guff.id);
 		this.liked = !this.liked;
 	}
 }

@@ -1,7 +1,12 @@
 <div class="glass">
-	<!-- <div class="intro">
-	</div> -->
-	<!-- <div class="profile-body" (scroll)="scrollHandler($event)"> -->
+	<ngx-spinner
+		bdColor="rgba(255,255,255,0.7)"
+		size="large"
+		color="#fff"
+		type="square-loader"
+	>
+		Configuring your profile... Hot Damn!
+	</ngx-spinner>
 	<div class="profile-body">
 		<div class="back-btn" (click)="routeBack()">
 			<i class="fa fa-arrow-left"></i>
@@ -106,24 +111,6 @@
 						<div class="title-content">Timeline</div>
 					</div>
 				</li>
-				<li *ngFor="let post of guffs">
-					<!-- begin timeline-time -->
-					<app-timeline-event
-						[member]="this.member"
-						[post]="post"
-					></app-timeline-event>
-					<!-- end timeline-body -->
-				</li>
-				<li *ngIf="guffs?.length > 5">
-					<!-- begin timeline-icon -->
-					<div class="timeline-icon">
-						<a href="">&nbsp;</a>
-					</div>
-					<!-- end timeline-icon -->
-					<!-- begin timeline-body -->
-					<div class="timeline-body">Loading...</div>
-					<!-- begin timeline-body -->
-				</li>
 				<li
 					*ngIf="
 						member?.username ==
@@ -146,8 +133,8 @@
 							<form>
 								<div class="input-group">
 									<textarea
-										name="guffContent"
-										[(ngModel)]="this.guffContent"
+										name="Content"
+										[(ngModel)]="this.Content"
 										class="form-control rounded-corner"
 										placeholder="Start a new guff..."
 									></textarea>
@@ -173,6 +160,24 @@
 							</form>
 						</div>
 					</div>
+				</li>
+				<li *ngFor="let guff of guffService.guffThread$ | async">
+					<!-- begin timeline-time -->
+					<app-timeline-event
+						[member]="this.member"
+						[guff]="guff"
+					></app-timeline-event>
+					<!-- end timeline-body -->
+				</li>
+				<li *ngIf="guffs?.length > 5">
+					<!-- begin timeline-icon -->
+					<div class="timeline-icon">
+						<a href="">&nbsp;</a>
+					</div>
+					<!-- end timeline-icon -->
+					<!-- begin timeline-body -->
+					<div class="timeline-body">Loading...</div>
+					<!-- begin timeline-body -->
 				</li>
 			</ul>
 		</div>

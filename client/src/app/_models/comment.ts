@@ -3,4 +3,6 @@ export interface GuffComment {
 	commentPosted: Date;
 	commentUsername: string;
 	commentUserPhotoUrl: string;
+	id: number;
+	guffId: number;
 }

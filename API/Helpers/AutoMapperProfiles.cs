@@ -32,7 +32,8 @@ namespace API.Helpers
 			CreateMap<Guff, GuffDto>();
 			CreateMap<Comment, CommentDto>().ForMember(dest => dest.CommentUsername, opt => opt.MapFrom(src => src.CommentUser.UserName))
 				.ForMember(dest => dest.CommentUserPhotoUrl, opt => opt.MapFrom(src => src.CommentUser.Photos.FirstOrDefault(x => x.IsMain).Url));
-			CreateMap<UserLikeGuff, LikeDto>().ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName)).ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.User.Photos.FirstOrDefault(x => x.IsMain).Url));
+			CreateMap<UserLikeGuff, LikeDto>().ForMember(dest => dest.Username, opt => opt.MapFrom(src => src.User.UserName)).
+			ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.User.Photos.FirstOrDefault(x => x.IsMain).Url));
 		}
 	}
 }

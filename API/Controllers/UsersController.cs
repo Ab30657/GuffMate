@@ -271,26 +271,6 @@ namespace API.Controllers
 			return BadRequest("Couldn't save changes");
 		}
 
-		[HttpPost("add-guff")]
-		public async Task<ActionResult<GuffDto>> AddGuff(GuffDto guffdto)
-		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
-
-			var guff = new Guff
-			{
-				User = user,
-				GuffContent = guffdto.GuffContent,
-			};
-
-			_unitOfWork.GuffRepository.AddGuff(guff);
-			if (await _unitOfWork.GuffRepository.SaveAllAsync())
-			{
-				return Ok(_mapper.Map<GuffDto>(guff));
-			}
-			return BadRequest("Problem starting a new guff.");
-
-		}
-
 		[HttpGet("{username}/guffs")]
 		public async Task<ActionResult<IEnumerable<GuffDto>>> GetGuffs([FromQuery] GuffParams guffParams, string username)
 		{
@@ -301,61 +281,6 @@ namespace API.Controllers
 			return Ok(guffs);
 		}
 
-		[HttpPost("guffs/{id}/comment")]
-		public async Task<ActionResult<CommentDto>> AddComment(CommentDto commentDto, int id)
-		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
-			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
-			var comment = new Comment
-			{
-				CommentUser = user,
-				CommentPosted = DateTime.UtcNow,
-				Content = commentDto.Content,
-				Guff = guff
-			};
-			_unitOfWork.GuffRepository.AddComment(comment);
-			if (await _unitOfWork.GuffRepository.SaveAllAsync())
-			{
-				return Ok(_mapper.Map<CommentDto>(comment));
-			}
-			return BadRequest("Problem adding the comment.");
-		}
-
-		[HttpPost("guffs/{id}/like")]
-		public async Task<ActionResult<LikeDto>> AddLike(int id)
-		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
-			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
-			if (await _unitOfWork.GuffRepository.GetLikeAsync(user.Id, id) != null) return BadRequest("Already liked the post!");
-			var like = new UserLikeGuff
-			{
-				Guff = guff,
-				User = user
-			};
-			_unitOfWork.GuffRepository.LikeGuff(like);
-			if (await _unitOfWork.GuffRepository.SaveAllAsync())
-			{
-				return (_mapper.Map<LikeDto>(like));
-			}
-			return BadRequest("Problem liking the guff.");
-		}
-
-		[HttpPost("guffs/{id}/like/delete")]
-		public async Task<ActionResult<LikeDto>> DeleteLike(int id)
-		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
-			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
-			if (await _unitOfWork.GuffRepository.GetLikeAsync(user.Id, id) == null) return BadRequest("Already unliked the post!");
-			var like = await _unitOfWork.GuffRepository.GetLikeAsync(user.Id, id);
-
-			_unitOfWork.GuffRepository.DeleteLike(like);
-
-			if (await _unitOfWork.GuffRepository.SaveAllAsync())
-			{
-				return (_mapper.Map<LikeDto>(like));
-			}
-			return BadRequest("Problem deleting the like from guff.");
-		}
 
 		[HttpDelete("guffs/delete/{id}")]
 		public async Task<ActionResult> DeleteGuff(int id)
