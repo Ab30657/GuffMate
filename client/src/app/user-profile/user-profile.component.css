@@ -228,7 +228,15 @@ button {
 }
 
 .chat:hover {
-	box-shadow: 0px 7px 30px rgba(165, 148, 249, 0.7);
+	box-shadow: 0px 7px 30px rgba(250, 196, 49, 0.7);
+}
+.pending {
+	background: linear-gradient(45deg, #f7cb73, #d9512c);
+	box-shadow: 0px 4px 30px rgba(242, 147, 57, 0.4);
+}
+
+.pending:hover {
+	box-shadow: 0px 7px 30px rgba(217, 81, 59, 0.7);
 }
 .title {
 	margin-left: 15%;
@@ -462,7 +470,7 @@ button {
 	background: #fff;
 	margin-left: -25px;
 	margin-right: -25px;
-	padding: 20px 25px;
+	padding: 20px 25px 0px 25px;
 }
 
 .timeline-comment-box .user {
@@ -510,4 +518,8 @@ button {
 }
 .back-btn:hover {
 	transform: translateX(-10%);
+}
+
+.newpost-form {
+	margin-left: 50px;
 }

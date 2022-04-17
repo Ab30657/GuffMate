@@ -37,7 +37,7 @@
 				>{{ guff?.comments?.length }} Comments</span
 			>
 		</div>
-		<div class="stats">
+		<div class="stats-left" (click)="triggerModal(likedUsers)">
 			<span class="fa-stack fa-fw stats-icon">
 				<i class="fa fa-circle fa-stack-2x text-danger"></i>
 				<i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
@@ -47,6 +47,39 @@
 				<i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
 			</span>
 			<span class="stats-total">{{ guff?.likedUsers.length || 0 }}</span>
+
+			<ng-template #likedUsers let-modal>
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal-basic-title">
+						Users who liked your post
+						<i class="fa fa-thumbs-up"></i>
+					</h4>
+					<button
+						type="button"
+						class="close text-danger"
+						aria-label="Close"
+						(click)="modal.dismiss('Cross click')"
+					>
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ul>
+						<li
+							class="list-group-item"
+							*ngFor="let user of this.guff?.likedUsers"
+							(click)="routeToUser(user.username)"
+						>
+							<img
+								class="rounded-circle"
+								height="25px"
+								[src]="user.photoUrl"
+							/>{{ user.username }}
+						</li>
+					</ul>
+					<br />
+				</div>
+			</ng-template>
 		</div>
 	</div>
 	<div class="timeline-footer">
@@ -56,6 +89,7 @@
 			[ngClass]="liked ? 'like-filled' : ''"
 			><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a
 		>
+
 		<a
 			class="m-r-15 text-inverse-lighter toggle-comment-btn"
 			(click)="commentShow = !commentShow"

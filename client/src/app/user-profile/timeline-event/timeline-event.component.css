@@ -152,7 +152,9 @@
 	font-weight: 600;
 	font-size: 12px;
 }
-
+.timeline-likes .stats-left {
+	cursor: pointer;
+}
 .timeline-likes .stats-right {
 	float: right;
 }

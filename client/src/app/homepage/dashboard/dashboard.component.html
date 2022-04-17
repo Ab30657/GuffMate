@@ -8,16 +8,6 @@
 			</div>
 			<div class="title">Friends</div>
 		</div>
-		<div class="followers stats-item">
-			<div class="icon"><i class="fa fa-user-secret"></i></div>
-			<div class="number">999</div>
-			<div class="title">Followers</div>
-		</div>
-		<div class="projects stats-item">
-			<div class="icon"><i class="fa fa-book"></i></div>
-			<div class="number">12</div>
-			<div class="title">Projects</div>
-		</div>
 		<div class="messages stats-item">
 			<div class="icon"><i class="fa fa-comments"></i></div>
 			<div class="number">{{ this.messages?.length }}</div>
@@ -26,20 +16,25 @@
 		<div class="hours stats-item">
 			<div class="icon"><i class="fa fa-user-plus"></i></div>
 			<div class="number">
-				{{ (this.friendsService.friends$ | async).length }}
+				{{ (this.friendsService.friends$ | async)?.length }}
 			</div>
 			<div class="title">Friend Requests</div>
 		</div>
 	</div>
 	<div class="open-projects">
-		<div class="heading">Open Projects</div>
 		<div class="projects-list">
-			<div class="project-1 project-item">
+			<div
+				class="project-1 project-item"
+				[routerLink]="[
+					'../',
+					(this.accountService.currentUser$ | async)?.username
+				]"
+			>
 				<img src="https://wallpapercave.com/wp/wp5252334.jpg" />
-				<div class="heading">Ronitian</div>
-				<div class="body">This is body for a project</div>
+				<div class="heading">Your Timeline</div>
+				<div class="body">Click to go to your timeline</div>
 			</div>
-			<div class="project-2 project-item">
+			<!-- <div class="project-2 project-item">
 				<img
 					src="https://getwallpapers.com/wallpaper/full/a/5/a/544882.jpg"
 				/>
@@ -52,7 +47,7 @@
 				/>
 				<div class="heading">Kycilius</div>
 				<div class="body">This is body for a project</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<div class="inbox">

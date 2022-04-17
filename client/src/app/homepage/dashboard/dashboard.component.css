@@ -22,6 +22,7 @@
 	padding: 10px 20px;
 	min-width: 120px;
 	position: relative;
+	cursor: pointer;
 }
 .number {
 	font-weight: 700;
@@ -40,9 +41,8 @@
 
 .projects-list {
 	display: flex;
-	justify-content: space-around;
+	/* justify-content: space-around; */
 	align-items: center;
-	margin: auto;
 	width: 1000px;
 	margin-bottom: 2rem;
 }

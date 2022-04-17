@@ -25,7 +25,8 @@
 	flex-direction: column;
 	justify-content: flex-start;
 	text-align: center;
-	height: 100%;
+	height: 100vh;
+	overflow-y: auto;
 }
 .homepage {
 	width: 500px;

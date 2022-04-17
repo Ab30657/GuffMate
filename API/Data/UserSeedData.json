@@ -60,7 +60,7 @@
 		]
 	},
 	{
-		"UserName": "pratik1",
+		"UserName": "bot1",
 		"Name": "Pratik Silwal",
 		"DateOfBirth": "2001-07-08",
 		"KnownAs": "Genius",
@@ -75,82 +75,7 @@
 		]
 	},
 	{
-		"UserName": "pratik2",
-		"Name": "Pratik Silwal",
-		"DateOfBirth": "2001-07-08",
-		"KnownAs": "Genius",
-		"Gender": "Male",
-		"Status": "Just a friend!",
-		"Email": "pratik.silwal3@gmail.com",
-		"Photos": [
-			{
-				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
-				"IsMain": true
-			}
-		]
-	},
-	{
-		"UserName": "pratik2",
-		"Name": "Pratik Silwal",
-		"DateOfBirth": "2001-07-08",
-		"KnownAs": "Genius",
-		"Gender": "Male",
-		"Status": "Just a friend!",
-		"Email": "pratik.silwal3@gmail.com",
-		"Photos": [
-			{
-				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
-				"IsMain": true
-			}
-		]
-	},
-	{
-		"UserName": "pratik15",
-		"Name": "Pratik Silwal",
-		"DateOfBirth": "2001-07-08",
-		"KnownAs": "Genius",
-		"Gender": "Male",
-		"Status": "Just a friend!",
-		"Email": "pratik.silwal3@gmail.com",
-		"Photos": [
-			{
-				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
-				"IsMain": true
-			}
-		]
-	},
-	{
-		"UserName": "pratik16",
-		"Name": "Pratik Silwal",
-		"DateOfBirth": "2001-07-08",
-		"KnownAs": "Genius",
-		"Gender": "Male",
-		"Status": "Just a friend!",
-		"Email": "pratik.silwal3@gmail.com",
-		"Photos": [
-			{
-				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
-				"IsMain": true
-			}
-		]
-	},
-	{
-		"UserName": "pratik17",
-		"Name": "Pratik Silwal",
-		"DateOfBirth": "2001-07-08",
-		"KnownAs": "Genius",
-		"Gender": "Male",
-		"Status": "Just a friend!",
-		"Email": "pratik.silwal3@gmail.com",
-		"Photos": [
-			{
-				"Url": "https://res.cloudinary.com/dhvjfgbzf/image/upload/v1644037670/ugyleq5mllrlq5i50iad.jpg",
-				"IsMain": true
-			}
-		]
-	},
-	{
-		"UserName": "pratik5",
+		"UserName": "bot2",
 		"Name": "Pratik Silwal",
 		"DateOfBirth": "2001-07-08",
 		"KnownAs": "Genius",

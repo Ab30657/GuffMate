@@ -65,12 +65,14 @@ export class GuffService {
 		this.hubConnection.on('UnlikeGuff', (likeDto: Like) => {
 			this.guffThread$.pipe(take(1)).subscribe((x) => {
 				var guff = x.find((x) => x.id == likeDto.guffId);
+				console.log(guff);
 				if (guff) {
 					guff.likedUsers?.splice(
-						guff.likedUsers.findIndex((a) => a.id == likeDto.id),
+						guff.likedUsers.findIndex(
+							(a) => a.username == likeDto.username
+						),
 						1
 					);
-					this.guffThreadSource.next([...x]);
 				}
 			});
 		});

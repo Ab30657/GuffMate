@@ -10,6 +10,10 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
+import {
+	GoogleLoginProvider,
+	SocialAuthService,
+} from '@abacritt/angularx-social-login';
 
 @Component({
 	selector: 'app-login',
@@ -37,7 +41,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		private router: Router,
 		private route: ActivatedRoute,
 		private fb: FormBuilder,
-		private toastr: ToastrService
+		private toastr: ToastrService,
+		private socialAuthService: SocialAuthService
 	) {}
 
 	ngOnInit(): void {
@@ -142,5 +147,10 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		this.tab2.classList.add('active');
 		this.reel.style.transform = 'translateX(-125%)';
 		this.islogin = false;
+	}
+	loginWithGoogle() {
+		this.socialAuthService
+			.signIn(GoogleLoginProvider.PROVIDER_ID)
+			.then(() => this.router.navigate(['']));
 	}
 }

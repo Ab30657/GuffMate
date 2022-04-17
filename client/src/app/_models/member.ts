@@ -17,5 +17,5 @@ export interface Member {
 	emailConfirmed: boolean;
 	email: string;
 	friends: string[];
-	friendStatus: number; // SentPending = 0, // ReceivedPending = 1,// Accepted = 2,// Rejected = 3,// None = 4,
+	friendStatus: number; // None= 0, // Accepted= 1,// SentPending= 2,// ReceivedPending= 3,// Rejected= 4,
 }

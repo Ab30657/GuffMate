@@ -3,6 +3,7 @@ import { Message } from 'src/app/_models/message';
 import { FriendsService } from '../../_services/friends.service';
 import { MembersService } from '../../_services/members.service';
 import { MessageService } from '../../_services/message.service';
+import { AccountService } from '../../_services/account.service';
 
 @Component({
 	selector: 'app-dashboard',
@@ -15,7 +16,8 @@ export class DashboardComponent implements OnInit {
 	friends: number;
 	constructor(
 		public friendsService: FriendsService,
-		public messageService: MessageService
+		public messageService: MessageService,
+		public accountService: AccountService
 	) {}
 
 	ngOnInit(): void {

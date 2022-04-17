@@ -37,6 +37,13 @@ import { EmojiModule } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { DashboardComponent } from './homepage/dashboard/dashboard.component';
 import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dashboard-left.component';
 import { KhusComponent } from './_specials/khus/khus.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import {
+	GoogleLoginProvider,
+	SocialAuthService,
+	SocialAuthServiceConfig,
+	SocialLoginModule,
+} from '@abacritt/angularx-social-login';
 
 @NgModule({
 	declarations: [
@@ -61,6 +68,7 @@ import { KhusComponent } from './_specials/khus/khus.component';
 		DashboardComponent,
 		DashboardLeftComponent,
 		KhusComponent,
+		NotFoundComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -81,6 +89,7 @@ import { KhusComponent } from './_specials/khus/khus.component';
 		}),
 		PickerModule,
 		TimeagoModule.forRoot(),
+		SocialLoginModule,
 	],
 	entryComponents: [FfbToastrComponent],
 	providers: [
@@ -93,6 +102,18 @@ import { KhusComponent } from './_specials/khus/khus.component';
 			provide: HTTP_INTERCEPTORS,
 			useClass: LoadingInterceptor,
 			multi: true,
+		},
+		{
+			provide: 'SocialAuthServiceConfig',
+			useValue: {
+				autoLogin: false,
+				providers: {
+					id: GoogleLoginProvider.PROVIDER_ID,
+					provider: new GoogleLoginProvider(
+						'464759185447-7ep43uj3td20svttcmnlh5mh66bjhp83.apps.googleusercontent.com'
+					),
+				},
+			},
 		},
 	],
 	bootstrap: [AppComponent],

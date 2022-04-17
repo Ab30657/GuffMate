@@ -94,13 +94,39 @@
 						</span>
 					</a>
 				</div>
-				<div class="chat-btn-wrapper">
-					<button class="chat-btn message" (click)="goToMessages()">
+				<div
+					class="chat-btn-wrapper"
+					*ngIf="this.member?.username != this.user.username"
+				>
+					<button
+						*ngIf="this.member.friendStatus === 1"
+						class="chat-btn message"
+						(click)="goToMessages()"
+					>
 						<i class="fa fa-wechat"></i> Chat with me!
 					</button>
-					<button class="chat-btn chat">
-						<i class="fa fa-mail-forward"></i>Send a Message
+					<button
+						class="chat-btn message"
+						*ngIf="this.member.friendStatus === 0"
+					>
+						<i class="fa fa-user-plus"></i>Add friend
 					</button>
+					<button
+						class="chat-btn chat"
+						*ngIf="this.member.friendStatus === 3"
+					>
+						<i class="fa fa-user-plus"></i>Accept User Request
+					</button>
+					<button
+						class="chat-btn pending"
+						*ngIf="this.member.friendStatus === 2"
+					>
+						<i class="fa fa-user-plus text-warning"></i>Pending
+						Approval
+					</button>
+					<!-- <button class="chat-btn chat">
+						<i class="fa fa-mail-forward"></i>Send a Message
+					</button> -->
 				</div>
 			</div>
 		</div>
@@ -122,7 +148,7 @@
 					</div>
 					<!-- end timeline-icon -->
 					<!-- begin timeline-body -->
-					<div class="timeline-body">
+					<div class="timeline-body new-post">
 						<div
 							class="timeline-comment-box"
 							[hidden]="commentShow"
@@ -130,7 +156,7 @@
 							<div class="user">
 								<img [src]="this.member?.photoUrl" />
 							</div>
-							<form>
+							<form class="newpost-form">
 								<div class="input-group">
 									<textarea
 										name="Content"

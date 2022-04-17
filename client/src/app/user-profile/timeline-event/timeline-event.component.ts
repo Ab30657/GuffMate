@@ -6,6 +6,8 @@ import { AccountService } from '../../_services/account.service';
 import { GuffService } from '../../_services/guff.service';
 import { GuffComment } from 'src/app/_models/comment';
 import { take } from 'rxjs/operators';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-timeline-event',
@@ -18,9 +20,13 @@ export class TimelineEventComponent implements OnInit {
 	liked = false;
 	newComment: string = '';
 	commentShow: boolean = true;
+	closeModal;
+	openModal;
 	constructor(
 		public accountService: AccountService,
-		private guffService: GuffService
+		private guffService: GuffService,
+		private modalService: NgbModal,
+		private router: Router
 	) {}
 
 	ngOnInit(): void {
@@ -50,5 +56,34 @@ export class TimelineEventComponent implements OnInit {
 			this.guffService.likeGuff(this.guff.id);
 		} else this.guffService.unlikeGuff(this.guff.id);
 		this.liked = !this.liked;
+	}
+
+	triggerModal(content) {
+		this.openModal = this.modalService.open(content, {
+			ariaLabelledBy: 'modal-basic-title',
+		});
+		this.openModal.result.then(
+			(res) => {
+				this.closeModal = `Closed with: ${res}`;
+			},
+			(res) => {
+				this.closeModal = `Dismissed ${this.getDismissReason(res)}`;
+			}
+		);
+	}
+
+	private getDismissReason(reason: any): string {
+		if (reason === ModalDismissReasons.ESC) {
+			return 'by pressing ESC';
+		} else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+			return 'by clicking on a backdrop';
+		} else {
+			return `with: ${reason}`;
+		}
+	}
+	routeToUser(username) {
+		if (username) {
+			this.router.navigate(['../', username]);
+		}
 	}
 }
