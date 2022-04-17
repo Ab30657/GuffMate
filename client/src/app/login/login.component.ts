@@ -10,10 +10,8 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
-import {
-	GoogleLoginProvider,
-	SocialAuthService,
-} from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { take } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-login',
@@ -151,6 +149,25 @@ export class LoginComponent implements OnInit, AfterViewInit {
 	loginWithGoogle() {
 		this.socialAuthService
 			.signIn(GoogleLoginProvider.PROVIDER_ID)
-			.then(() => this.router.navigate(['']));
+			.then((user) => {
+				this.accountService.currentUser$
+					.pipe(take(1))
+					.subscribe((cUser) => {
+						console.log(cUser);
+						if (!cUser) {
+							console.log('here');
+							this.accountService
+								.loginExternal({
+									provider: user.provider,
+									idToken: user.idToken,
+								})
+								.subscribe((succeed) => {
+									if (succeed) {
+										this.router.navigateByUrl('/discover');
+									}
+								});
+						}
+					});
+			});
 	}
 }

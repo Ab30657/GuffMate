@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Identity;
 using API.Helpers;
 using API.SignalR;
 using System;
-
 namespace API
 {
 	public class Startup
@@ -35,6 +34,7 @@ namespace API
 			services.AddSingleton<PresenceTracker>();
 			services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
 			services.Configure<TwilioSettings>(_config.GetSection("TwilioSettings"));
+			services.Configure<GoogleSettings>(_config.GetSection("GoogleAuthSettings"));
 			services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<LogUserActivity>();
@@ -103,7 +103,6 @@ namespace API
 					}
 				};
 			});
-
 			services.AddIdentityCore<AppUser>(opt =>
 			{
 

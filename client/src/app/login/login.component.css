@@ -200,11 +200,19 @@ hr {
 }
 
 #google-login {
-	background-color: #db4437;
+	background: linear-gradient(
+		to right top,
+		#4285f4,
+		#34a853,
+		#fbbc05,
+		#ea4335
+	);
+	background-position: right;
+	background-size: 400%;
 	color: white;
 }
 #google-login:hover {
-	background-color: #ff4437;
+	background-position: top;
 }
 
 .password-div,

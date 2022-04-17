@@ -43,7 +43,7 @@ import {
 	SocialAuthService,
 	SocialAuthServiceConfig,
 	SocialLoginModule,
-} from '@abacritt/angularx-social-login';
+} from 'angularx-social-login';
 
 @NgModule({
 	declarations: [
@@ -107,13 +107,15 @@ import {
 			provide: 'SocialAuthServiceConfig',
 			useValue: {
 				autoLogin: false,
-				providers: {
-					id: GoogleLoginProvider.PROVIDER_ID,
-					provider: new GoogleLoginProvider(
-						'464759185447-7ep43uj3td20svttcmnlh5mh66bjhp83.apps.googleusercontent.com'
-					),
-				},
-			},
+				providers: [
+					{
+						id: GoogleLoginProvider.PROVIDER_ID,
+						provider: new GoogleLoginProvider(
+							'464759185447-7ep43uj3td20svttcmnlh5mh66bjhp83.apps.googleusercontent.com'
+						),
+					},
+				],
+			} as SocialAuthServiceConfig,
 		},
 	],
 	bootstrap: [AppComponent],
