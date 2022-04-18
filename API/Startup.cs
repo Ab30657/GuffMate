@@ -87,6 +87,8 @@ namespace API
 					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"])),
 					ValidateIssuer = false,
 					ValidateAudience = false,
+					ValidateLifetime = true,
+					ClockSkew = TimeSpan.FromSeconds(0)
 				};
 
 				opt.Events = new JwtBearerEvents

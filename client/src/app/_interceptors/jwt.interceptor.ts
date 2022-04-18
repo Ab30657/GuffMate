@@ -8,11 +8,15 @@ import {
 import { Observable } from 'rxjs';
 import { AccountService } from '../_services/account.service';
 import { User } from '../_models/user';
-import { take } from 'rxjs/operators';
+import { catchError, take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-	constructor(private accounService: AccountService) {}
+	constructor(
+		private accounService: AccountService,
+		private router: Router
+	) {}
 
 	intercept(
 		request: HttpRequest<unknown>,
@@ -30,6 +34,15 @@ export class JwtInterceptor implements HttpInterceptor {
 				},
 			});
 		}
-		return next.handle(request);
+		return next.handle(request).pipe(
+			catchError((err) => {
+				console.log(err);
+				if (err.status === 401) {
+					localStorage.removeItem('user');
+					this.router.navigateByUrl('/login');
+				}
+				throw err;
+			})
+		);
 	}
 }
