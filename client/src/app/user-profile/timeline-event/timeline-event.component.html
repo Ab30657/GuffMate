@@ -1,6 +1,6 @@
 <div class="timeline-time">
-	<span class="date">{{ (post.Date | date) || "today" }}</span>
-	<span class="time">04:20</span>
+	<span class="date">{{ (guff?.datePosted | date) || "today" }}</span>
+	<span class="time">{{ guff?.datePosted | date: "shortTime" }}</span>
 </div>
 <!-- end timeline-time -->
 <!-- begin timeline-icon -->
@@ -14,27 +14,30 @@
 		<span class="userimage"
 			><img
 				[src]="
-					!member.photoUrl && member.gender == 'Female'
+					member?.photoUrl ||
+					(member?.gender == 'Female'
 						? './assets/profilegirl.png'
-						: './assets/profileboy.png'
+						: './assets/profileboy.png')
 				"
 				alt=""
 		/></span>
 		<span class="username"
-			><a href="">{{ this.member.name }}</a> <small></small
+			><a href="">{{ this.member?.name }}</a> <small></small
 		></span>
 	</div>
 	<div class="timeline-content">
 		<p>
-			{{ post.Content }}
+			{{ guff?.guffContent }}
 		</p>
 	</div>
 	<div class="timeline-likes">
 		<div class="stats-right">
-			<span class="stats-text">{{ post.Shares || 0 }} Shares</span>
-			<span class="stats-text">{{ post.Comments || 0 }} Comments</span>
+			<span class="stats-text">{{ guff?.shares?.length }} Shares</span>
+			<span class="stats-text"
+				>{{ guff?.comments?.length }} Comments</span
+			>
 		</div>
-		<div class="stats">
+		<div class="stats-left" (click)="triggerModal(likedUsers)">
 			<span class="fa-stack fa-fw stats-icon">
 				<i class="fa fa-circle fa-stack-2x text-danger"></i>
 				<i class="fa fa-heart fa-stack-1x fa-inverse t-plus-1"></i>
@@ -43,13 +46,50 @@
 				<i class="fa fa-circle fa-stack-2x text-primary"></i>
 				<i class="fa fa-thumbs-up fa-stack-1x fa-inverse"></i>
 			</span>
-			<span class="stats-total">{{ post.LikedUsers || 0 }}</span>
+			<span class="stats-total">{{ guff?.likedUsers.length || 0 }}</span>
+
+			<ng-template #likedUsers let-modal>
+				<div class="modal-header">
+					<h4 class="modal-title" id="modal-basic-title">
+						Users who liked your post
+						<i class="fa fa-thumbs-up"></i>
+					</h4>
+					<button
+						type="button"
+						class="close text-danger"
+						aria-label="Close"
+						(click)="modal.dismiss('Cross click')"
+					>
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<ul>
+						<li
+							class="list-group-item"
+							*ngFor="let user of this.guff?.likedUsers"
+							(click)="routeToUser(user.username)"
+						>
+							<img
+								class="rounded-circle"
+								height="25px"
+								[src]="user.photoUrl"
+							/>{{ user.username }}
+						</li>
+					</ul>
+					<br />
+				</div>
+			</ng-template>
 		</div>
 	</div>
 	<div class="timeline-footer">
-		<a class="m-r-15 text-inverse-lighter like-btn"
+		<a
+			class="m-r-15 text-inverse-lighter like-btn"
+			(click)="likeGuff()"
+			[ngClass]="liked ? 'like-filled' : ''"
 			><i class="fa fa-thumbs-up fa-fw fa-lg m-r-3"></i> Like</a
 		>
+
 		<a
 			class="m-r-15 text-inverse-lighter toggle-comment-btn"
 			(click)="commentShow = !commentShow"
@@ -58,29 +98,60 @@
 		<a class="m-r-15 text-inverse-lighter share-btn"
 			><i class="fa fa-share fa-fw fa-lg m-r-3"></i> Share</a
 		>
+		<a
+			*ngIf="
+				member?.username ==
+				(accountService.currentUser$ | async)?.username
+			"
+			class="m-r-15 text-inverse-lighter delete-btn text-danger"
+			(click)="deleteGuff()"
+		>
+			<i class="fa fa-trash fa-fw fa-lg m-r-3"></i>Delete
+		</a>
 	</div>
 	<div class="timeline-comment-box" [hidden]="commentShow">
-		<div class="user">
-			<img [src]="this.member?.photoUrl" />
-		</div>
-		<div class="input">
-			<form action="">
-				<div class="input-group">
-					<input
-						type="text"
-						class="form-control rounded-corner"
-						placeholder="Write a comment..."
-					/>
-					<span class="input-group-append p-l-10">
-						<button
-							class="comment-btn btn f-s-12 rounded-corner"
-							type="button"
-						>
-							Comment
-						</button>
-					</span>
+		<div class="comment-line" *ngFor="let comment of guff.comments">
+			<div class="user">
+				<img [src]="comment?.commentUserPhotoUrl" />
+			</div>
+			<div class="comment-body">
+				<div class="commenter-name font-weight-bold">
+					{{ comment.commentUsername }}
 				</div>
-			</form>
+				<div class="comment-content">
+					{{ comment.content }}
+				</div>
+			</div>
+		</div>
+		<div class="comment-line comment-input">
+			<div class="user">
+				<img
+					[src]="(this.accountService.currentUser$ | async)?.photoUrl"
+				/>
+			</div>
+			<div class="input">
+				<form #commentForm="ngForm" (ngSubmit)="comment(commentForm)">
+					<div class="input-group">
+						<input
+							type="text"
+							class="form-control rounded-corner"
+							placeholder="Write a comment..."
+							name="Content"
+							ngModel
+							required
+							autocomplete="off"
+						/>
+						<span class="input-group-append p-l-10">
+							<button
+								class="comment-btn btn f-s-12 rounded-corner"
+								type="submit"
+							>
+								Comment
+							</button>
+						</span>
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>

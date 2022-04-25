@@ -16,12 +16,12 @@
 		<div class="options">
 			<!-- <i class="fa fa fa-heart"></i> -->
 			<i
-				*ngIf="member.friendStatus == 4 || member.friendStatus == 0"
+				*ngIf="member.friendStatus == 2 || member.friendStatus == 0"
 				class="fa fa-2x fa-plus"
 				(click)="ToggleRequest()"
 			></i>
 		</div>
-		<div class="req-decision" *ngIf="member.friendStatus == 1">
+		<div class="req-decision" *ngIf="member.friendStatus == 3">
 			<div class="btn-group">
 				<button class="btn btn-success" (click)="AcceptRequest()">
 					Accept

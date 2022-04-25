@@ -16,6 +16,9 @@ namespace API.Data
 		public DbSet<Message> Messages { get; set; }
 		public DbSet<Group> Groups { get; set; }
 		public DbSet<Connection> Connections { get; set; }
+		public DbSet<UserLikeGuff> Likes { get; set; }
+		public DbSet<Guff> Guffs { get; set; }
+		public DbSet<Comment> Comments { get; set; }
 		public DataContext(DbContextOptions options) : base(options)
 		{
 		}
@@ -41,14 +44,16 @@ namespace API.Data
 			builder.Entity<Message>().HasOne(x => x.Recipient).WithMany(x => x.MessagesReceived).OnDelete(DeleteBehavior.Restrict);
 			builder.Entity<Message>().HasOne(x => x.Sender).WithMany(x => x.MessagesSent).OnDelete(DeleteBehavior.Restrict);
 
+			builder.Entity<UserLikeGuff>().HasKey(x => new { x.UserId, x.GuffId });
+
+			builder.Entity<UserLikeGuff>().HasOne(x => x.User).WithMany(x => x.GuffsLiked).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+			builder.Entity<UserLikeGuff>().HasOne(x => x.Guff).WithMany(x => x.LikedUsers).HasForeignKey(x => x.GuffId).OnDelete(DeleteBehavior.Cascade);
+
+			builder.Entity<Guff>().HasOne(x => x.User).WithMany(x => x.Guffs).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Cascade);
+			builder.Entity<Comment>().HasOne(x => x.Guff).WithMany(x => x.Comments).HasForeignKey(x => x.GuffId).OnDelete(DeleteBehavior.Cascade);
+
 			builder.ApplyUtcDateTimeConverter();
-
 		}
-
-
-
-
-
 	}
 
 	public static class UtcDateAnnotation

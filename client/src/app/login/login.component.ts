@@ -10,6 +10,8 @@ import {
 import { Router, ActivatedRoute } from '@angular/router';
 import { AccountService } from '../_services/account.service';
 import { ToastrService } from 'ngx-toastr';
+import { GoogleLoginProvider, SocialAuthService } from 'angularx-social-login';
+import { take } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-login',
@@ -37,7 +39,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		private router: Router,
 		private route: ActivatedRoute,
 		private fb: FormBuilder,
-		private toastr: ToastrService
+		private toastr: ToastrService,
+		private socialAuthService: SocialAuthService
 	) {}
 
 	ngOnInit(): void {
@@ -142,5 +145,29 @@ export class LoginComponent implements OnInit, AfterViewInit {
 		this.tab2.classList.add('active');
 		this.reel.style.transform = 'translateX(-125%)';
 		this.islogin = false;
+	}
+	loginWithGoogle() {
+		this.socialAuthService
+			.signIn(GoogleLoginProvider.PROVIDER_ID)
+			.then((user) => {
+				this.accountService.currentUser$
+					.pipe(take(1))
+					.subscribe((cUser) => {
+						console.log(cUser);
+						if (!cUser) {
+							console.log('here');
+							this.accountService
+								.loginExternal({
+									provider: user.provider,
+									idToken: user.idToken,
+								})
+								.subscribe((succeed) => {
+									if (succeed) {
+										this.router.navigateByUrl('/discover');
+									}
+								});
+						}
+					});
+			});
 	}
 }

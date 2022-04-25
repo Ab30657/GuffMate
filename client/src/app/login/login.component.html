@@ -74,7 +74,7 @@
 									>Password is required</span
 								>
 							</div>
-							<a class="forgot-pwd" href="">Forgot Password?</a>
+							<!-- <a class="forgot-pwd" href="">Forgot Password?</a> -->
 						</div>
 						<div
 							*ngIf="loginValidationErrors?.length > 0"
@@ -97,13 +97,16 @@
 								</button>
 							</div>
 							<hr />
-							<div class="btn-wrapper">
+							<!-- <div class="btn-wrapper">
 								<button id="fb-login">
 									<h5>Log in from Facebook</h5>
 								</button>
-							</div>
+							</div> -->
 							<div class="btn-wrapper">
-								<button id="google-login">
+								<button
+									id="google-login"
+									(click)="loginWithGoogle()"
+								>
 									<h5>Log in from Google</h5>
 								</button>
 							</div>

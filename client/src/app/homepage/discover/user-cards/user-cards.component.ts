@@ -24,13 +24,13 @@ export class UserCardsComponent implements OnInit {
 		// this.memberService.SendRequest(this.member.username).subscribe((x) => {
 		// 	this.sent = true;
 		// });
-		if (!(this.member.friendStatus == 0)) {
+		if (!(this.member.friendStatus == 2)) {
 			this.presence
 				.SendRequest(this.member.username)
-				.then(() => (this.member.friendStatus = 0));
+				.then(() => (this.member.friendStatus = 2));
 		} else {
 			this.presence.CancelRequest(this.member.username).then((x) => {
-				this.member.friendStatus = 4;
+				this.member.friendStatus = 0;
 			});
 		}
 	}
@@ -40,13 +40,13 @@ export class UserCardsComponent implements OnInit {
 	RejectRequest() {}
 
 	getFriendStatus() {
-		if (this.member.friendStatus == 0) {
+		if (this.member.friendStatus == 2) {
 			return 'sent';
 		}
-		if (this.member.friendStatus == 1) {
+		if (this.member.friendStatus == 3) {
 			return 'received';
 		}
-		if (this.member.friendStatus == 2) {
+		if (this.member.friendStatus == 1) {
 			return 'friend';
 		}
 		return '';

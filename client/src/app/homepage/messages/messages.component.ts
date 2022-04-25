@@ -20,6 +20,7 @@ import { take } from 'rxjs/operators';
 import { AfterViewInit } from '@angular/core';
 import { Emoji } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { FriendsService } from '../../_services/friends.service';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,7 +52,8 @@ export class MessagesComponent implements OnInit, OnDestroy {
 		public messageService: MessageService,
 		public presence: PresenceService,
 		private accountService: AccountService,
-		public friendsService: FriendsService
+		public friendsService: FriendsService,
+		private spinner: NgxSpinnerService
 	) {
 		this.accountService.currentUser$
 			.pipe(take(1))

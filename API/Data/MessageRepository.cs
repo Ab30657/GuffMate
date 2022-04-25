@@ -93,17 +93,6 @@ namespace API.Data
 		{
 			var messages = await _context.Messages.Where(x => x.RecipientUsername == currentUsername && x.SenderUsername == recipientUsername || x.RecipientUsername == recipientUsername && x.SenderUsername == currentUsername).MarkUnreadAsRead(currentUsername).OrderBy(x => x.MessageSent).ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
 
-			// var unread = messages.Where(x => x.DateRead == null && x.RecipientUsername == currentUsername).ToList();
-
-			// if (unread.Any())
-			// {
-			// 	foreach (var item in unread)
-			// 	{
-			// 		item.DateRead = DateTime.UtcNow;
-			// 	}
-			// 	await _context.SaveChangesAsync();
-			// }
-
 			return await Task.FromResult(messages);
 
 		}

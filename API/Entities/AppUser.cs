@@ -16,6 +16,7 @@ namespace API.Entities
 		public string Status { get; set; }
 
 		public ICollection<Photo> Photos { get; set; }
+		public ICollection<UserLikeGuff> GuffsLiked { get; set; }
 
 		public ICollection<AppUserRole> UserRoles { get; set; }
 		public ICollection<AppUserInterest> UserInterests { get; set; }
@@ -25,6 +26,9 @@ namespace API.Entities
 
 		public ICollection<Message> MessagesSent { get; set; }
 		public ICollection<Message> MessagesReceived { get; set; }
+
+		public ICollection<Guff> Guffs { get; set; }
+		public ICollection<Comment> Comments { get; set; }
 
 	}
 }

@@ -158,6 +158,34 @@ namespace API.Data.Migrations
                     b.ToTable("AspNetUserRoles");
                 });
 
+            modelBuilder.Entity("API.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("CommentPosted")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int>("CommentUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("text");
+
+                    b.Property<int>("GuffId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentUserId");
+
+                    b.HasIndex("GuffId");
+
+                    b.ToTable("Comments");
+                });
+
             modelBuilder.Entity("API.Entities.Connection", b =>
                 {
                     b.Property<string>("ConnectionId")
@@ -184,6 +212,29 @@ namespace API.Data.Migrations
                     b.HasKey("Name");
 
                     b.ToTable("Groups");
+                });
+
+            modelBuilder.Entity("API.Entities.Guff", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<DateTime>("DatePosted")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("GuffContent")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Guffs");
                 });
 
             modelBuilder.Entity("API.Entities.Interest", b =>
@@ -295,6 +346,21 @@ namespace API.Data.Migrations
                     b.HasIndex("ReqReceiverUserId");
 
                     b.ToTable("Friends");
+                });
+
+            modelBuilder.Entity("API.Entities.UserLikeGuff", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GuffId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "GuffId");
+
+                    b.HasIndex("GuffId");
+
+                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -421,11 +487,41 @@ namespace API.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("API.Entities.Comment", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "CommentUser")
+                        .WithMany("Comments")
+                        .HasForeignKey("CommentUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Guff", "Guff")
+                        .WithMany("Comments")
+                        .HasForeignKey("GuffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CommentUser");
+
+                    b.Navigation("Guff");
+                });
+
             modelBuilder.Entity("API.Entities.Connection", b =>
                 {
                     b.HasOne("API.Entities.Group", null)
                         .WithMany("Connections")
                         .HasForeignKey("GroupName");
+                });
+
+            modelBuilder.Entity("API.Entities.Guff", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", "User")
+                        .WithMany("Guffs")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("API.Entities.Message", b =>
@@ -477,6 +573,25 @@ namespace API.Data.Migrations
                     b.Navigation("ReqSenderUser");
                 });
 
+            modelBuilder.Entity("API.Entities.UserLikeGuff", b =>
+                {
+                    b.HasOne("API.Entities.Guff", "Guff")
+                        .WithMany("LikedUsers")
+                        .HasForeignKey("GuffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.AppUser", "User")
+                        .WithMany("GuffsLiked")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Guff");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.HasOne("API.Entities.AppRole", null)
@@ -520,9 +635,15 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("FriendsAdded");
 
                     b.Navigation("FriendsOf");
+
+                    b.Navigation("Guffs");
+
+                    b.Navigation("GuffsLiked");
 
                     b.Navigation("MessagesReceived");
 
@@ -538,6 +659,13 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entities.Group", b =>
                 {
                     b.Navigation("Connections");
+                });
+
+            modelBuilder.Entity("API.Entities.Guff", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("LikedUsers");
                 });
 
             modelBuilder.Entity("API.Entities.Interest", b =>

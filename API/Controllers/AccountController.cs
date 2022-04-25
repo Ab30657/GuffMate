@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -22,9 +23,11 @@ namespace API.Controllers
 		private readonly UserManager<AppUser> _userManager;
 		private readonly IMapper _mapper;
 		private readonly DataContext _context;
+		private readonly IUnitOfWork _unitOfWork;
 
-		public AccountController(DataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
+		public AccountController(IUnitOfWork unitOfWork, DataContext context, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ITokenService tokenService, IMapper mapper)
 		{
+			_unitOfWork = unitOfWork;
 			_context = context;
 			_mapper = mapper;
 			_userManager = userManager;
@@ -66,6 +69,51 @@ namespace API.Controllers
 			var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
 
 			if (!result.Succeeded) return Unauthorized("Invalid Password");
+			return new UserDto
+			{
+				Username = user.UserName,
+				Token = _tokenService.CreateToken(user),
+				Name = user.Name,
+				PhotoUrl = user.Photos.FirstOrDefault(x => x.IsMain == true)?.Url,
+				Gender = user.Gender,
+			};
+		}
+
+		[HttpPost("external-login")]
+		public async Task<ActionResult<UserDto>> ExternalLogin(ExternalAuthDto externalAuth)
+		{
+			var payload = await _tokenService.VerifyGoogleToken(externalAuth);
+			if (payload == null)
+				return BadRequest("Invalid External Authentication.");
+
+			var info = new UserLoginInfo(externalAuth.Provider, payload.Subject, externalAuth.Provider);
+
+			var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+			if (user == null)
+			{
+				user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(payload.Email);
+
+				if (user == null)
+				{
+					var photo = new Photo { Url = payload.Picture, IsMain = true };
+					var newUser = new AppUser { Email = payload.Email, UserName = payload.Email, Name = payload.Name, Photos = new List<Photo> { photo } };
+					var result = await _userManager.CreateAsync(newUser);
+
+					if (!result.Succeeded) return BadRequest(result.Errors);
+					return new UserDto
+					{
+						Username = newUser.UserName,
+						Token = _tokenService.CreateToken(newUser),
+						Name = payload.Name,
+						PhotoUrl = photo.Url
+					};
+				}
+			}
+
+			if (user == null)
+				return BadRequest("Invalid External Authentication.");
+
+			//check for the Locked out account
 			return new UserDto
 			{
 				Username = user.UserName,

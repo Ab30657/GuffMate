@@ -91,7 +91,6 @@ export class MessageService {
 		});
 		this.hubConnection.on('UpdateLatestMessages', (messages: Message[]) => {
 			messages = messages.filter((x) => x != null);
-			// console.log(messages);
 			this.latestMessagesSource.next([...messages]);
 		});
 	}

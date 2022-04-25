@@ -13,6 +13,7 @@ import { DashboardLeftComponent } from './homepage/dashboard/dashboard-left/dash
 import { DashboardComponent } from './homepage/dashboard/dashboard.component';
 import { KhusComponent } from './_specials/khus/khus.component';
 import { LoginGuard } from './_guards/login.guard';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
 	{
@@ -109,11 +110,16 @@ const routes: Routes = [
 		redirectTo: 'messages/',
 	},
 	{ path: '', redirectTo: 'discover', pathMatch: 'full' },
+	{ path: 'not-found', component: NotFoundComponent },
 	{
 		path: ':username',
 		pathMatch: 'full',
 		component: UserProfileComponent,
 		// canActivate: [AuthGuard],
+	},
+	{
+		path: '**',
+		redirectTo: 'not-found',
 	},
 ];
 @NgModule({

@@ -16,7 +16,6 @@ using Microsoft.AspNetCore.Identity;
 using API.Helpers;
 using API.SignalR;
 using System;
-
 namespace API
 {
 	public class Startup
@@ -35,6 +34,7 @@ namespace API
 			services.AddSingleton<PresenceTracker>();
 			services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
 			services.Configure<TwilioSettings>(_config.GetSection("TwilioSettings"));
+			services.Configure<GoogleSettings>(_config.GetSection("GoogleAuthSettings"));
 			services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
 			services.AddScoped<LogUserActivity>();
@@ -87,6 +87,8 @@ namespace API
 					IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["TokenKey"])),
 					ValidateIssuer = false,
 					ValidateAudience = false,
+					ValidateLifetime = true,
+					ClockSkew = TimeSpan.FromSeconds(0)
 				};
 
 				opt.Events = new JwtBearerEvents
@@ -103,7 +105,6 @@ namespace API
 					}
 				};
 			});
-
 			services.AddIdentityCore<AppUser>(opt =>
 			{
 
@@ -138,6 +139,7 @@ namespace API
 				endpoints.MapControllers();
 				endpoints.MapHub<PresenceHub>("hubs/presence");
 				endpoints.MapHub<MessageHub>("hubs/message");
+				endpoints.MapHub<GuffHub>("hubs/guffs");
 				endpoints.MapFallbackToController("Index", "Fallback");
 			});
 		}

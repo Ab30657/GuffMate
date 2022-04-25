@@ -29,7 +29,6 @@ namespace API.SignalR
 			var isOnline = await _tracker.UserConnected(Context.User.GetUsername(), Context.ConnectionId);
 			if (isOnline)
 				await Clients.Others.SendAsync("UserIsOnline", Context.User.GetUsername());
-
 			var currentUsers = await _tracker.GetOnlineUsers();
 			await Clients.Caller.SendAsync("GetOnlineUsers", currentUsers);
 			var lMessages = await _unitOfWork.MessageRepository.GetLatestMessages(Context.User.GetUserId());

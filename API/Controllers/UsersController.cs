@@ -52,6 +52,9 @@ namespace API.Controllers
 		public async Task<ActionResult<MemberDto>> GetUser(string username)
 		{
 			var user = await _unitOfWork.UserRepository.GetMemberAsync(username);
+			var request = (await _unitOfWork.FriendsRepository.GetUserFriend(User.GetUserId(), user.Id)); // Logged in user is the receiver
+			if (request == null) user.FriendStatus = RequestFlag.None;
+			if (request != null) user.FriendStatus = request.RequestStatus;
 			return user;
 		}
 
@@ -270,5 +273,16 @@ namespace API.Controllers
 			}
 			return BadRequest("Couldn't save changes");
 		}
+
+		[HttpGet("{username}/guffs")]
+		public async Task<ActionResult<IEnumerable<GuffDto>>> GetGuffs([FromQuery] GuffParams guffParams, string username)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(username);
+			guffParams.CurrentUsername = username;
+			var guffs = await _unitOfWork.GuffRepository.GetGuffsAsync(guffParams, user.Id);
+			Response.AddPaginationHeader(guffs.CurrentPage, guffs.PageSize, guffs.TotalCount, guffs.TotalPages);
+			return Ok(guffs);
+		}
+
 	}
 }
