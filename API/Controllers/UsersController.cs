@@ -284,21 +284,5 @@ namespace API.Controllers
 			return Ok(guffs);
 		}
 
-
-		[HttpDelete("guffs/delete/{id}")]
-		public async Task<ActionResult> DeleteGuff(int id)
-		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.FindFirst(ClaimTypes.Name)?.Value);
-
-			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
-
-			_unitOfWork.GuffRepository.DeleteGuff(guff);
-
-			if (await _unitOfWork.Complete())
-			{
-				return NoContent();
-			}
-			return BadRequest("Error deleting your guff.");
-		}
 	}
 }

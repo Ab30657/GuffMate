@@ -50,6 +50,13 @@ export class GuffService {
 				this.guffThreadSource.next([guff, ...guffs]);
 			});
 		});
+		this.hubConnection.on('RemovedGuff', (guff: Guff) => {
+			this.guffThread$.pipe(take(1)).subscribe((guffs) => {
+				var deletedIndex = guffs.findIndex((x) => x.id === guff.id);
+				if (deletedIndex != -1) guffs.splice(deletedIndex, 1);
+				this.guffThreadSource.next([...guffs]);
+			});
+		});
 		//New Guff Notification
 		this.hubConnection.on('NewFriendGuff', (guff: Guff) => {});
 
@@ -132,6 +139,8 @@ export class GuffService {
 	}
 
 	deleteGuff(guffId: number) {
-		return this.http.delete(this.baseUrl + 'users/guffs/delete/' + guffId);
+		return this.hubConnection
+			.invoke('DeleteGuff', guffId)
+			.catch((error) => console.log(error));
 	}
 }

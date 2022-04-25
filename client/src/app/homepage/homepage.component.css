@@ -26,7 +26,7 @@
 	justify-content: flex-start;
 	text-align: center;
 	height: 100vh;
-	overflow-y: auto;
+	/* overflow-y: auto; */
 }
 .homepage {
 	width: 500px;

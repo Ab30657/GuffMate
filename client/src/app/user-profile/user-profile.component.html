@@ -62,7 +62,7 @@
 				</div>
 				<div class="profile-socials">
 					<a
-						href="https://www.facebook.com/Ab30657"
+						href="https://www.facebook.com"
 						class="profile-card-social-btn facebook"
 					>
 						<span class="icon-font">
@@ -70,7 +70,7 @@
 						</span>
 					</a>
 					<a
-						href="https://twitter.com/Ab30657"
+						href="https://twitter.com"
 						class="profile-card-social-btn twitter"
 					>
 						<span class="icon-font">
@@ -78,7 +78,7 @@
 						</span>
 					</a>
 					<a
-						href="https://www.instagram.com/Ab30657"
+						href="https://www.instagram.com"
 						class="profile-card-social-btn instagram"
 					>
 						<span class="icon-font">
@@ -86,7 +86,7 @@
 						</span>
 					</a>
 					<a
-						href="https://github.com/Ab30657"
+						href="https://github.com"
 						class="profile-card-social-btn github"
 					>
 						<span class="icon-font">
@@ -99,7 +99,7 @@
 					*ngIf="this.member?.username != this.user.username"
 				>
 					<button
-						*ngIf="this.member.friendStatus === 1"
+						*ngIf="this.member?.friendStatus === 1"
 						class="chat-btn message"
 						(click)="goToMessages()"
 					>
@@ -107,19 +107,19 @@
 					</button>
 					<button
 						class="chat-btn message"
-						*ngIf="this.member.friendStatus === 0"
+						*ngIf="this.member?.friendStatus === 0"
 					>
 						<i class="fa fa-user-plus"></i>Add friend
 					</button>
 					<button
 						class="chat-btn chat"
-						*ngIf="this.member.friendStatus === 3"
+						*ngIf="this.member?.friendStatus === 3"
 					>
 						<i class="fa fa-user-plus"></i>Accept User Request
 					</button>
 					<button
 						class="chat-btn pending"
-						*ngIf="this.member.friendStatus === 2"
+						*ngIf="this.member?.friendStatus === 2"
 					>
 						<i class="fa fa-user-plus text-warning"></i>Pending
 						Approval
@@ -176,7 +176,7 @@
 									>
 									<a
 										class="m-r-15 text-inverse-lighter share-btn"
-										(click)="guffForm.reset()"
+										(click)="this.Content = ''"
 										><i
 											class="fa fa-share fa-fw fa-lg m-r-3"
 										></i>

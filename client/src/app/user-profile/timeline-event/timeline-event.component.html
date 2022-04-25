@@ -22,7 +22,7 @@
 				alt=""
 		/></span>
 		<span class="username"
-			><a href="">{{ this?.member.name }}</a> <small></small
+			><a href="">{{ this.member?.name }}</a> <small></small
 		></span>
 	</div>
 	<div class="timeline-content">
@@ -100,7 +100,7 @@
 		>
 		<a
 			*ngIf="
-				member.username ==
+				member?.username ==
 				(accountService.currentUser$ | async)?.username
 			"
 			class="m-r-15 text-inverse-lighter delete-btn text-danger"
@@ -139,6 +139,7 @@
 							name="Content"
 							ngModel
 							required
+							autocomplete="off"
 						/>
 						<span class="input-group-append p-l-10">
 							<button

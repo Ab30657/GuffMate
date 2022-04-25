@@ -38,7 +38,7 @@ export class TimelineEventComponent implements OnInit {
 	}
 
 	deleteGuff() {
-		this.guffService.deleteGuff(this.guff.id).subscribe();
+		this.guffService.deleteGuff(this.guff.id);
 	}
 	comment(commentForm) {
 		if (commentForm.valid)

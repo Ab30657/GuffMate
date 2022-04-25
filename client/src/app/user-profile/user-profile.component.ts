@@ -51,7 +51,6 @@ export class UserProfileComponent implements OnInit {
 						this.user,
 						this.member.username
 					);
-					console.log(this.member);
 				},
 				(error) => {
 					this.router.navigate(['not-found']);

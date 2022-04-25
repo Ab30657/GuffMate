@@ -56,7 +56,16 @@ namespace API.SignalR
 				await Clients.Caller.SendAsync("NewGuff", _mapper.Map<GuffDto>(guff));
 			}
 		}
-
+		public async Task DeleteGuff(int id)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(Context.User.GetUsername());
+			var guff = await _unitOfWork.GuffRepository.GetGuffAsync(id);
+			_unitOfWork.GuffRepository.DeleteGuff(guff);
+			if (await _unitOfWork.Complete())
+			{
+				await Clients.Caller.SendAsync("RemovedGuff", _mapper.Map<GuffDto>(guff));
+			}
+		}
 		public async Task LikeGuff(int id)
 		{
 			var username = Context.User.GetUsername();

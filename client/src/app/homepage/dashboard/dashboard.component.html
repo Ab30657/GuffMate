@@ -62,31 +62,25 @@
 				<h3>Loading...</h3>
 			</ngx-spinner>
 		</div>
-		<div
-			class="message-item"
-			*ngFor="let message of messages"
-			routerLink="/messages/{{ message.senderUsername }}"
-		>
-			<div class="sender-dp">
-				<img [src]="message.senderPhotoUrl" alt="" />
+		<ng-template [ngIf]="messages?.length > 0">
+			<div
+				class="message-item"
+				*ngFor="let message of messages"
+				routerLink="/messages/{{ message.senderUsername }}"
+			>
+				<div class="sender-dp">
+					<img [src]="message.senderPhotoUrl" alt="" />
+				</div>
+				<div class="sender">@{{ message?.senderUsername }}</div>
+				<div class="message">{{ message?.content }}</div>
+				<div class="time">{{ message?.messageSent | timeago }}</div>
+				<div class="tools">
+					<div class="tool-wrapper"><i class="fa fa-trash"></i></div>
+				</div>
 			</div>
-			<div class="sender">@{{ message?.senderUsername }}</div>
-			<div class="message">{{ message?.content }}</div>
-			<div class="time">{{ message?.messageSent | timeago }}</div>
-			<div class="tools">
-				<div class="tool-wrapper"><i class="fa fa-trash"></i></div>
-			</div>
-		</div>
-		<!-- <div class="message-2 message-item">
-			<div class="sender-dp">
-				<img src="https://wallpapercave.com/wp/wp5252334.jpg" alt="" />
-			</div>
-			<div class="sender">Pratik Silwal</div>
-			<div class="message">This is a simple message!</div>
-			<div class="time">1:59</div>
-			<div class="tools">
-				<i class="fa fa-trash"></i>
-			</div>
-		</div> -->
+		</ng-template>
+		<ng-template [ngIf]="messages == null || messages.length == 0">
+			<div class="message-item">No messages to display...</div>
+		</ng-template>
 	</div>
 </div>
